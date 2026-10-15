@@ -1,0 +1,967 @@
+import React, { useState, useEffect, useRef } from "react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
+import Header from "../components/header";
+import StepIndicator from "./stepservice";
+
+interface Hairstyle {
+    id: number;
+    name: string;
+    price: number | string;
+    duration_minutes: number;
+    image_path: string | null;
+}
+
+interface Barber {
+    id: number;
+    full_name: string;
+    specialty: string | null;
+}
+
+interface BookingStep4Props {
+    hairstyle: Hairstyle | null;
+    barber: Barber | null;
+    barberId: number;
+    hairstyleId: number | null;
+    bookingDate: string;
+    bookingTime: string;
+    displayPrice?: number | string;
+}
+
+const formatDate = (dateStr: string): string => {
+    if (!dateStr) return "—";
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+    return `${months[m - 1]} ${d}, ${y}`;
+};
+
+const formatTime = (timeStr: string): string => {
+    if (!timeStr) return "—";
+    const [h, m] = timeStr.split(":").map(Number);
+    const ampm = h >= 12 ? "PM" : "AM";
+    const hour12 = h % 12 || 12;
+    return `${hour12}:${String(m).padStart(2, "0")} ${ampm}`;
+};
+
+export default function BookingStep3({
+    hairstyle,
+    barber,
+    barberId,
+    hairstyleId,
+    bookingDate,
+    bookingTime,
+}: BookingStep4Props) {
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [notes, setNotes] = useState("");
+    const [agreed, setAgreed] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
+    // OTP States
+    const [showOTPModal, setShowOTPModal] = useState(false);
+    const [otpCode, setOtpCode] = useState("");
+    const [isSendingOTP, setIsSendingOTP] = useState(false);
+    const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
+    const [isResendingOTP, setIsResendingOTP] = useState(false);
+    const [otpError, setOtpError] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpSuccess, setOtpSuccess] = useState(false);
+    const [timer, setTimer] = useState(60);
+    const [canResend, setCanResend] = useState(false);
+
+    // Leave Warning Modal States
+    const [showLeaveWarning, setShowLeaveWarning] = useState(false);
+    const [leaveTarget, setLeaveTarget] = useState<string | null>(null);
+
+    // Phone input ref
+    const phoneInputRef = useRef<HTMLInputElement>(null);
+
+    const { props } = usePage<any>();
+    const priceValue =
+        props && props.displayPrice !== undefined && props.displayPrice !== null
+            ? Number(props.displayPrice)
+            : hairstyle
+              ? Number(hairstyle.price ?? 0)
+              : 0;
+    const price = priceValue.toFixed(2);
+    const serviceName = hairstyle?.name ?? "Service";
+    const barberName = barber
+        ? barber.full_name
+        : barberId === 0
+          ? "Any Available"
+          : "—";
+    const displayDate = formatDate(bookingDate);
+    const displayTime = formatTime(bookingTime);
+    const imageUrl =
+        hairstyle?.image_path ??
+        "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=120&q=80";
+
+    const getCsrfToken = () =>
+        document
+            .querySelector('meta[name="csrf-token"]')
+            ?.getAttribute("content") || "";
+
+    // Check if user has entered any data
+    const hasUserData =
+        fullName.trim() || email.trim() || phone.trim() || otpSent;
+
+    // Format phone number for display
+    const formatPhoneNumber = (value: string): string => {
+        const cleaned = value.replace(/\D/g, "");
+        if (!cleaned) return "";
+        let number = cleaned;
+        if (number.startsWith("0")) {
+            number = number.substring(1);
+        }
+        if (number.startsWith("63")) {
+            number = number.substring(2);
+        }
+        if (number.length > 10) {
+            number = number.substring(0, 10);
+        }
+        return number;
+    };
+
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const rawValue = e.target.value;
+        const digitsOnly = rawValue.replace(/\D/g, "");
+        if (!digitsOnly) {
+            setPhone("");
+            return;
+        }
+        const formatted = formatPhoneNumber(digitsOnly);
+        setPhone(formatted);
+    };
+
+    const handlePhoneFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+        const input = e.target;
+        setTimeout(() => {
+            input.setSelectionRange(input.value.length, input.value.length);
+        }, 0);
+    };
+
+    // Save data to session storage
+    useEffect(() => {
+        const saveData = () => {
+            const data = {
+                fullName,
+                email,
+                phone,
+                notes,
+                agreed,
+                otpSent,
+                timestamp: Date.now(),
+            };
+            try {
+                if (hasUserData) {
+                    sessionStorage.setItem(
+                        "booking_step4_data",
+                        JSON.stringify(data),
+                    );
+                }
+            } catch (e) {
+                // Ignore storage errors
+            }
+        };
+        saveData();
+    }, [fullName, email, phone, notes, agreed, otpSent, hasUserData]);
+
+    // Load data from session storage on mount
+    useEffect(() => {
+        try {
+            const saved = sessionStorage.getItem("booking_step4_data");
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (
+                    data.timestamp &&
+                    Date.now() - data.timestamp < 30 * 60 * 1000
+                ) {
+                    setFullName(data.fullName || "");
+                    setEmail(data.email || "");
+                    setPhone(data.phone || "");
+                    setNotes(data.notes || "");
+                    setAgreed(data.agreed || false);
+                    setOtpSent(data.otpSent || false);
+                } else {
+                    sessionStorage.removeItem("booking_step4_data");
+                }
+            }
+        } catch (e) {
+            // Ignore parse errors
+        }
+    }, []);
+
+    // Timer for OTP resend
+    useEffect(() => {
+        let interval: number | undefined;
+        if (otpSent && timer > 0) {
+            interval = window.setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        } else if (timer === 0) {
+            setCanResend(true);
+        }
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [otpSent, timer]);
+
+    // Handle browser back/forward
+    useEffect(() => {
+        const handlePopState = () => {
+            const cameFromStep5 = document.referrer.includes("/booking/step-5");
+            if (hasUserData && !cameFromStep5) {
+                setShowLeaveWarning(true);
+                window.history.pushState(null, "", window.location.href);
+            }
+        };
+        window.history.pushState(null, "", window.location.href);
+        window.addEventListener("popstate", handlePopState);
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, [hasUserData]);
+
+    // Handle beforeunload
+    useEffect(() => {
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (hasUserData) {
+                e.preventDefault();
+                e.returnValue =
+                    "You have unsaved changes. Are you sure you want to leave?";
+                return e.returnValue;
+            }
+        };
+        window.addEventListener("beforeunload", handleBeforeUnload);
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [hasUserData]);
+
+    const validate = (): boolean => {
+        const e: Record<string, string> = {};
+        if (!fullName.trim()) e.fullName = "Full name is required.";
+        if (!email.trim()) e.email = "Email address is required.";
+        else if (!/\S+@\S+\.\S+/.test(email)) e.email = "Enter a valid email.";
+        if (!phone.trim()) {
+            e.phone = "Phone number is required.";
+        } else if (phone.length < 10) {
+            e.phone = "Please enter a valid 10-digit phone number.";
+        } else if (!/^[0-9]{10}$/.test(phone)) {
+            e.phone = "Phone number must contain only digits.";
+        }
+        if (!agreed) e.agreed = "You must agree to the cancellation policy.";
+        setErrors(e);
+        return Object.keys(e).length === 0;
+    };
+
+    const handleSendOTP = async () => {
+        if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+            setErrors((prev) => ({
+                ...prev,
+                email: "Please enter a valid email first.",
+            }));
+            return;
+        }
+
+        setIsSendingOTP(true);
+        setOtpError("");
+        setOtpSent(false);
+        setOtpSuccess(false);
+        setCanResend(false);
+        setTimer(60);
+
+        try {
+            // Use the props from the server (bookingDate and bookingTime)
+            const dateToSend =
+                bookingDate || sessionStorage.getItem("booking_date") || "";
+            const timeToSend =
+                bookingTime || sessionStorage.getItem("booking_time") || "";
+
+            // Validate that we have all required data
+            if (!dateToSend || !timeToSend) {
+                setOtpError(
+                    "Missing date or time. Please go back and select a date/time.",
+                );
+                setIsSendingOTP(false);
+                return;
+            }
+
+            const payload: Record<string, any> = {
+                barber_id: barberId,
+                date: dateToSend,
+                time: timeToSend,
+                full_name: fullName.trim(),
+                email: email.trim(),
+                phone: `+63${phone}`,
+                notes: notes || "",
+            };
+
+            if (hairstyleId) {
+                payload.hairstyle_id = hairstyleId;
+            }
+
+            console.log("Sending payload to /booking/step-3:", payload);
+
+            // First, save booking data and send OTP in one request
+            const response = await fetch("/booking/step-3", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": getCsrfToken(),
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                // Handle validation errors
+                if (response.status === 422 && data.errors) {
+                    const fieldErrors: Record<string, string> = {};
+                    Object.entries(data.errors).forEach(([key, value]) => {
+                        fieldErrors[key] = Array.isArray(value)
+                            ? value[0]
+                            : String(value);
+                    });
+                    setErrors(fieldErrors);
+                    setOtpError("Please fix the errors in the form.");
+                    console.error("Validation errors:", data.errors);
+                    return;
+                }
+
+                setOtpError(data.message || "Failed to save booking data.");
+                return;
+            }
+
+            if (data.success) {
+                setOtpSent(true);
+                setOtpSuccess(true);
+                setShowOTPModal(true);
+                setErrors({});
+                setTimeout(() => setOtpSuccess(false), 3000);
+            } else {
+                setOtpError(
+                    data.message || "Failed to send OTP. Please try again.",
+                );
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            setOtpError("Network error. Please try again.");
+        } finally {
+            setIsSendingOTP(false);
+        }
+    };
+
+    const handleVerifyOTP = async (code: string) => {
+        if (!code || code.length !== 6) {
+            setOtpError("Please enter a valid 6-digit OTP code.");
+            return;
+        }
+
+        setIsVerifyingOTP(true);
+        setOtpError("");
+
+        try {
+            const emailToVerify =
+                email || sessionStorage.getItem("booking_email") || "";
+
+            if (!emailToVerify) {
+                setOtpError("Email not found. Please try again.");
+                return;
+            }
+
+            const response = await fetch("/booking/verify-otp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": getCsrfToken(),
+                    Accept: "application/json",
+                },
+                body: JSON.stringify({
+                    email: emailToVerify,
+                    otp: code,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                setOtpError(data.message || "Invalid OTP. Please try again.");
+                return;
+            }
+
+            // Success: close modal, mark verified, and navigate to payment step
+            setShowOTPModal(false);
+            setOtpCode("");
+            setOtpError("");
+            sessionStorage.setItem("otp_verified", "true");
+
+            router.visit("/booking/step-4");
+        } catch (error) {
+            console.error("Error verifying OTP:", error);
+            setOtpError("Network error. Please try again.");
+        } finally {
+            setIsVerifyingOTP(false);
+        }
+    };
+
+    const handleResendOTP = async () => {
+        if (!canResend) return;
+        setCanResend(false);
+        setTimer(60);
+        setOtpError("");
+        setIsResendingOTP(true);
+
+        try {
+            const response = await fetch("/booking/send-otp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": getCsrfToken(),
+                    Accept: "application/json",
+                },
+                body: JSON.stringify({ email: email }),
+            });
+
+            const data = await response.json();
+
+            if (!data.success) {
+                setOtpError(data.message || "Failed to resend OTP.");
+            }
+        } catch (error) {
+            console.error("Error resending OTP:", error);
+            setOtpError("Network error. Please try again.");
+        } finally {
+            setIsResendingOTP(false);
+        }
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!validate()) return;
+        handleSendOTP();
+    };
+
+    const handleOtpChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        index: number,
+    ) => {
+        const value = e.target.value.replace(/\D/g, "");
+        if (value) {
+            const newOtp = otpCode.split("");
+            newOtp[index] = value;
+            setOtpCode(newOtp.join(""));
+            setOtpError("");
+
+            const nextInput = e.target
+                .nextElementSibling as HTMLInputElement | null;
+            if (nextInput && value) {
+                nextInput.focus();
+            }
+        } else {
+            const newOtp = otpCode.split("");
+            newOtp[index] = "";
+            setOtpCode(newOtp.join(""));
+        }
+    };
+
+    const handleOtpKeyDown = (
+        e: React.KeyboardEvent<HTMLInputElement>,
+        index: number,
+    ) => {
+        const target = e.target as HTMLInputElement;
+        if (e.key === "Backspace" && !target.value && index > 0) {
+            const prevInput =
+                target.previousElementSibling as HTMLInputElement | null;
+            if (prevInput) {
+                prevInput.focus();
+            }
+        }
+        if (e.key === "Enter" && otpCode.length === 6) {
+            handleVerifyOTP(otpCode);
+        }
+    };
+
+    const handleLeave = (e: React.MouseEvent, href: string) => {
+        if (hasUserData) {
+            e.preventDefault();
+            setLeaveTarget(href);
+            setShowLeaveWarning(true);
+        }
+    };
+
+    const confirmLeave = () => {
+        if (leaveTarget) {
+            sessionStorage.removeItem("booking_step4_data");
+            sessionStorage.removeItem("otp_verified");
+            setFullName("");
+            setEmail("");
+            setPhone("");
+            setNotes("");
+            setAgreed(false);
+            setOtpSent(false);
+            setOtpCode("");
+            setShowOTPModal(false);
+            setShowLeaveWarning(false);
+            router.visit(leaveTarget);
+        }
+    };
+
+    return (
+        <>
+            <Head title="Contact Information — BEZ Hair Studio" />
+            <Header />
+
+            <main className="min-h-screen bg-white pb-20">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 pb-20">
+                    <StepIndicator currentStep={3} />
+
+                    <div className="grid md:grid-cols-2 gap-8 items-start mt-8">
+                        {/* Booking Summary */}
+                        <div>
+                            <h3 className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-4">
+                                Booking Summary
+                            </h3>
+
+                            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                                <div className="flex gap-4 p-5 border-b border-gray-100 items-center">
+                                    <img
+                                        src={imageUrl}
+                                        alt={serviceName}
+                                        className="w-16 h-16 object-cover rounded-lg grayscale flex-shrink-0"
+                                        onError={(e) => {
+                                            (
+                                                e.currentTarget as HTMLImageElement
+                                            ).src =
+                                                "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=120&q=80";
+                                        }}
+                                    />
+                                    <div>
+                                        <p className="text-base font-bold text-gray-900">
+                                            {serviceName}
+                                        </p>
+                                        <p className="text-sm text-gray-500">
+                                            {hairstyle?.duration_minutes ??
+                                                "--"}{" "}
+                                            min · ₱{price}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="p-5 space-y-1">
+                                    {[
+                                        { label: "Barber", value: barberName },
+                                        { label: "Date", value: displayDate },
+                                        { label: "Time", value: displayTime },
+                                        {
+                                            label: "Location",
+                                            value: "Studio Branch",
+                                        },
+                                    ].map(({ label, value }) => (
+                                        <div
+                                            key={label}
+                                            className="flex justify-between items-center py-2 border-b border-gray-50 last:border-0"
+                                        >
+                                            <span className="text-[10px] uppercase tracking-[0.15em] text-gray-400 font-medium">
+                                                {label}
+                                            </span>
+                                            <span className="text-sm font-medium text-gray-800">
+                                                {value}
+                                            </span>
+                                        </div>
+                                    ))}
+
+                                    <div className="flex justify-between items-center pt-3 mt-2 border-t-2 border-gray-200">
+                                        <span className="text-sm font-bold text-gray-900 uppercase tracking-wider">
+                                            Total
+                                        </span>
+                                        <span className="text-2xl font-bold text-amber-600">
+                                            ₱{price}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Contact Form */}
+                        <div>
+                            <h3 className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-4">
+                                Your Information
+                            </h3>
+
+                            <form
+                                onSubmit={handleSubmit}
+                                noValidate
+                                className="space-y-4"
+                            >
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                        Full Name *
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={fullName}
+                                        onChange={(e) =>
+                                            setFullName(e.target.value)
+                                        }
+                                        placeholder="Enter your full name"
+                                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition ${
+                                            errors.fullName
+                                                ? "border-red-500"
+                                                : "border-gray-300"
+                                        }`}
+                                    />
+                                    {errors.fullName && (
+                                        <p className="text-xs text-red-500 mt-1">
+                                            {errors.fullName}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                        Email Address *
+                                    </label>
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
+                                            placeholder="your@email.com"
+                                            disabled={otpSent}
+                                            className={`flex-1 px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition ${
+                                                errors.email
+                                                    ? "border-red-500"
+                                                    : "border-gray-300"
+                                            } ${otpSent ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""}`}
+                                        />
+                                    </div>
+                                    {otpSuccess && (
+                                        <p className="text-xs text-green-600 mt-1">
+                                            OTP sent successfully! Check your
+                                            email.
+                                        </p>
+                                    )}
+                                    {errors.email && (
+                                        <p className="text-xs text-red-500 mt-1">
+                                            {errors.email}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                        Phone Number *
+                                    </label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <span className="text-gray-500 text-sm font-medium">
+                                                +63
+                                            </span>
+                                        </div>
+                                        <input
+                                            ref={phoneInputRef}
+                                            type="tel"
+                                            value={phone}
+                                            onChange={handlePhoneChange}
+                                            onFocus={handlePhoneFocus}
+                                            placeholder="912 345 6789"
+                                            className={`w-full pl-12 pr-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition ${
+                                                errors.phone
+                                                    ? "border-red-500"
+                                                    : "border-gray-300"
+                                            }`}
+                                        />
+                                    </div>
+                                    <p className="text-xs text-gray-400 mt-1">
+                                        Enter 10-digit phone number (e.g., 912
+                                        345 6789)
+                                    </p>
+                                    {errors.phone && (
+                                        <p className="text-xs text-red-500 mt-1">
+                                            {errors.phone}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                        Special Requests (Optional)
+                                    </label>
+                                    <textarea
+                                        value={notes}
+                                        onChange={(e) =>
+                                            setNotes(e.target.value)
+                                        }
+                                        placeholder="Any preferences or notes for your barber…"
+                                        rows={3}
+                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition resize-none"
+                                    />
+                                </div>
+
+                                <div className="flex items-start gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="agree"
+                                        checked={agreed}
+                                        onChange={(e) =>
+                                            setAgreed(e.target.checked)
+                                        }
+                                        className="w-4 h-4 mt-0.5 accent-black rounded border-gray-300 focus:ring-black"
+                                    />
+                                    <div>
+                                        <label
+                                            htmlFor="agree"
+                                            className="text-sm text-gray-600 cursor-pointer"
+                                        >
+                                            I agree to the{" "}
+                                            <a
+                                                href="#"
+                                                className="text-black underline hover:no-underline"
+                                            >
+                                                cancellation policy
+                                            </a>
+                                        </label>
+                                        {errors.agreed && (
+                                            <p className="text-xs text-red-500 mt-1">
+                                                {errors.agreed}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={
+                                        isSubmitting ||
+                                        isSendingOTP ||
+                                        isVerifyingOTP
+                                    }
+                                    className={`w-full py-3.5 text-sm font-semibold uppercase tracking-wider rounded-lg transition ${
+                                        isSubmitting ||
+                                        isSendingOTP ||
+                                        isVerifyingOTP
+                                            ? "bg-gray-400 text-white cursor-not-allowed"
+                                            : "bg-black text-white hover:bg-gray-800"
+                                    }`}
+                                >
+                                    {isSubmitting
+                                        ? "Submitting..."
+                                        : isSendingOTP
+                                          ? "Sending OTP..."
+                                          : "Continue to Payment"}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div className="mt-8">
+                        <Link
+                            href="/booking/step-2"
+                            onClick={(e) => handleLeave(e, "/booking/step-2")}
+                            className="text-xs uppercase tracking-wider text-gray-400 hover:text-black transition"
+                        >
+                            ← Back
+                        </Link>
+                    </div>
+                </div>
+            </main>
+
+            {/* OTP Modal */}
+            {showOTPModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+                    <div className="bg-white rounded-xl max-w-md w-full p-8 shadow-2xl relative">
+                        <button
+                            onClick={() => {
+                                setShowOTPModal(false);
+                                setOtpCode("");
+                                setOtpError("");
+                            }}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
+                        >
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
+
+                        <div className="text-center">
+                            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center">
+                                <svg
+                                    className="w-10 h-10 text-amber-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                    />
+                                </svg>
+                            </div>
+
+                            <h3 className="text-xl font-bold text-gray-900">
+                                Verification Code
+                            </h3>
+                            <p className="text-sm text-gray-500 mt-2 leading-relaxed">
+                                We've sent a verification code to{" "}
+                                <strong className="text-gray-700">
+                                    {email ||
+                                        sessionStorage.getItem(
+                                            "booking_email",
+                                        ) ||
+                                        "your email"}
+                                </strong>
+                                . Please enter the 6-digit code below to verify
+                                your email address.
+                            </p>
+
+                            <div className="mt-6">
+                                <div className="flex gap-3 justify-center">
+                                    {[...Array(6)].map((_, index) => (
+                                        <input
+                                            key={index}
+                                            type="text"
+                                            maxLength={1}
+                                            value={otpCode[index] || ""}
+                                            onChange={(e) =>
+                                                handleOtpChange(e, index)
+                                            }
+                                            onKeyDown={(e) =>
+                                                handleOtpKeyDown(e, index)
+                                            }
+                                            className="w-12 h-14 text-center text-xl font-bold border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition"
+                                            autoFocus={index === 0}
+                                        />
+                                    ))}
+                                </div>
+                                {otpError && (
+                                    <p className="text-sm text-red-500 mt-3">
+                                        {otpError}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="mt-6">
+                                <button
+                                    onClick={handleResendOTP}
+                                    disabled={!canResend || isResendingOTP}
+                                    className={`text-sm font-medium ${
+                                        canResend && !isResendingOTP
+                                            ? "text-black hover:underline"
+                                            : "text-gray-400 cursor-not-allowed"
+                                    }`}
+                                >
+                                    {isResendingOTP
+                                        ? "Sending..."
+                                        : canResend
+                                          ? "Resend Code"
+                                          : `Resend in ${timer}s`}
+                                </button>
+                            </div>
+
+                            <button
+                                onClick={() => handleVerifyOTP(otpCode)}
+                                disabled={
+                                    isVerifyingOTP || otpCode.length !== 6
+                                }
+                                className={`w-full mt-6 py-3 rounded-lg font-medium transition ${
+                                    isVerifyingOTP || otpCode.length !== 6
+                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                        : "bg-black text-white hover:bg-gray-800"
+                                }`}
+                            >
+                                {isVerifyingOTP
+                                    ? "Verifying..."
+                                    : "Verify Code"}
+                            </button>
+
+                            <button
+                                onClick={() => {
+                                    setShowOTPModal(false);
+                                    setOtpCode("");
+                                    setOtpError("");
+                                    setOtpSent(false);
+                                    setEmail("");
+                                    setTimer(60);
+                                    setCanResend(false);
+                                }}
+                                className="mt-4 text-sm text-gray-400 hover:text-gray-600 transition"
+                            >
+                                ← Change Email Address
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Leave Warning Modal */}
+            {showLeaveWarning && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+                    <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl">
+                        <div className="text-center">
+                            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center">
+                                <span className="material-symbols-outlined text-3xl text-amber-600">
+                                    warning
+                                </span>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                Are you sure?
+                            </h3>
+                            <p className="text-sm text-gray-500 leading-relaxed">
+                                If you go back, your entered information will be
+                                cleared and you'll need to start over.
+                            </p>
+                            <div className="flex gap-3 mt-6">
+                                <button
+                                    onClick={() => {
+                                        setShowLeaveWarning(false);
+                                        setLeaveTarget(null);
+                                    }}
+                                    className="flex-1 py-2.5 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition"
+                                >
+                                    Stay Here
+                                </button>
+                                <button
+                                    onClick={confirmLeave}
+                                    className="flex-1 py-2.5 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition"
+                                >
+                                    Yes, Leave
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+}

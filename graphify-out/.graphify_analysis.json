@@ -1,0 +1,1397 @@
+{
+  "communities": {
+    "0": [
+      "ref_inertiajs_react",
+      "ref_lucide_react",
+      "ref_react",
+      "ref_types",
+      "resources_assets_bg",
+      "resources_assets_bgphone",
+      "resources_js_booking_emailverification",
+      "resources_js_booking_emailverification_emailverification",
+      "resources_js_booking_emailverification_emailverificationprops",
+      "resources_js_components_checkbox",
+      "resources_js_components_checkbox_checkbox",
+      "resources_js_components_dangerbutton",
+      "resources_js_components_dangerbutton_dangerbutton",
+      "resources_js_components_dropdown",
+      "resources_js_components_dropdown_dropdown",
+      "resources_js_components_dropdown_dropdown_content",
+      "resources_js_components_dropdown_dropdown_link",
+      "resources_js_components_dropdown_dropdown_trigger",
+      "resources_js_components_dropdown_props",
+      "resources_js_components_index",
+      "resources_js_components_inputerror",
+      "resources_js_components_inputerror_inputerror",
+      "resources_js_components_inputlabel",
+      "resources_js_components_inputlabel_inputlabel",
+      "resources_js_components_inputlabel_props",
+      "resources_js_components_modal",
+      "resources_js_components_modal_modal",
+      "resources_js_components_modal_props",
+      "resources_js_components_navlink",
+      "resources_js_components_navlink_navlink",
+      "resources_js_components_primarybutton",
+      "resources_js_components_primarybutton_primarybutton",
+      "resources_js_components_responsivenavlink",
+      "resources_js_components_responsivenavlink_responsivenavlink",
+      "resources_js_components_textinput",
+      "resources_js_components_textinput_props",
+      "resources_js_components_textinput_textinput",
+      "resources_js_layouts_authenticatedlayout",
+      "resources_js_layouts_authenticatedlayout_authenticated",
+      "resources_js_layouts_guestlayout",
+      "resources_js_layouts_guestlayout_guest",
+      "resources_js_pages_auth_adminlogin",
+      "resources_js_pages_auth_adminlogin_login",
+      "resources_js_pages_auth_confirmpassword",
+      "resources_js_pages_auth_confirmpassword_confirmpassword",
+      "resources_js_pages_auth_forgotpassword",
+      "resources_js_pages_auth_forgotpassword_forgotpassword",
+      "resources_js_pages_auth_login",
+      "resources_js_pages_auth_login_login",
+      "resources_js_pages_auth_register",
+      "resources_js_pages_auth_register_register",
+      "resources_js_pages_auth_resetpassword",
+      "resources_js_pages_auth_resetpassword_resetpassword",
+      "resources_js_pages_auth_verifyemail",
+      "resources_js_pages_auth_verifyemail_verifyemail",
+      "resources_js_pages_dashboard",
+      "resources_js_pages_dashboard_dashboard",
+      "resources_js_pages_welcome",
+      "resources_js_pages_welcome_welcome",
+      "resources_js_section_herosection"
+    ],
+    "1": [
+      "app_http_controllers_bookingcontroller_bookingcontroller",
+      "app_http_controllers_bookingcontroller_bookingcontroller_checkqrphstatus",
+      "app_http_controllers_bookingcontroller_bookingcontroller_createbooking",
+      "app_http_controllers_bookingcontroller_bookingcontroller_createbookingrecord",
+      "app_http_controllers_bookingcontroller_bookingcontroller_getbookingsuccessurl",
+      "app_http_controllers_bookingcontroller_bookingcontroller_getslots",
+      "app_http_controllers_bookingcontroller_bookingcontroller_initiatepaymongogcash",
+      "app_http_controllers_bookingcontroller_bookingcontroller_initiateqrphpayment",
+      "app_http_controllers_bookingcontroller_bookingcontroller_paymongoheaders",
+      "app_http_controllers_bookingcontroller_bookingcontroller_sendotp",
+      "app_http_controllers_bookingcontroller_bookingcontroller_step1",
+      "app_http_controllers_bookingcontroller_bookingcontroller_step2",
+      "app_http_controllers_bookingcontroller_bookingcontroller_step3",
+      "app_http_controllers_bookingcontroller_bookingcontroller_step4",
+      "app_http_controllers_bookingcontroller_bookingcontroller_success",
+      "app_http_controllers_bookingcontroller_bookingcontroller_verifyotp",
+      "app_http_controllers_contactcontroller",
+      "app_http_controllers_contactcontroller_contactcontroller",
+      "app_http_controllers_contactcontroller_contactcontroller_send",
+      "app_mail_bookingconfirmation",
+      "app_mail_bookingconfirmation_bookingconfirmation",
+      "app_mail_bookingconfirmation_bookingconfirmation_build",
+      "app_mail_bookingconfirmation_bookingconfirmation_construct",
+      "app_mail_contactmessagemail",
+      "app_mail_contactmessagemail_contactmessagemail",
+      "app_mail_contactmessagemail_contactmessagemail_build",
+      "app_mail_contactmessagemail_contactmessagemail_construct",
+      "app_mail_otpcode",
+      "app_mail_otpcode_otpcode",
+      "app_mail_otpcode_otpcode_build",
+      "app_mail_otpcode_otpcode_construct",
+      "app_mail_serviceticket",
+      "app_mail_serviceticket_serviceticket",
+      "app_mail_serviceticket_serviceticket_build",
+      "app_mail_serviceticket_serviceticket_construct",
+      "illuminate_bus_queueable",
+      "illuminate_mail_mailable",
+      "illuminate_queue_serializesmodels",
+      "self"
+    ],
+    "2": [
+      "app_http_controllers_auth_authenticatedsessioncontroller",
+      "app_http_controllers_auth_authenticatedsessioncontroller_authenticatedsessioncontroller",
+      "app_http_controllers_auth_authenticatedsessioncontroller_authenticatedsessioncontroller_create",
+      "app_http_controllers_auth_authenticatedsessioncontroller_authenticatedsessioncontroller_destroy",
+      "app_http_controllers_auth_confirmablepasswordcontroller",
+      "app_http_controllers_auth_confirmablepasswordcontroller_confirmablepasswordcontroller",
+      "app_http_controllers_auth_confirmablepasswordcontroller_confirmablepasswordcontroller_show",
+      "app_http_controllers_auth_confirmablepasswordcontroller_confirmablepasswordcontroller_store",
+      "app_http_controllers_auth_emailverificationpromptcontroller",
+      "app_http_controllers_auth_emailverificationpromptcontroller_emailverificationpromptcontroller",
+      "app_http_controllers_auth_emailverificationpromptcontroller_emailverificationpromptcontroller_invoke",
+      "app_http_controllers_auth_newpasswordcontroller",
+      "app_http_controllers_auth_newpasswordcontroller_closure_1",
+      "app_http_controllers_auth_newpasswordcontroller_newpasswordcontroller",
+      "app_http_controllers_auth_newpasswordcontroller_newpasswordcontroller_create",
+      "app_http_controllers_auth_newpasswordcontroller_newpasswordcontroller_store",
+      "app_http_controllers_auth_passwordresetlinkcontroller",
+      "app_http_controllers_auth_passwordresetlinkcontroller_passwordresetlinkcontroller",
+      "app_http_controllers_auth_passwordresetlinkcontroller_passwordresetlinkcontroller_create",
+      "app_http_controllers_auth_passwordresetlinkcontroller_passwordresetlinkcontroller_store",
+      "app_http_controllers_auth_registeredusercontroller",
+      "app_http_controllers_auth_registeredusercontroller_registeredusercontroller",
+      "app_http_controllers_auth_registeredusercontroller_registeredusercontroller_create",
+      "app_http_controllers_auth_registeredusercontroller_registeredusercontroller_store",
+      "illuminate_auth_events_passwordreset",
+      "illuminate_auth_events_registered",
+      "illuminate_http_redirectresponse",
+      "illuminate_support_facades_password",
+      "illuminate_support_facades_route",
+      "illuminate_validation_rules",
+      "illuminate_validation_validationexception",
+      "inertia_inertia",
+      "inertia_response",
+      "routes_auth",
+      "routes_auth_closure_1",
+      "routes_auth_closure_2",
+      "routes_auth_closure_3"
+    ],
+    "3": [
+      "resources_js_pages_admin_appointments",
+      "resources_js_pages_admin_appointments_all_time_slots",
+      "resources_js_pages_admin_appointments_appointment",
+      "resources_js_pages_admin_appointments_appointments",
+      "resources_js_pages_admin_appointments_appointmentsprops",
+      "resources_js_pages_admin_appointments_barberoption",
+      "resources_js_pages_admin_appointments_months",
+      "resources_js_pages_admin_appointments_timeslotoption",
+      "resources_js_pages_admin_appointments_weekdays",
+      "resources_js_pages_admin_dashboard",
+      "resources_js_pages_admin_dashboard_all_time_slots",
+      "resources_js_pages_admin_dashboard_buildpoints",
+      "resources_js_pages_admin_dashboard_buildsmoothspline",
+      "resources_js_pages_admin_dashboard_dashboard",
+      "resources_js_pages_admin_dashboard_dashboardprops",
+      "resources_js_pages_admin_dashboard_formatpeso",
+      "resources_js_pages_admin_dashboard_formatpesocompact",
+      "resources_js_pages_admin_dashboard_month_names_short",
+      "resources_js_pages_admin_dashboard_months",
+      "resources_js_pages_admin_dashboard_nicestep",
+      "resources_js_pages_admin_dashboard_timeslot",
+      "resources_js_pages_admin_dashboard_weekdays",
+      "resources_js_pages_admin_hairstyles",
+      "resources_js_pages_admin_hairstyles_hairstyle",
+      "resources_js_pages_admin_hairstyles_hairstyles",
+      "resources_js_pages_admin_hairstyles_hairstylesprops",
+      "resources_js_pages_admin_index",
+      "resources_js_pages_admin_index_admin",
+      "resources_js_pages_admin_users",
+      "resources_js_pages_admin_users_user",
+      "resources_js_pages_admin_users_users",
+      "resources_js_pages_admin_users_usersprops",
+      "resources_js_pages_components_sidebar",
+      "resources_js_pages_components_sidebar_navitems",
+      "resources_js_pages_components_sidebar_sidebar",
+      "resources_js_pages_components_sidebar_sidebarprops"
+    ],
+    "4": [
+      "app_http_controllers_admin_barbercontroller",
+      "app_http_controllers_admin_barbercontroller_barbercontroller",
+      "app_http_controllers_admin_barbercontroller_barbercontroller_index",
+      "app_http_controllers_admin_barbercontroller_barbercontroller_store",
+      "app_http_controllers_admin_barbercontroller_barbercontroller_togglestatus",
+      "app_http_controllers_admin_hairstylecontroller",
+      "app_http_controllers_admin_hairstylecontroller_hairstylecontroller",
+      "app_http_controllers_admin_hairstylecontroller_hairstylecontroller_index",
+      "app_http_controllers_admin_hairstylecontroller_hairstylecontroller_store",
+      "app_http_controllers_auth_emailverificationnotificationcontroller",
+      "app_http_controllers_auth_emailverificationnotificationcontroller_emailverificationnotificationcontroller",
+      "app_http_controllers_auth_emailverificationnotificationcontroller_emailverificationnotificationcontroller_store",
+      "app_http_controllers_auth_verifyemailcontroller",
+      "app_http_controllers_auth_verifyemailcontroller_verifyemailcontroller",
+      "app_http_controllers_auth_verifyemailcontroller_verifyemailcontroller_invoke",
+      "app_http_controllers_controller",
+      "app_http_controllers_controller_controller",
+      "illuminate_foundation_auth_emailverificationrequest",
+      "illuminate_support_facades_db",
+      "illuminate_support_facades_storage"
+    ],
+    "5": [
+      "package_devdependencies",
+      "package_devdependencies_autoprefixer",
+      "package_devdependencies_axios",
+      "package_devdependencies_concurrently",
+      "package_devdependencies_headlessui_react",
+      "package_devdependencies_inertiajs_react",
+      "package_devdependencies_laravel_vite_plugin",
+      "package_devdependencies_postcss",
+      "package_devdependencies_react",
+      "package_devdependencies_react_dom",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_tailwindcss_forms",
+      "package_devdependencies_tailwindcss_vite",
+      "package_devdependencies_types_node",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript",
+      "package_devdependencies_vite",
+      "package_devdependencies_vitejs_plugin_react"
+    ],
+    "6": [
+      "illuminate_foundation_testing_refreshdatabase",
+      "illuminate_http_uploadedfile",
+      "tests_feature_adminbarberqrcodetest",
+      "tests_feature_adminbarberqrcodetest_adminbarberqrcodetest",
+      "tests_feature_adminbarberqrcodetest_adminbarberqrcodetest_test_admin_can_upload_gcash_qr_code_for_barber",
+      "tests_feature_adminbarberuploadtest",
+      "tests_feature_adminbarberuploadtest_adminbarberuploadtest",
+      "tests_feature_adminbarberuploadtest_adminbarberuploadtest_test_admin_can_upload_profile_image_and_qr_code_for_existing_barber",
+      "tests_feature_adminlogintest",
+      "tests_feature_adminlogintest_adminlogintest",
+      "tests_feature_adminlogintest_adminlogintest_test_admin_user_can_login_with_seeded_credentials",
+      "tests_feature_auth_passwordupdatetest",
+      "tests_feature_auth_passwordupdatetest_passwordupdatetest",
+      "tests_feature_auth_passwordupdatetest_passwordupdatetest_test_correct_password_must_be_provided_to_update_password",
+      "tests_feature_auth_passwordupdatetest_passwordupdatetest_test_password_can_be_updated",
+      "tests_feature_barberratingreviewtest",
+      "tests_feature_barberratingreviewtest_barberratingreviewtest",
+      "tests_feature_barberratingreviewtest_barberratingreviewtest_test_users_can_submit_a_rating_with_feedback"
+    ],
+    "7": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_esmoduleinterop",
+      "tsconfig_compileroptions_forceconsistentcasinginfilenames",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_noimplicitany",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_target",
+      "tsconfig_include",
+      "tsconfig_paths_components",
+      "tsconfig_paths_ziggy_js"
+    ],
+    "8": [
+      "database_migrations_0001_01_01_000000_create_users_table",
+      "database_migrations_0001_01_01_000000_create_users_table_closure_1",
+      "database_migrations_0001_01_01_000000_create_users_table_closure_2",
+      "database_migrations_0001_01_01_000000_create_users_table_closure_3",
+      "database_migrations_0001_01_01_000000_create_users_table_down",
+      "database_migrations_0001_01_01_000000_create_users_table_up",
+      "database_migrations_2026_06_21_000000_add_introduction_to_barbers_table",
+      "database_migrations_2026_06_21_000000_add_introduction_to_barbers_table_closure_1",
+      "database_migrations_2026_06_21_000000_add_introduction_to_barbers_table_closure_2",
+      "database_migrations_2026_06_21_000000_add_introduction_to_barbers_table_down",
+      "database_migrations_2026_06_21_000000_add_introduction_to_barbers_table_up",
+      "database_migrations_2026_06_24_000000_add_remember_token_to_users_table",
+      "database_migrations_2026_06_24_000000_add_remember_token_to_users_table_closure_1",
+      "database_migrations_2026_06_24_000000_add_remember_token_to_users_table_closure_2",
+      "database_migrations_2026_06_24_000000_add_remember_token_to_users_table_down",
+      "database_migrations_2026_06_24_000000_add_remember_token_to_users_table_up",
+      "illuminate_database_schema_blueprint"
+    ],
+    "9": [
+      "illuminate_foundation_testing_testcase",
+      "illuminate_routing_router",
+      "tests_feature_adminroutetest",
+      "tests_feature_adminroutetest_adminroutetest",
+      "tests_feature_adminroutetest_adminroutetest_test_admin_root_redirects_guests_to_login",
+      "tests_feature_auth_registrationtest",
+      "tests_feature_auth_registrationtest_registrationtest",
+      "tests_feature_auth_registrationtest_registrationtest_test_new_users_can_register",
+      "tests_feature_auth_registrationtest_registrationtest_test_registration_screen_can_be_rendered",
+      "tests_feature_bookingpaymentroutetest",
+      "tests_feature_bookingpaymentroutetest_bookingpaymentroutetest",
+      "tests_feature_bookingpaymentroutetest_bookingpaymentroutetest_test_booking_gcash_payment_endpoint_is_registered",
+      "tests_feature_exampletest",
+      "tests_feature_exampletest_exampletest",
+      "tests_feature_exampletest_exampletest_test_the_application_returns_a_successful_response",
+      "tests_testcase",
+      "tests_testcase_testcase"
+    ],
+    "10": [
+      "app_http_controllers_admin_adminlogincontroller_adminlogincontroller",
+      "app_http_controllers_admin_adminlogincontroller_adminlogincontroller_login",
+      "app_http_controllers_admin_adminlogincontroller_adminlogincontroller_logout",
+      "app_http_controllers_admin_adminlogincontroller_adminlogincontroller_showloginform",
+      "app_http_controllers_admin_appointmentcontroller",
+      "app_http_controllers_admin_appointmentcontroller_appointmentcontroller",
+      "app_http_controllers_admin_appointmentcontroller_appointmentcontroller_cancelappointment",
+      "app_http_controllers_admin_appointmentcontroller_appointmentcontroller_changeappointment",
+      "app_http_controllers_admin_appointmentcontroller_appointmentcontroller_confirmpayment",
+      "app_http_controllers_admin_appointmentcontroller_appointmentcontroller_index",
+      "app_http_controllers_admin_appointmentcontroller_closure_1",
+      "app_http_middleware_ensureuserisadmin",
+      "app_http_middleware_ensureuserisadmin_ensureuserisadmin",
+      "app_http_middleware_ensureuserisadmin_ensureuserisadmin_handle",
+      "closure",
+      "illuminate_http_request"
+    ],
+    "11": [
+      "resources_js_components_footer",
+      "resources_js_components_footer_footer",
+      "resources_js_pages_home",
+      "resources_js_pages_home_home",
+      "resources_js_pages_home_homeprops",
+      "resources_js_section_achievementssection",
+      "resources_js_section_achievementssection_statitem",
+      "resources_js_section_achievementssection_statitemprops",
+      "resources_js_section_achievementssection_statssection",
+      "resources_js_section_barberssection_barberssection",
+      "resources_js_section_contactsection",
+      "resources_js_section_contactsection_contactsection",
+      "resources_js_section_herosection_herosection",
+      "resources_js_section_whychoosesection",
+      "resources_js_section_whychoosesection_whychoosesection",
+      "resources_js_section_whychoosesection_whychoosesectionprops"
+    ],
+    "12": [
+      "app_http_controllers_admin_dashboardcontroller",
+      "app_http_controllers_admin_dashboardcontroller_closure_1",
+      "app_http_controllers_admin_dashboardcontroller_dashboardcontroller",
+      "app_http_controllers_admin_dashboardcontroller_dashboardcontroller_index",
+      "routes_web",
+      "routes_web_closure_1",
+      "routes_web_closure_2",
+      "routes_web_closure_3",
+      "routes_web_closure_4",
+      "routes_web_closure_5",
+      "routes_web_closure_6",
+      "routes_web_closure_7",
+      "routes_web_closure_8",
+      "routes_web_get_admin",
+      "routes_web_get_test_service_ticket"
+    ],
+    "13": [
+      "package",
+      "package_private",
+      "package_schema",
+      "package_type",
+      "ref_autoprefixer",
+      "ref_chart_js",
+      "ref_concurrently",
+      "ref_headlessui_react",
+      "ref_postcss",
+      "ref_tailwindcss_vite",
+      "ref_types_chart_js",
+      "ref_types_node",
+      "ref_types_react",
+      "ref_types_react_dom",
+      "ref_typescript"
+    ],
+    "14": [
+      "app_http_controllers_auth_authenticatedsessioncontroller_authenticatedsessioncontroller_store",
+      "app_http_requests_auth_loginrequest_loginrequest",
+      "app_http_requests_auth_loginrequest_loginrequest_authenticate",
+      "app_http_requests_auth_loginrequest_loginrequest_authorize",
+      "app_http_requests_auth_loginrequest_loginrequest_ensureisnotratelimited",
+      "app_http_requests_auth_loginrequest_loginrequest_rules",
+      "app_http_requests_auth_loginrequest_loginrequest_throttlekey",
+      "app_http_requests_profileupdaterequest",
+      "app_http_requests_profileupdaterequest_profileupdaterequest",
+      "app_http_requests_profileupdaterequest_profileupdaterequest_rules",
+      "illuminate_contracts_validation_validationrule",
+      "illuminate_foundation_http_formrequest",
+      "illuminate_validation_rule"
+    ],
+    "15": [
+      "app_models_user",
+      "app_models_user_user",
+      "config_auth",
+      "database_factories_userfactory",
+      "database_factories_userfactory_closure_1",
+      "database_factories_userfactory_userfactory",
+      "database_factories_userfactory_userfactory_definition",
+      "database_factories_userfactory_userfactory_unverified",
+      "illuminate_database_eloquent_factories_factory",
+      "illuminate_database_eloquent_factories_hasfactory",
+      "illuminate_foundation_auth_user",
+      "illuminate_notifications_notifiable",
+      "static"
+    ],
+    "16": [
+      "resources_js_pages_admin_barbers",
+      "resources_js_pages_admin_barbers_barber",
+      "resources_js_pages_admin_barbers_barbers",
+      "resources_js_pages_admin_barbers_barbersprops",
+      "resources_js_section_barberssection",
+      "resources_js_section_barberssection_barber",
+      "resources_js_section_barberssection_barberssectionprops",
+      "resources_js_section_popularsection",
+      "resources_js_section_popularsection_hairstyle",
+      "resources_js_section_popularsection_popularhairstyles",
+      "resources_js_section_popularsection_popularhairstylesprops",
+      "resources_js_utils_imageurls",
+      "resources_js_utils_imageurls_resolveuploadimageurl"
+    ],
+    "17": [
+      "app_http_controllers_bookingcontroller",
+      "app_http_controllers_bookingcontroller_closure_1",
+      "app_http_controllers_bookingcontroller_closure_2",
+      "app_http_controllers_paymongocontroller",
+      "app_http_controllers_paymongocontroller_paymongocontroller",
+      "app_http_controllers_paymongocontroller_paymongocontroller_checkqrstatus",
+      "app_http_controllers_paymongocontroller_paymongocontroller_generateqrph",
+      "illuminate_support_facades_cache",
+      "illuminate_support_facades_crypt",
+      "illuminate_support_facades_http",
+      "illuminate_support_facades_log",
+      "illuminate_support_facades_session"
+    ],
+    "18": [
+      "app_http_controllers_homecontroller",
+      "app_http_controllers_homecontroller_closure_1",
+      "app_http_controllers_homecontroller_closure_2",
+      "app_http_controllers_homecontroller_closure_3",
+      "app_http_controllers_homecontroller_closure_4",
+      "app_http_controllers_homecontroller_closure_5",
+      "app_http_controllers_homecontroller_homecontroller",
+      "app_http_controllers_homecontroller_homecontroller_getbarbers",
+      "app_http_controllers_homecontroller_homecontroller_gettestimonials",
+      "app_http_controllers_homecontroller_homecontroller_index",
+      "app_http_controllers_homecontroller_homecontroller_normalizebarberimage",
+      "app_http_controllers_homecontroller_homecontroller_ratebarber"
+    ],
+    "19": [
+      "resources_js_booking_step3",
+      "resources_js_booking_step3_barber",
+      "resources_js_booking_step3_bookingstep3",
+      "resources_js_booking_step3_bookingstep4props",
+      "resources_js_booking_step3_formatdate",
+      "resources_js_booking_step3_formattime",
+      "resources_js_booking_step3_hairstyle",
+      "resources_js_booking_stepservice",
+      "resources_js_booking_stepservice_stepindicator",
+      "resources_js_booking_stepservice_stepindicatorprops",
+      "resources_js_pages_bookingstep3"
+    ],
+    "20": [
+      "app_http_controllers_admin_adminlogincontroller",
+      "app_http_requests_auth_loginrequest",
+      "config_cache",
+      "config_database",
+      "config_session",
+      "illuminate_auth_events_lockout",
+      "illuminate_support_facades_auth",
+      "illuminate_support_facades_ratelimiter",
+      "illuminate_support_str",
+      "pdo_mysql"
+    ],
+    "21": [
+      "app_http_controllers_admin_timeslotcontroller",
+      "app_http_controllers_admin_timeslotcontroller_closure_1",
+      "app_http_controllers_admin_timeslotcontroller_closure_2",
+      "app_http_controllers_admin_timeslotcontroller_timeslotcontroller",
+      "app_http_controllers_admin_timeslotcontroller_timeslotcontroller_destroy",
+      "app_http_controllers_admin_timeslotcontroller_timeslotcontroller_generatedefaultslots",
+      "app_http_controllers_admin_timeslotcontroller_timeslotcontroller_index",
+      "app_http_controllers_admin_timeslotcontroller_timeslotcontroller_isslotexpired",
+      "app_http_controllers_admin_timeslotcontroller_timeslotcontroller_store",
+      "app_http_controllers_admin_timeslotcontroller_timeslotcontroller_togglestatus"
+    ],
+    "22": [
+      "app_http_controllers_admincontroller",
+      "app_http_controllers_admincontroller_closure_1",
+      "app_http_controllers_admincontroller_get_appointments",
+      "app_http_controllers_admincontroller_get_barbers",
+      "app_http_controllers_admincontroller_get_booking_step_1",
+      "app_http_controllers_admincontroller_get_booking_step_2",
+      "app_http_controllers_admincontroller_get_booking_step_3",
+      "app_http_controllers_admincontroller_get_dashboard",
+      "app_http_controllers_admincontroller_get_hairstyles",
+      "app_http_controllers_admincontroller_get_users"
+    ],
+    "23": [
+      "illuminate_auth_notifications_resetpassword",
+      "illuminate_support_facades_notification",
+      "tests_feature_auth_passwordresettest",
+      "tests_feature_auth_passwordresettest_closure_1",
+      "tests_feature_auth_passwordresettest_closure_2",
+      "tests_feature_auth_passwordresettest_passwordresettest",
+      "tests_feature_auth_passwordresettest_passwordresettest_test_password_can_be_reset_with_valid_token",
+      "tests_feature_auth_passwordresettest_passwordresettest_test_reset_password_link_can_be_requested",
+      "tests_feature_auth_passwordresettest_passwordresettest_test_reset_password_link_screen_can_be_rendered",
+      "tests_feature_auth_passwordresettest_passwordresettest_test_reset_password_screen_can_be_rendered"
+    ],
+    "24": [
+      "resources_js_booking_step2",
+      "resources_js_booking_step2_all_time_slots",
+      "resources_js_booking_step2_barber",
+      "resources_js_booking_step2_bookingstep3",
+      "resources_js_booking_step2_bookingstep3props",
+      "resources_js_booking_step2_hairstyle",
+      "resources_js_booking_step2_months",
+      "resources_js_booking_step2_to12hour",
+      "resources_js_booking_step2_weekdays",
+      "resources_js_pages_bookingstep2"
+    ],
+    "25": [
+      "resources_js_booking_step4",
+      "resources_js_booking_step4_barber",
+      "resources_js_booking_step4_bookingstep4",
+      "resources_js_booking_step4_bookingstep4props",
+      "resources_js_booking_step4_formatdate",
+      "resources_js_booking_step4_formattime",
+      "resources_js_booking_step4_gcashstatus",
+      "resources_js_booking_step4_hairstyle",
+      "resources_js_booking_step4_paymentmethod",
+      "resources_js_pages_bookingstep4"
+    ],
+    "26": [
+      "composer",
+      "composer_description",
+      "composer_keywords",
+      "composer_license",
+      "composer_minimum_stability",
+      "composer_name",
+      "composer_prefer_stable",
+      "composer_schema",
+      "composer_type"
+    ],
+    "27": [
+      "composer_require_dev",
+      "composer_require_dev_fakerphp_faker",
+      "composer_require_dev_laravel_breeze",
+      "composer_require_dev_laravel_pail",
+      "composer_require_dev_laravel_pint",
+      "composer_require_dev_laravel_sail",
+      "composer_require_dev_mockery_mockery",
+      "composer_require_dev_nunomaduro_collision",
+      "composer_require_dev_phpunit_phpunit"
+    ],
+    "28": [
+      "composer_scripts",
+      "composer_scripts_dev",
+      "composer_scripts_post_autoload_dump",
+      "composer_scripts_post_create_project_cmd",
+      "composer_scripts_post_root_package_install",
+      "composer_scripts_post_update_cmd",
+      "composer_scripts_pre_package_uninstall",
+      "composer_scripts_setup",
+      "composer_scripts_test"
+    ],
+    "29": [
+      "database_migrations_2026_06_10_070605_create_barbers_table",
+      "database_migrations_2026_06_10_070605_create_barbers_table_closure_1",
+      "database_migrations_2026_06_10_070605_create_barbers_table_down",
+      "database_migrations_2026_06_10_070605_create_barbers_table_up",
+      "database_migrations_2026_06_24_061545_create_time_slots_table",
+      "database_migrations_2026_06_24_061545_create_time_slots_table_closure_1",
+      "database_migrations_2026_06_24_061545_create_time_slots_table_down",
+      "database_migrations_2026_06_24_061545_create_time_slots_table_up",
+      "illuminate_database_migrations_migration"
+    ],
+    "30": [
+      "database_migrations_2026_06_10_070607_create_gallery_table",
+      "database_migrations_2026_06_10_070607_create_gallery_table_closure_1",
+      "database_migrations_2026_06_10_070607_create_gallery_table_down",
+      "database_migrations_2026_06_10_070607_create_gallery_table_up",
+      "database_migrations_2026_06_10_070608_create_barber_ratings_table",
+      "database_migrations_2026_06_10_070608_create_barber_ratings_table_closure_1",
+      "database_migrations_2026_06_10_070608_create_barber_ratings_table_down",
+      "database_migrations_2026_06_10_070608_create_barber_ratings_table_up",
+      "illuminate_support_facades_schema"
+    ],
+    "31": [
+      "ref",
+      "ref_axios",
+      "ref_inertiajs_core",
+      "ref_ziggy_js",
+      "resources_js_bootstrap",
+      "resources_js_types_global_d",
+      "resources_js_types_global_d_inertiajs_core",
+      "resources_js_types_global_d_pageprops",
+      "resources_js_types_global_d_window"
+    ],
+    "32": [
+      "resources_js_booking_step1",
+      "resources_js_booking_step1_barber",
+      "resources_js_booking_step1_bookingstep1",
+      "resources_js_booking_step1_bookingstep1props",
+      "resources_js_components_header",
+      "resources_js_components_header_header",
+      "resources_js_pages_booking",
+      "resources_js_pages_booking_booking",
+      "resources_js_pages_bookingstep1"
+    ],
+    "33": [
+      "database_seeders_adminuserseeder",
+      "database_seeders_adminuserseeder_adminuserseeder",
+      "database_seeders_adminuserseeder_adminuserseeder_run",
+      "database_seeders_databaseseeder",
+      "database_seeders_databaseseeder_databaseseeder",
+      "database_seeders_databaseseeder_databaseseeder_run",
+      "illuminate_database_console_seeds_withoutmodelevents",
+      "illuminate_database_seeder"
+    ],
+    "34": [
+      "illuminate_auth_events_verified",
+      "illuminate_support_facades_event",
+      "illuminate_support_facades_url",
+      "tests_feature_auth_emailverificationtest",
+      "tests_feature_auth_emailverificationtest_emailverificationtest",
+      "tests_feature_auth_emailverificationtest_emailverificationtest_test_email_can_be_verified",
+      "tests_feature_auth_emailverificationtest_emailverificationtest_test_email_is_not_verified_with_invalid_hash",
+      "tests_feature_auth_emailverificationtest_emailverificationtest_test_email_verification_screen_can_be_rendered"
+    ],
+    "35": [
+      "ref_react_dom",
+      "resources_css_app",
+      "resources_js_app",
+      "resources_js_app_connectionspeed",
+      "resources_js_app_createloadingscreen",
+      "resources_js_app_getconnectionspeed",
+      "resources_js_app_loader",
+      "resources_js_app_setup"
+    ],
+    "36": [
+      "app_http_controllers_admin_usercontroller",
+      "app_http_controllers_admin_usercontroller_closure_1",
+      "app_http_controllers_admin_usercontroller_usercontroller",
+      "app_http_controllers_admin_usercontroller_usercontroller_destroy",
+      "app_http_controllers_admin_usercontroller_usercontroller_index",
+      "app_http_controllers_admin_usercontroller_usercontroller_show",
+      "app_http_controllers_admin_usercontroller_usercontroller_update"
+    ],
+    "37": [
+      "app_http_controllers_profilecontroller",
+      "app_http_controllers_profilecontroller_profilecontroller",
+      "app_http_controllers_profilecontroller_profilecontroller_destroy",
+      "app_http_controllers_profilecontroller_profilecontroller_edit",
+      "app_http_controllers_profilecontroller_profilecontroller_update",
+      "illuminate_contracts_auth_mustverifyemail",
+      "illuminate_support_facades_redirect"
+    ],
+    "38": [
+      "app_providers_appserviceprovider",
+      "app_providers_appserviceprovider_appserviceprovider",
+      "app_providers_appserviceprovider_appserviceprovider_boot",
+      "app_providers_appserviceprovider_appserviceprovider_register",
+      "bootstrap_providers",
+      "illuminate_support_facades_vite",
+      "illuminate_support_serviceprovider"
+    ],
+    "39": [
+      "bootstrap_app",
+      "bootstrap_app_closure_1",
+      "bootstrap_app_closure_2",
+      "illuminate_foundation_application",
+      "illuminate_foundation_configuration_exceptions",
+      "illuminate_foundation_configuration_middleware",
+      "public_index"
+    ],
+    "40": [
+      "composer_allow_plugins_pestphp_pest_plugin",
+      "composer_allow_plugins_php_http_discovery",
+      "composer_config",
+      "composer_config_allow_plugins",
+      "composer_config_optimize_autoloader",
+      "composer_config_preferred_install",
+      "composer_config_sort_packages"
+    ],
+    "41": [
+      "composer_require",
+      "composer_require_inertiajs_inertia_laravel",
+      "composer_require_laravel_framework",
+      "composer_require_laravel_sanctum",
+      "composer_require_laravel_tinker",
+      "composer_require_php",
+      "composer_require_tightenco_ziggy"
+    ],
+    "42": [
+      "resources_js_pages_bookingsuccess",
+      "resources_js_pages_bookingsuccess_booking",
+      "resources_js_pages_bookingsuccess_bookingsuccess",
+      "resources_js_pages_bookingsuccess_bookingsuccessprops",
+      "resources_js_pages_bookingsuccess_formatdate",
+      "resources_js_pages_bookingsuccess_formattime",
+      "resources_js_pages_bookingsuccess_payment_labels"
+    ],
+    "43": [
+      "tests_feature_profiletest",
+      "tests_feature_profiletest_profiletest",
+      "tests_feature_profiletest_profiletest_test_correct_password_must_be_provided_to_delete_account",
+      "tests_feature_profiletest_profiletest_test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged",
+      "tests_feature_profiletest_profiletest_test_profile_information_can_be_updated",
+      "tests_feature_profiletest_profiletest_test_profile_page_is_displayed",
+      "tests_feature_profiletest_profiletest_test_user_can_delete_their_account"
+    ],
+    "44": [
+      "resources_js_vite_env_d",
+      "resources_js_vite_env_d_jpeg",
+      "resources_js_vite_env_d_jpg",
+      "resources_js_vite_env_d_png",
+      "resources_js_vite_env_d_svg",
+      "resources_js_vite_env_d_webp"
+    ],
+    "45": [
+      "tests_feature_auth_authenticationtest",
+      "tests_feature_auth_authenticationtest_authenticationtest",
+      "tests_feature_auth_authenticationtest_authenticationtest_test_login_screen_can_be_rendered",
+      "tests_feature_auth_authenticationtest_authenticationtest_test_users_can_authenticate_using_the_login_screen",
+      "tests_feature_auth_authenticationtest_authenticationtest_test_users_can_logout",
+      "tests_feature_auth_authenticationtest_authenticationtest_test_users_can_not_authenticate_with_invalid_password"
+    ],
+    "46": [
+      "app_http_controllers_auth_passwordcontroller",
+      "app_http_controllers_auth_passwordcontroller_passwordcontroller",
+      "app_http_controllers_auth_passwordcontroller_passwordcontroller_update",
+      "illuminate_support_facades_hash",
+      "illuminate_validation_rules_password"
+    ],
+    "47": [
+      "app_http_middleware_handleinertiarequests",
+      "app_http_middleware_handleinertiarequests_handleinertiarequests",
+      "app_http_middleware_handleinertiarequests_handleinertiarequests_share",
+      "app_http_middleware_handleinertiarequests_handleinertiarequests_version",
+      "inertia_middleware"
+    ],
+    "48": [
+      "composer_autoload",
+      "composer_autoload_psr_4",
+      "composer_psr_4_app",
+      "composer_psr_4_database_factories",
+      "composer_psr_4_database_seeders"
+    ],
+    "49": [
+      "config_logging",
+      "monolog_handler_nullhandler",
+      "monolog_handler_streamhandler",
+      "monolog_handler_syslogudphandler",
+      "monolog_processor_psrlogmessageprocessor"
+    ],
+    "50": [
+      "database_migrations_2026_06_16_160953_add_payment_status_to_bookings_table",
+      "database_migrations_2026_06_16_160953_add_payment_status_to_bookings_table_closure_1",
+      "database_migrations_2026_06_16_160953_add_payment_status_to_bookings_table_closure_2",
+      "database_migrations_2026_06_16_160953_add_payment_status_to_bookings_table_down",
+      "database_migrations_2026_06_16_160953_add_payment_status_to_bookings_table_up"
+    ],
+    "51": [
+      "database_migrations_2026_06_17_000000_add_certifications_to_barbers_table",
+      "database_migrations_2026_06_17_000000_add_certifications_to_barbers_table_closure_1",
+      "database_migrations_2026_06_17_000000_add_certifications_to_barbers_table_closure_2",
+      "database_migrations_2026_06_17_000000_add_certifications_to_barbers_table_down",
+      "database_migrations_2026_06_17_000000_add_certifications_to_barbers_table_up"
+    ],
+    "52": [
+      "database_migrations_2026_06_21_131200_add_introduction_to_barbers_table",
+      "database_migrations_2026_06_21_131200_add_introduction_to_barbers_table_closure_1",
+      "database_migrations_2026_06_21_131200_add_introduction_to_barbers_table_closure_2",
+      "database_migrations_2026_06_21_131200_add_introduction_to_barbers_table_down",
+      "database_migrations_2026_06_21_131200_add_introduction_to_barbers_table_up"
+    ],
+    "53": [
+      "database_migrations_2026_06_22_000000_add_payment_source_id_to_bookings_table",
+      "database_migrations_2026_06_22_000000_add_payment_source_id_to_bookings_table_closure_1",
+      "database_migrations_2026_06_22_000000_add_payment_source_id_to_bookings_table_closure_2",
+      "database_migrations_2026_06_22_000000_add_payment_source_id_to_bookings_table_down",
+      "database_migrations_2026_06_22_000000_add_payment_source_id_to_bookings_table_up"
+    ],
+    "54": [
+      "database_migrations_2026_06_22_070609_add_payment_source_id_to_bookings",
+      "database_migrations_2026_06_22_070609_add_payment_source_id_to_bookings_closure_1",
+      "database_migrations_2026_06_22_070609_add_payment_source_id_to_bookings_closure_2",
+      "database_migrations_2026_06_22_070609_add_payment_source_id_to_bookings_down",
+      "database_migrations_2026_06_22_070609_add_payment_source_id_to_bookings_up"
+    ],
+    "55": [
+      "database_migrations_2026_06_22_080806_add_payment_source_id_to_bookings",
+      "database_migrations_2026_06_22_080806_add_payment_source_id_to_bookings_closure_1",
+      "database_migrations_2026_06_22_080806_add_payment_source_id_to_bookings_closure_2",
+      "database_migrations_2026_06_22_080806_add_payment_source_id_to_bookings_down",
+      "database_migrations_2026_06_22_080806_add_payment_source_id_to_bookings_up"
+    ],
+    "56": [
+      "database_migrations_2026_06_23_000000_make_user_id_nullable_in_bookings",
+      "database_migrations_2026_06_23_000000_make_user_id_nullable_in_bookings_closure_1",
+      "database_migrations_2026_06_23_000000_make_user_id_nullable_in_bookings_closure_2",
+      "database_migrations_2026_06_23_000000_make_user_id_nullable_in_bookings_down",
+      "database_migrations_2026_06_23_000000_make_user_id_nullable_in_bookings_up"
+    ],
+    "57": [
+      "database_migrations_2026_06_24_031607_make_user_id_nullable_in_bookings",
+      "database_migrations_2026_06_24_031607_make_user_id_nullable_in_bookings_closure_1",
+      "database_migrations_2026_06_24_031607_make_user_id_nullable_in_bookings_closure_2",
+      "database_migrations_2026_06_24_031607_make_user_id_nullable_in_bookings_down",
+      "database_migrations_2026_06_24_031607_make_user_id_nullable_in_bookings_up"
+    ],
+    "58": [
+      "database_migrations_2026_06_27_000001_add_gcash_qr_code_to_barbers_table",
+      "database_migrations_2026_06_27_000001_add_gcash_qr_code_to_barbers_table_closure_1",
+      "database_migrations_2026_06_27_000001_add_gcash_qr_code_to_barbers_table_closure_2",
+      "database_migrations_2026_06_27_000001_add_gcash_qr_code_to_barbers_table_down",
+      "database_migrations_2026_06_27_000001_add_gcash_qr_code_to_barbers_table_up"
+    ],
+    "59": [
+      "database_migrations_2026_06_27_132135_add_receipt_image_to_bookings",
+      "database_migrations_2026_06_27_132135_add_receipt_image_to_bookings_closure_1",
+      "database_migrations_2026_06_27_132135_add_receipt_image_to_bookings_closure_2",
+      "database_migrations_2026_06_27_132135_add_receipt_image_to_bookings_down",
+      "database_migrations_2026_06_27_132135_add_receipt_image_to_bookings_up"
+    ],
+    "60": [
+      "database_migrations_2026_07_01_000000_add_default_price_to_barbers_table",
+      "database_migrations_2026_07_01_000000_add_default_price_to_barbers_table_closure_1",
+      "database_migrations_2026_07_01_000000_add_default_price_to_barbers_table_closure_2",
+      "database_migrations_2026_07_01_000000_add_default_price_to_barbers_table_down",
+      "database_migrations_2026_07_01_000000_add_default_price_to_barbers_table_up"
+    ],
+    "61": [
+      "database_migrations_2026_07_02_000000_add_confirmation_number_to_bookings",
+      "database_migrations_2026_07_02_000000_add_confirmation_number_to_bookings_closure_1",
+      "database_migrations_2026_07_02_000000_add_confirmation_number_to_bookings_closure_2",
+      "database_migrations_2026_07_02_000000_add_confirmation_number_to_bookings_down",
+      "database_migrations_2026_07_02_000000_add_confirmation_number_to_bookings_up"
+    ],
+    "62": [
+      "database_migrations_2026_07_02_000001_add_service_ticket_confirmation_to_bookings",
+      "database_migrations_2026_07_02_000001_add_service_ticket_confirmation_to_bookings_closure_1",
+      "database_migrations_2026_07_02_000001_add_service_ticket_confirmation_to_bookings_closure_2",
+      "database_migrations_2026_07_02_000001_add_service_ticket_confirmation_to_bookings_down",
+      "database_migrations_2026_07_02_000001_add_service_ticket_confirmation_to_bookings_up"
+    ],
+    "63": [
+      "database_migrations_2026_07_02_050116_add_confirmation_number_to_bookings_table",
+      "database_migrations_2026_07_02_050116_add_confirmation_number_to_bookings_table_closure_1",
+      "database_migrations_2026_07_02_050116_add_confirmation_number_to_bookings_table_closure_2",
+      "database_migrations_2026_07_02_050116_add_confirmation_number_to_bookings_table_down",
+      "database_migrations_2026_07_02_050116_add_confirmation_number_to_bookings_table_up"
+    ],
+    "64": [
+      "database_migrations_2026_07_29_000000_add_missing_booking_columns",
+      "database_migrations_2026_07_29_000000_add_missing_booking_columns_closure_1",
+      "database_migrations_2026_07_29_000000_add_missing_booking_columns_closure_2",
+      "database_migrations_2026_07_29_000000_add_missing_booking_columns_down",
+      "database_migrations_2026_07_29_000000_add_missing_booking_columns_up"
+    ],
+    "65": [
+      "database_migrations_2026_07_30_000000_add_admin_fields_to_users_table",
+      "database_migrations_2026_07_30_000000_add_admin_fields_to_users_table_closure_1",
+      "database_migrations_2026_07_30_000000_add_admin_fields_to_users_table_closure_2",
+      "database_migrations_2026_07_30_000000_add_admin_fields_to_users_table_down",
+      "database_migrations_2026_07_30_000000_add_admin_fields_to_users_table_up"
+    ],
+    "66": [
+      "illuminate_support_facades_mail",
+      "tests_feature_contactformtest",
+      "tests_feature_contactformtest_closure_1",
+      "tests_feature_contactformtest_contactformtest",
+      "tests_feature_contactformtest_contactformtest_test_contact_form_sends_email_to_configured_address"
+    ],
+    "67": [
+      "ref_laravel_vite_plugin",
+      "ref_path",
+      "ref_vite",
+      "ref_vitejs_plugin_react",
+      "vite_config"
+    ],
+    "68": [
+      "tests_feature_auth_passwordconfirmationtest",
+      "tests_feature_auth_passwordconfirmationtest_passwordconfirmationtest",
+      "tests_feature_auth_passwordconfirmationtest_passwordconfirmationtest_test_confirm_password_screen_can_be_rendered",
+      "tests_feature_auth_passwordconfirmationtest_passwordconfirmationtest_test_password_can_be_confirmed",
+      "tests_feature_auth_passwordconfirmationtest_passwordconfirmationtest_test_password_is_not_confirmed_with_invalid_password"
+    ],
+    "69": [
+      "database_migrations_2026_06_10_070606_create_appointments_table",
+      "database_migrations_2026_06_10_070606_create_appointments_table_closure_1",
+      "database_migrations_2026_06_10_070606_create_appointments_table_down",
+      "database_migrations_2026_06_10_070606_create_appointments_table_up"
+    ],
+    "70": [
+      "database_migrations_2026_06_10_070606_create_hairstyles_table",
+      "database_migrations_2026_06_10_070606_create_hairstyles_table_closure_1",
+      "database_migrations_2026_06_10_070606_create_hairstyles_table_down",
+      "database_migrations_2026_06_10_070606_create_hairstyles_table_up"
+    ],
+    "71": [
+      "database_migrations_2026_06_10_070607_create_favorites_table",
+      "database_migrations_2026_06_10_070607_create_favorites_table_closure_1",
+      "database_migrations_2026_06_10_070607_create_favorites_table_down",
+      "database_migrations_2026_06_10_070607_create_favorites_table_up"
+    ],
+    "72": [
+      "database_migrations_2026_06_10_070608_create_reviews_table",
+      "database_migrations_2026_06_10_070608_create_reviews_table_closure_1",
+      "database_migrations_2026_06_10_070608_create_reviews_table_down",
+      "database_migrations_2026_06_10_070608_create_reviews_table_up"
+    ],
+    "73": [
+      "database_migrations_2026_06_10_070609_create_time_slots_table",
+      "database_migrations_2026_06_10_070609_create_time_slots_table_closure_1",
+      "database_migrations_2026_06_10_070609_create_time_slots_table_down",
+      "database_migrations_2026_06_10_070609_create_time_slots_table_up"
+    ],
+    "74": [
+      "database_migrations_2026_06_10_070610_create_bookings_table",
+      "database_migrations_2026_06_10_070610_create_bookings_table_closure_1",
+      "database_migrations_2026_06_10_070610_create_bookings_table_down",
+      "database_migrations_2026_06_10_070610_create_bookings_table_up"
+    ],
+    "75": [
+      "illuminate_foundation_inspiring",
+      "illuminate_support_facades_artisan",
+      "routes_console",
+      "routes_console_closure_1"
+    ],
+    "76": [
+      "package_dependencies",
+      "package_dependencies_chart_js",
+      "package_dependencies_lucide_react",
+      "package_dependencies_types_chart_js"
+    ],
+    "77": [
+      "phpunit_framework_testcase",
+      "tests_unit_exampletest",
+      "tests_unit_exampletest_exampletest",
+      "tests_unit_exampletest_exampletest_test_that_true_is_true"
+    ],
+    "78": [
+      "ref_tailwindcss",
+      "ref_tailwindcss_forms",
+      "tailwind_config",
+      "tailwindcss"
+    ],
+    "79": [
+      "resources_js_booking_hairstyles",
+      "resources_js_booking_hairstyles_getgroupedhairstyles",
+      "resources_js_booking_hairstyles_hairstyle",
+      "resources_js_booking_hairstyles_hairstylesdata"
+    ],
+    "80": [
+      "application",
+      "argvinput",
+      "artisan"
+    ],
+    "81": [
+      "composer_autoload_dev",
+      "composer_autoload_dev_psr_4",
+      "composer_psr_4_tests"
+    ],
+    "82": [
+      "composer_extra",
+      "composer_extra_laravel",
+      "composer_laravel_dont_discover"
+    ],
+    "83": [
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev"
+    ],
+    "84": [
+      "public_uploads_paymentimage_1782961695_screenshot_2026_06_23_165049",
+      "resources_assets_bg_png",
+      "resources_assets_bgphone_png"
+    ],
+    "85": [
+      "resources_js_types_index_d",
+      "resources_js_types_index_d_pageprops",
+      "resources_js_types_index_d_user"
+    ],
+    "86": [
+      "paymongo_gcash",
+      "public_uploads_paymentimage_1782566769_346908b5_2f70_454a_a1d0_5739f8f97103_jpg"
+    ],
+    "87": [
+      "public_logo_png",
+      "readme_bez_hair_studio"
+    ],
+    "88": [
+      "public_uploads_qrcode_gcash_1782563075_6a3fc103bdf55",
+      "public_uploads_qrcode_gcash_1782565237_6a3fc97588795"
+    ],
+    "89": [
+      "admin_dashboard"
+    ],
+    "90": [
+      "assets_default_jpg"
+    ],
+    "91": [
+      "config_app"
+    ],
+    "92": [
+      "config_filesystems"
+    ],
+    "93": [
+      "config_inertia"
+    ],
+    "94": [
+      "config_mail"
+    ],
+    "95": [
+      "config_queue"
+    ],
+    "96": [
+      "config_services"
+    ],
+    "97": [
+      "database_connection"
+    ],
+    "98": [
+      "fix_production"
+    ],
+    "99": [
+      "install_database"
+    ],
+    "100": [
+      "postcss_config"
+    ],
+    "101": [
+      "public_uploads_barbers_defaultbarber_jpg"
+    ],
+    "102": [
+      "public_uploads_hairstyle_1782220444_6a3a869c0a546_jpg"
+    ],
+    "103": [
+      "public_uploads_paymentimage_1782566629_group_1_png"
+    ],
+    "104": [
+      "public_uploads_paymentimage_1782969225_2"
+    ],
+    "105": [
+      "public_uploads_paymentimage_1782972239_5"
+    ],
+    "106": [
+      "public_uploads_paymentimage_1785422329_bg"
+    ],
+    "107": [
+      "public_uploads_qrcode_gcash_1785422303_6a6b61df6bf85"
+    ],
+    "108": [
+      "resources_assets_bg_jpg"
+    ],
+    "109": [
+      "resources_js_booking_cardcut"
+    ],
+    "110": [
+      "resources_js_booking_get_slots"
+    ],
+    "111": [
+      "resources_js_components_secondarybutton"
+    ],
+    "112": [
+      "resources_js_pages_admin_adminlogin"
+    ],
+    "113": [
+      "resources_js_types_vite_env_d"
+    ],
+    "114": [
+      "resources_views_app_blade"
+    ],
+    "115": [
+      "resources_views_emails_bookings_cash_receipt_blade"
+    ],
+    "116": [
+      "resources_views_emails_bookings_confirmation_blade"
+    ],
+    "117": [
+      "resources_views_emails_bookings_gcash_payment_blade"
+    ],
+    "118": [
+      "resources_views_emails_bookings_otp_blade"
+    ],
+    "119": [
+      "resources_views_emails_bookings_otp_plain_blade"
+    ],
+    "120": [
+      "resources_views_emails_bookings_service_ticket_blade"
+    ],
+    "121": [
+      "resources_views_emails_contact_message_blade"
+    ],
+    "122": [
+      "resources_views_vendor_mail_html_button_blade"
+    ],
+    "123": [
+      "resources_views_vendor_mail_html_footer_blade"
+    ],
+    "124": [
+      "resources_views_vendor_mail_html_header_blade"
+    ],
+    "125": [
+      "resources_views_vendor_mail_html_layout_blade"
+    ],
+    "126": [
+      "resources_views_vendor_mail_html_message_blade"
+    ],
+    "127": [
+      "resources_views_vendor_mail_html_panel_blade"
+    ],
+    "128": [
+      "resources_views_vendor_mail_html_subcopy_blade"
+    ],
+    "129": [
+      "resources_views_vendor_mail_html_table_blade"
+    ],
+    "130": [
+      "resources_views_vendor_mail_text_button_blade"
+    ],
+    "131": [
+      "resources_views_vendor_mail_text_footer_blade"
+    ],
+    "132": [
+      "resources_views_vendor_mail_text_header_blade"
+    ],
+    "133": [
+      "resources_views_vendor_mail_text_layout_blade"
+    ],
+    "134": [
+      "resources_views_vendor_mail_text_message_blade"
+    ],
+    "135": [
+      "resources_views_vendor_mail_text_panel_blade"
+    ],
+    "136": [
+      "resources_views_vendor_mail_text_subcopy_blade"
+    ],
+    "137": [
+      "resources_views_vendor_mail_text_table_blade"
+    ]
+  },
+  "cohesion": {
+    "0": 0.09548022598870057,
+    "1": 0.09041835357624832,
+    "2": 0.1036036036036036,
+    "3": 0.08412698412698413,
+    "4": 0.1368421052631579,
+    "5": 0.10526315789473684,
+    "6": 0.1503267973856209,
+    "7": 0.1111111111111111,
+    "8": 0.16911764705882354,
+    "9": 0.15441176470588236,
+    "10": 0.18333333333333332,
+    "11": 0.20833333333333334,
+    "12": 0.13333333333333333,
+    "13": 0.13333333333333333,
+    "14": 0.21794871794871795,
+    "15": 0.23076923076923078,
+    "16": 0.21794871794871795,
+    "17": 0.18181818181818182,
+    "18": 0.19696969696969696,
+    "19": 0.2727272727272727,
+    "20": 0.24444444444444444,
+    "21": 0.24444444444444444,
+    "22": 0.2,
+    "23": 0.2,
+    "24": 0.24444444444444444,
+    "25": 0.26666666666666666,
+    "26": 0.2222222222222222,
+    "27": 0.2222222222222222,
+    "28": 0.2222222222222222,
+    "29": 0.2222222222222222,
+    "30": 0.2222222222222222,
+    "31": 0.2222222222222222,
+    "32": 0.3611111111111111,
+    "33": 0.35714285714285715,
+    "34": 0.25,
+    "35": 0.2857142857142857,
+    "36": 0.2857142857142857,
+    "37": 0.2857142857142857,
+    "38": 0.3333333333333333,
+    "39": 0.38095238095238093,
+    "40": 0.2857142857142857,
+    "41": 0.2857142857142857,
+    "42": 0.38095238095238093,
+    "43": 0.2857142857142857,
+    "44": 0.3333333333333333,
+    "45": 0.3333333333333333,
+    "46": 0.4,
+    "47": 0.5,
+    "48": 0.4,
+    "49": 0.4,
+    "50": 0.4,
+    "51": 0.4,
+    "52": 0.4,
+    "53": 0.4,
+    "54": 0.4,
+    "55": 0.4,
+    "56": 0.4,
+    "57": 0.4,
+    "58": 0.4,
+    "59": 0.4,
+    "60": 0.4,
+    "61": 0.4,
+    "62": 0.4,
+    "63": 0.4,
+    "64": 0.4,
+    "65": 0.4,
+    "66": 0.4,
+    "67": 0.4,
+    "68": 0.4,
+    "69": 0.5,
+    "70": 0.5,
+    "71": 0.5,
+    "72": 0.5,
+    "73": 0.5,
+    "74": 0.5,
+    "75": 0.5,
+    "76": 0.5,
+    "77": 0.6666666666666666,
+    "78": 0.5,
+    "79": 0.5,
+    "80": 0.6666666666666666,
+    "81": 0.6666666666666666,
+    "82": 0.6666666666666666,
+    "83": 0.6666666666666666,
+    "84": 0.6666666666666666,
+    "85": 0.6666666666666666,
+    "86": 1.0,
+    "87": 1.0,
+    "88": 1.0,
+    "89": 1.0,
+    "90": 1.0,
+    "91": 1.0,
+    "92": 1.0,
+    "93": 1.0,
+    "94": 1.0,
+    "95": 1.0,
+    "96": 1.0,
+    "97": 1.0,
+    "98": 1.0,
+    "99": 1.0,
+    "100": 1.0,
+    "101": 1.0,
+    "102": 1.0,
+    "103": 1.0,
+    "104": 1.0,
+    "105": 1.0,
+    "106": 1.0,
+    "107": 1.0,
+    "108": 1.0,
+    "109": 1.0,
+    "110": 1.0,
+    "111": 1.0,
+    "112": 1.0,
+    "113": 1.0,
+    "114": 1.0,
+    "115": 1.0,
+    "116": 1.0,
+    "117": 1.0,
+    "118": 1.0,
+    "119": 1.0,
+    "120": 1.0,
+    "121": 1.0,
+    "122": 1.0,
+    "123": 1.0,
+    "124": 1.0,
+    "125": 1.0,
+    "126": 1.0,
+    "127": 1.0,
+    "128": 1.0,
+    "129": 1.0,
+    "130": 1.0,
+    "131": 1.0,
+    "132": 1.0,
+    "133": 1.0,
+    "134": 1.0,
+    "135": 1.0,
+    "136": 1.0,
+    "137": 1.0
+  },
+  "gods": [
+    {
+      "id": "ref_react",
+      "label": "react",
+      "degree": 43
+    },
+    {
+      "id": "app_http_controllers_controller_controller",
+      "label": "Controller",
+      "degree": 38
+    },
+    {
+      "id": "tests_testcase_testcase",
+      "label": "TestCase",
+      "degree": 32
+    },
+    {
+      "id": "ref_inertiajs_react",
+      "label": "@inertiajs/react",
+      "degree": 28
+    },
+    {
+      "id": "app_models_user_user",
+      "label": "User",
+      "degree": 20
+    },
+    {
+      "id": "app_http_controllers_bookingcontroller_bookingcontroller",
+      "label": "BookingController",
+      "degree": 18
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 14
+    },
+    {
+      "id": "resources_js_pages_components_sidebar_sidebar",
+      "label": "Sidebar()",
+      "degree": 13
+    },
+    {
+      "id": "resources_js_components_header_header",
+      "label": "Header()",
+      "degree": 13
+    },
+    {
+      "id": "resources_js_components_inputerror_inputerror",
+      "label": "InputError()",
+      "degree": 11
+    }
+  ],
+  "surprises": [
+    {
+      "source": "GET /test-service-ticket()",
+      "target": "ServiceTicket",
+      "source_files": [
+        "routes/web.php",
+        "app/Mail/ServiceTicket.php"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities; peripheral node `GET /test-service-ticket()` unexpectedly reaches hub `ServiceTicket`"
+    },
+    {
+      "source": "BEZ Hair Studio Logo",
+      "target": "BEZ Hair Studio Appointment Booking System",
+      "source_files": [
+        "public/Logo.png",
+        "README.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (doc \u2194 image); connects across different repos/directories"
+    },
+    {
+      "source": "GCash Payment Receipt UI",
+      "target": "PayMongo (GCash/QR PH)",
+      "source_files": [
+        "public/uploads/paymentImage/1782566769_346908b5-2f70-454a-a1d0-5739f8f97103.jpg",
+        "README.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (doc \u2194 image); connects across different repos/directories"
+    },
+    {
+      "source": "UI Screenshot: Add New Hairstyle Modal",
+      "target": "Logo: BEZ Hair Studio (Illustrated)",
+      "source_files": [
+        "public/uploads/paymentImage/1782961695_Screenshot 2026-06-23 165049.png",
+        "resources/assets/bg.png"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "AdminLoginController",
+      "target": "Controller",
+      "source_files": [
+        "app/Http/Controllers/Admin/AdminLoginController.php",
+        "app/Http/Controllers/Controller.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "inherits",
+      "why": "bridges separate communities"
+    }
+  ],
+  "tokens": {
+    "input": 36165,
+    "output": 3156
+  }
+}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "$graphify-root$_install_database_php", "label": "install-database.php", "file_type": "code", "source_file": "install-database.php", "source_location": "L1"}], "edges": [], "raw_calls": [], "php_type_table": {"path": "$graphify-root$/install-database.php", "table": {"pdo": "PDO"}}}
