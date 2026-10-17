@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import Header from "../components/header";
 import StepIndicator from "../booking/stepservice";
 const profileImage = "/uploads/barbers/defaultBarber.jpg";
@@ -94,19 +94,13 @@ export default function BookingStep1({ barbers = [] }: BookingStep1Props) {
             <Head title="Select Barber — BEZ Hair Studio" />
             <Header />
 
-            <main className="min-h-screen bg-[#f5f5f0] pb-20">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 pb-20">
-                    {/* Step Indicator */}
+            <main className="min-h-screen bg-[#faf9f6] pb-12">
+                <div className="mx-auto max-w-5xl px-4 pb-12 pt-8 sm:px-6 sm:pt-12">
                     <StepIndicator currentStep={1} />
-
-                    {/* Section Title */}
-                    <h3 className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-4">
-                        Select Your Barber
-                    </h3>
 
                     {/* Barbers Grid */}
                     {barbers.length === 0 ? (
-                        <div className="text-center py-12 bg-white border border-gray-200 rounded-lg">
+                        <div className="rounded-2xl border border-neutral-200 bg-white py-12 text-center shadow-sm">
                             <div className="text-gray-400 mb-4">
                                 <svg
                                     className="w-16 h-16 mx-auto"
@@ -131,25 +125,26 @@ export default function BookingStep1({ barbers = [] }: BookingStep1Props) {
                         </div>
                     ) : (
                         <>
-                            <div className="grid md:grid-cols-2 gap-4 mb-8">
+                            <div className="mb-6 grid gap-4 sm:grid-cols-2">
                                 {barbers.map((barber) => (
-                                    <div
+                                    <button
+                                        type="button"
                                         key={barber.id}
                                         onClick={() =>
                                             handleSelectBarber(barber.id)
                                         }
-                                        className={`
-                                            flex gap-4 p-4 border cursor-pointer transition-all duration-300 relative bg-white
-                                            ${
-                                                selectedBarberId === barber.id
-                                                    ? "border-black bg-gray-50"
-                                                    : "border-gray-200 hover:border-black hover:translate-y-[-2px] hover:shadow-md"
-                                            }
-                                        `}
+                                        aria-pressed={
+                                            selectedBarberId === barber.id
+                                        }
+                                        className={`relative flex w-full items-center gap-4 rounded-2xl border bg-white p-4 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700 ${
+                                            selectedBarberId === barber.id
+                                                ? "border-amber-600 ring-2 ring-amber-100"
+                                                : "border-neutral-200 hover:border-neutral-400"
+                                        }`}
                                     >
                                         {/* Checkmark for selected */}
                                         {selectedBarberId === barber.id && (
-                                            <div className="absolute top-3 right-3 w-5 h-5 bg-black text-white rounded-full flex items-center justify-center text-[10px] font-bold">
+                                            <div className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-neutral-950 text-[10px] font-bold text-white">
                                                 ✓
                                             </div>
                                         )}
@@ -161,10 +156,10 @@ export default function BookingStep1({ barbers = [] }: BookingStep1Props) {
                                                 profileImage,
                                                 "/uploads/barbers",
                                             )}
-                                            alt={barber.full_name}
+                                            alt=""
                                             className={`
-                                                w-16 h-20 object-cover flex-shrink-0 transition-all duration-300
-                                                ${selectedBarberId === barber.id ? "grayscale-0" : "grayscale hover:grayscale-0"}
+                                                h-20 w-16 flex-shrink-0 rounded-xl object-cover transition-all duration-300
+                                                ${selectedBarberId === barber.id ? "grayscale-0" : "grayscale"}
                                             `}
                                             onError={(e) => {
                                                 (
@@ -174,11 +169,11 @@ export default function BookingStep1({ barbers = [] }: BookingStep1Props) {
                                         />
 
                                         {/* Barber Info */}
-                                        <div className="flex-1">
-                                            <div className="font-medium text-gray-900">
+                                        <div className="min-w-0 flex-1">
+                                            <div className="font-medium text-neutral-950">
                                                 {barber.full_name}
                                             </div>
-                                            <div className="text-[10px] uppercase tracking-wider text-gray-500 mt-1">
+                                            <div className="mt-1 text-xs uppercase tracking-wider text-neutral-500">
                                                 {barber.specialty ||
                                                     "Master Barber"}
                                             </div>
@@ -190,57 +185,56 @@ export default function BookingStep1({ barbers = [] }: BookingStep1Props) {
                                                         ),
                                                     )}
                                                 </div>
-                                                <span className="text-xs text-gray-600">
+                                                <span className="text-xs text-neutral-600">
                                                     {getRating(
                                                         barber.rating,
                                                     ).toFixed(1)}
                                                 </span>
                                             </div>
                                             {barber.experience_years > 0 && (
-                                                <div className="text-[10px] text-gray-400 mt-1">
+                                                <div className="mt-1 text-xs text-neutral-500">
                                                     {barber.experience_years}{" "}
                                                     years experience
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
+                                    </button>
                                 ))}
                             </div>
 
                             {/* Any Available Barber Option */}
-                            <div
+                            <button
+                                type="button"
                                 onClick={handleSelectAnyBarber}
-                                className={`
-                                    flex items-center justify-center py-4 border-2 border-dashed cursor-pointer transition-all duration-300 mb-8
-                                    ${
-                                        selectedBarberId === 0
-                                            ? "border-black bg-gray-50"
-                                            : "border-gray-300 hover:border-black"
-                                    }
-                                `}
+                                aria-pressed={selectedBarberId === 0}
+                                className={`mb-8 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed py-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700 ${
+                                    selectedBarberId === 0
+                                        ? "border-amber-600 bg-amber-50 text-neutral-950"
+                                        : "border-neutral-300 bg-white text-neutral-600 hover:border-neutral-500 hover:text-neutral-950"
+                                }`}
                             >
-                                <span className="text-lg mr-2">+</span>
-                                <span className="text-xs uppercase tracking-wider text-gray-500">
+                                <span className="text-lg leading-none">+</span>
+                                <span>
                                     Any Available Barber
                                 </span>
                                 {selectedBarberId === 0 && (
-                                    <div className="ml-3 w-5 h-5 bg-black text-white rounded-full flex items-center justify-center text-[10px] font-bold">
+                                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-neutral-950 text-[10px] font-bold text-white">
                                         ✓
-                                    </div>
+                                    </span>
                                 )}
-                            </div>
+                            </button>
                         </>
                     )}
 
                     {/* Navigation Buttons */}
                     <form
                         onSubmit={handleSubmit}
-                        className="flex justify-between"
+                        className="flex items-center justify-between border-t border-neutral-200 pt-5"
                     >
                         <button
                             type="button"
                             onClick={() => router.visit("/")}
-                            className="text-xs uppercase tracking-wider text-gray-400 hover:text-black transition"
+                            className="rounded-full px-4 py-3 text-sm text-neutral-600 transition-colors hover:bg-white hover:text-neutral-950"
                         >
                             ← Back
                         </button>
@@ -248,8 +242,8 @@ export default function BookingStep1({ barbers = [] }: BookingStep1Props) {
                             type="submit"
                             disabled={selectedBarberId === null || isSubmitting}
                             className={`
-                                px-8 py-3 bg-black text-white text-sm font-semibold uppercase tracking-wider transition
-                                ${selectedBarberId === null || isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800"}
+                                rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition-colors
+                                ${selectedBarberId === null || isSubmitting ? "cursor-not-allowed opacity-40" : "hover:bg-neutral-800"}
                             `}
                         >
                             {isSubmitting ? "Loading..." : "Next Step →"}

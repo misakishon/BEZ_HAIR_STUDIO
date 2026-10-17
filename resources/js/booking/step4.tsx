@@ -280,32 +280,35 @@ export default function BookingStep4({
             <Head title="Payment Method — BEZ Hair Studio" />
             <Header />
 
-            <main className="min-h-screen bg-white pb-20">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 pb-20">
+            <main className="min-h-screen bg-[#faf9f6] pb-12">
+                <div className="mx-auto max-w-5xl px-4 pb-12 pt-8 sm:px-6 sm:pt-12">
                     <StepIndicator currentStep={4} />
 
-                    <div className="grid md:grid-cols-2 gap-8 items-start mt-8">
+                    <div className="mt-8 grid items-start gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
                         {/* Booking Summary */}
                         <div>
-                            <h3 className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-4">
+                            <h2 className="mb-3 text-sm font-semibold text-neutral-950">
                                 Booking Summary
-                            </h3>
+                            </h2>
 
-                            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                                <div className="flex gap-4 p-5 border-b border-gray-100 items-center">
+                            <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+                                <div className="flex items-center gap-4 border-b border-neutral-100 p-5">
                                     <div>
-                                        <p className="text-[13px] text-gray-500 font-light tracking-wide">
+                                        <p className="font-semibold text-neutral-950">
+                                            {hairstyle?.name ?? "Selected service"}
+                                        </p>
+                                        <p className="text-sm text-neutral-500">
                                             {hairstyle?.duration_minutes ??
                                                 "--"}{" "}
                                             min ·{" "}
-                                            <span className="font-normal text-gray-700">
+                                            <span className="font-medium text-neutral-900">
                                                 ₱{price}
                                             </span>
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="p-5 space-y-2">
+                                <div className="space-y-2 p-5">
                                     {[
                                         { label: "Barber", value: barberName },
                                         { label: "Date", value: displayDate },
@@ -317,22 +320,22 @@ export default function BookingStep4({
                                     ].map(({ label, value }) => (
                                         <div
                                             key={label}
-                                            className="flex justify-between items-center py-2.5 border-b border-gray-50 last:border-0"
+                                            className="flex items-center justify-between gap-4 border-b border-neutral-100 py-3 last:border-0"
                                         >
-                                            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-[0.12em]">
+                                            <span className="text-xs text-neutral-500">
                                                 {label}
                                             </span>
-                                            <span className="text-[14px] font-medium text-gray-800">
+                                            <span className="text-right text-sm font-medium text-neutral-900">
                                                 {value}
                                             </span>
                                         </div>
                                     ))}
 
                                     <div className="flex justify-between items-center pt-4 mt-2 border-t-2 border-gray-200">
-                                        <span className="text-[12px] font-semibold text-gray-700 uppercase tracking-[0.12em]">
+                                        <span className="text-sm font-semibold text-neutral-900">
                                             Total
                                         </span>
-                                        <span className="text-[24px] font-bold text-amber-600 tracking-tight">
+                                        <span className="text-2xl font-semibold tracking-tight text-neutral-950">
                                             ₱{price}
                                         </span>
                                     </div>
@@ -342,13 +345,13 @@ export default function BookingStep4({
 
                         {/* Payment Options */}
                         <div>
-                            <h3 className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-4">
+                            <h2 className="mb-3 text-sm font-semibold text-neutral-950">
                                 Choose Payment
-                            </h3>
+                            </h2>
 
                             <form
                                 onSubmit={handleSubmitCash}
-                                className="space-y-4"
+                                className="space-y-4 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6"
                             >
                                 <div className="space-y-3">
                                     {paymentOptions.map((option) => {
@@ -363,10 +366,10 @@ export default function BookingStep4({
                                                     );
                                                     setGcashError(null);
                                                 }}
-                                                className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
+                                                className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all duration-200 ${
                                                     isActive
-                                                        ? "border-black bg-gray-50 shadow-sm ring-1 ring-black/5"
-                                                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                                                        ? "border-amber-600 bg-amber-50/50 ring-2 ring-amber-100"
+                                                        : "border-neutral-200 hover:border-neutral-400 hover:bg-neutral-50"
                                                 }`}
                                             >
                                                 <input
@@ -380,14 +383,14 @@ export default function BookingStep4({
                                                         );
                                                         setGcashError(null);
                                                     }}
-                                                    className="w-4 h-4 accent-black flex-shrink-0 cursor-pointer"
+                                                    className="h-4 w-4 flex-shrink-0 cursor-pointer accent-amber-600"
                                                 />
                                                 <div className="flex items-center gap-4 flex-1">
                                                     <div
                                                         className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
                                                             isActive
-                                                                ? "bg-black text-white"
-                                                                : "bg-gray-100 text-gray-600"
+                                                                ? "bg-neutral-950 text-white"
+                                                                : "bg-neutral-100 text-neutral-600"
                                                         }`}
                                                     >
                                                         <span className="material-symbols-outlined text-2xl">
@@ -398,18 +401,18 @@ export default function BookingStep4({
                                                         <p
                                                             className={`text-sm font-semibold transition-colors ${
                                                                 isActive
-                                                                    ? "text-black"
-                                                                    : "text-gray-700"
+                                                                    ? "text-neutral-950"
+                                                                    : "text-neutral-700"
                                                             }`}
                                                         >
                                                             {option.label}
                                                         </p>
-                                                        <p className="text-xs text-gray-400 mt-0.5">
+                                                        <p className="mt-0.5 text-xs text-neutral-500">
                                                             {option.description}
                                                         </p>
                                                     </div>
                                                     {isActive && (
-                                                        <span className="material-symbols-outlined text-green-600 text-xl">
+                                                        <span className="material-symbols-outlined text-emerald-700 text-xl">
                                                             check_circle
                                                         </span>
                                                     )}
@@ -428,8 +431,8 @@ export default function BookingStep4({
                                             disabled={gcashLoading}
                                             className={`w-full py-3.5 text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-center gap-2 ${
                                                 gcashLoading
-                                                    ? "bg-blue-300 text-white cursor-not-allowed"
-                                                    : "bg-blue-600 text-white hover:bg-blue-700"
+                                                    ? "cursor-not-allowed bg-neutral-400 text-white"
+                                                    : "bg-neutral-950 text-white hover:bg-neutral-800"
                                             }`}
                                         >
                                             {gcashLoading ? (
@@ -466,7 +469,7 @@ export default function BookingStep4({
                                             )}
                                         </button>
 
-                                        <p className="text-[11px] text-gray-400 text-center flex items-center justify-center gap-1">
+                                        <p className="flex items-center justify-center gap-1 text-center text-xs text-neutral-500">
                                             <span className="material-symbols-outlined text-[13px]">
                                                 lock
                                             </span>
@@ -475,14 +478,14 @@ export default function BookingStep4({
                                         </p>
 
                                         {gcashQrCode && (
-                                            <div className="rounded-xl border-2 border-blue-200 bg-gradient-to-b from-blue-50 to-white p-6 space-y-4 mt-4">
+                                            <div className="mt-4 space-y-4 rounded-2xl border border-amber-200 bg-amber-50/50 p-5 sm:p-6">
                                                 <div className="text-center space-y-1">
-                                                    <p className="text-base font-bold text-blue-900">
+                                                    <p className="text-base font-semibold text-neutral-950">
                                                         Scan to Pay
                                                     </p>
                                                     <p className="text-xs text-gray-600">
                                                         Amount:{" "}
-                                                        <span className="font-bold text-blue-600">
+                                                        <span className="font-semibold text-neutral-950">
                                                             ₱{price}
                                                         </span>
                                                     </p>
@@ -504,7 +507,7 @@ export default function BookingStep4({
                                                                 gcashQrCode,
                                                             )
                                                         }
-                                                        className="mt-3 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition"
+                                                        className="mt-3 rounded-full bg-neutral-950 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
                                                     >
                                                         Download QR
                                                     </button>
@@ -516,7 +519,7 @@ export default function BookingStep4({
                                                                 "_blank",
                                                             )
                                                         }
-                                                        className="mt-3 px-4 py-2 rounded-lg bg-gray-100 text-gray-800 text-sm font-semibold hover:bg-gray-200 transition border"
+                                                        className="mt-3 rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-50"
                                                     >
                                                         Open QR in new tab
                                                     </button>
@@ -531,7 +534,7 @@ export default function BookingStep4({
                                         )}
 
                                         {gcashError && (
-                                            <p className="text-xs text-red-500 text-center bg-red-50 border border-red-100 rounded-lg py-2 px-3">
+                                            <p role="alert" className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-center text-xs text-red-700">
                                                 {gcashError}
                                             </p>
                                         )}
@@ -546,7 +549,7 @@ export default function BookingStep4({
                                         className={`w-full py-4 text-sm font-semibold uppercase tracking-wider rounded-xl transition-all duration-200 ${
                                             isSubmitting
                                                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                                : "bg-black text-white hover:bg-gray-800 active:scale-[0.98] shadow-sm hover:shadow-md"
+                                                : "bg-neutral-950 text-white hover:bg-neutral-800 active:scale-[0.98] shadow-sm hover:shadow-md"
                                         }`}
                                     >
                                         {isSubmitting ? (
@@ -583,7 +586,7 @@ export default function BookingStep4({
                             <div className="mt-6 text-center">
                                 <Link
                                     href="/booking/step-3"
-                                    className="text-xs font-medium uppercase tracking-wider text-gray-400 hover:text-black transition-colors duration-200 inline-flex items-center gap-1"
+                                    className="inline-flex items-center gap-1 rounded-full px-4 py-3 text-sm text-neutral-600 transition-colors hover:bg-white hover:text-neutral-950"
                                 >
                                     <span className="material-symbols-outlined text-sm">
                                         arrow_back

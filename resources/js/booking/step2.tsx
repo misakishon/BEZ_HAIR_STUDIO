@@ -485,23 +485,23 @@ export default function BookingStep3({
             <Head title="Date & Time — BEZ Hair Studio" />
             <Header />
 
-            <main className="min-h-screen bg-white pb-20">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-28 pb-20">
+            <main className="min-h-screen bg-[#faf9f6] pb-12">
+                <div className="mx-auto max-w-6xl px-4 pb-12 pt-8 sm:px-6 sm:pt-12">
                     <StepIndicator currentStep={2} />
 
                     {/* Booking Summary Bar */}
                     {(hairstyle || barber || barberId === 0) && (
-                        <div className="mb-8 p-5 bg-gray-50 rounded-xl border border-gray-100">
+                        <div className="mb-8 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
                             <div className="flex flex-wrap gap-6 justify-between items-center">
                                 {hairstyle && (
                                     <div>
-                                        <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400">
+                                        <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-neutral-500">
                                             Selected Service
                                         </span>
-                                        <p className="font-semibold text-gray-900 mt-1">
+                                        <p className="mt-1 font-semibold text-neutral-950">
                                             {hairstyle.name}
                                         </p>
-                                        <p className="text-xs text-gray-500">
+                                        <p className="text-xs text-neutral-500">
                                             {hairstyle.duration_minutes} min · ₱
                                             {Number(
                                                 hairstyle.price ?? 0,
@@ -511,13 +511,13 @@ export default function BookingStep3({
                                 )}
                                 {barber ? (
                                     <div>
-                                        <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400">
+                                        <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-neutral-500">
                                             Barber
                                         </span>
-                                        <p className="font-semibold text-gray-900 mt-1">
+                                        <p className="mt-1 font-semibold text-neutral-950">
                                             {barber.full_name}
                                         </p>
-                                        <p className="text-xs text-gray-500">
+                                        <p className="text-xs text-neutral-500">
                                             {barber.specialty ||
                                                 "Master Barber"}
                                         </p>
@@ -525,10 +525,10 @@ export default function BookingStep3({
                                 ) : (
                                     barberId === 0 && (
                                         <div>
-                                            <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400">
+                                            <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-neutral-500">
                                                 Barber
                                             </span>
-                                            <p className="font-semibold text-gray-900 mt-1">
+                                            <p className="mt-1 font-semibold text-neutral-950">
                                                 Any Available Barber
                                             </p>
                                         </div>
@@ -536,7 +536,7 @@ export default function BookingStep3({
                                 )}
                                 <Link
                                     href="/booking/step-1"
-                                    className="text-xs uppercase tracking-wider text-gray-400 hover:text-black transition underline"
+                                    className="rounded-full px-3 py-2 text-sm font-medium text-neutral-600 underline-offset-4 transition-colors hover:bg-neutral-50 hover:text-neutral-950 hover:underline"
                                 >
                                     Change
                                 </Link>
@@ -548,17 +548,17 @@ export default function BookingStep3({
                     <div className="grid lg:grid-cols-2 gap-8">
                         {/* ── CALENDAR SECTION ── */}
                         <div>
-                            <h3 className="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold mb-4">
+                            <h2 className="mb-3 text-sm font-semibold text-neutral-950">
                                 Select Date
-                            </h3>
+                            </h2>
 
                             <div
                                 style={{
                                     background: "#fff",
-                                    border: "1px solid #e5e7eb",
-                                    borderRadius: "12px",
-                                    padding: "20px",
-                                    boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                                    border: "1px solid #e5e5e5",
+                                    borderRadius: "20px",
+                                    padding: "clamp(16px, 4vw, 24px)",
+                                    boxShadow: "0 8px 24px rgba(23,23,23,0.04)",
                                 }}
                             >
                                 {/* Month Navigation */}
@@ -571,13 +571,14 @@ export default function BookingStep3({
                                     }}
                                 >
                                     <button
+                                        type="button"
                                         onClick={goToPrevMonth}
                                         style={{
                                             width: "32px",
                                             height: "32px",
                                             borderRadius: "50%",
                                             border: "1px solid #e5e7eb",
-                                            background: "transparent",
+                                            background: "#fff",
                                             cursor: "pointer",
                                             fontSize: "16px",
                                             display: "flex",
@@ -598,13 +599,14 @@ export default function BookingStep3({
                                         {currentDate.getFullYear()}
                                     </span>
                                     <button
+                                        type="button"
                                         onClick={goToNextMonth}
                                         style={{
                                             width: "32px",
                                             height: "32px",
                                             borderRadius: "50%",
                                             border: "1px solid #e5e7eb",
-                                            background: "transparent",
+                                            background: "#fff",
                                             cursor: "pointer",
                                             fontSize: "16px",
                                             display: "flex",
@@ -663,37 +665,37 @@ export default function BookingStep3({
 
                         {/* ── TIME SLOTS SECTION ── */}
                         <div>
-                            <h3 className="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold mb-4">
+                            <h2 className="mb-3 text-sm font-semibold text-neutral-950">
                                 Available Times
                                 {selectedDate && (
-                                    <span className="normal-case font-normal text-gray-500 ml-1">
+                                    <span className="ml-1 font-normal text-neutral-500">
                                         · {MONTHS[selectedDate.getMonth()]}{" "}
                                         {selectedDate.getDate()},{" "}
                                         {selectedDate.getFullYear()}
                                     </span>
                                 )}
-                            </h3>
+                            </h2>
 
                             {isLoading && (
-                                <div className="flex items-center justify-center py-12 bg-gray-50 rounded-xl">
-                                    <div className="w-6 h-6 border-2 border-amber-600 border-t-transparent rounded-full animate-spin mr-3"></div>
-                                    <span className="text-sm text-gray-500">
+                                <div className="flex items-center justify-center rounded-2xl border border-neutral-200 bg-white py-12">
+                                    <div className="mr-3 h-6 w-6 animate-spin rounded-full border-2 border-amber-600 border-t-transparent"></div>
+                                    <span className="text-sm text-neutral-500">
                                         Checking availability…
                                     </span>
                                 </div>
                             )}
 
                             {!isLoading && !selectedDate && (
-                                <div className="text-center py-12 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+                                <div className="rounded-2xl border border-dashed border-neutral-300 bg-white py-12 text-center">
                                     <div className="text-5xl mb-3">📅</div>
-                                    <p className="text-sm text-gray-400">
+                                    <p className="text-sm text-neutral-500">
                                         Select a date to see available times
                                     </p>
                                 </div>
                             )}
 
                             {!isLoading && errorMessage && (
-                                <div className="text-center py-12 bg-red-50 rounded-xl border border-red-200 text-red-600">
+                                <div role="alert" className="rounded-2xl border border-red-200 bg-red-50 py-12 text-center text-red-700">
                                     <p className="text-sm">{errorMessage}</p>
                                 </div>
                             )}
@@ -702,10 +704,10 @@ export default function BookingStep3({
                                 <div
                                     style={{
                                         background: "#fff",
-                                        border: "1px solid #e5e7eb",
-                                        borderRadius: "12px",
-                                        padding: "20px",
-                                        boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                                        border: "1px solid #e5e5e5",
+                                        borderRadius: "20px",
+                                        padding: "clamp(16px, 4vw, 24px)",
+                                        boxShadow: "0 8px 24px rgba(23,23,23,0.04)",
                                     }}
                                 >
                                     {/* Morning Slots */}
@@ -796,11 +798,11 @@ export default function BookingStep3({
                     {/* Navigation Buttons */}
                     <form
                         onSubmit={handleSubmit}
-                        className="flex justify-between mt-10 pt-4 border-t border-gray-100"
+                        className="mt-8 flex items-center justify-between border-t border-neutral-200 pt-5"
                     >
                         <Link
                             href="/booking/step-1"
-                            className="px-6 py-2.5 text-xs uppercase tracking-wider text-gray-500 hover:text-black transition border border-gray-300 rounded-md hover:border-black"
+                            className="rounded-full border border-neutral-300 px-5 py-3 text-sm text-neutral-700 transition-colors hover:border-neutral-500 hover:bg-white"
                         >
                             ← Back
                         </Link>
@@ -810,13 +812,13 @@ export default function BookingStep3({
                                 !selectedDate || !selectedTime || isSubmitting
                             }
                             className={`
-                                px-8 py-2.5 bg-black text-white text-xs font-semibold uppercase tracking-wider rounded-md transition
+                                rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition-colors
                                 ${
                                     !selectedDate ||
                                     !selectedTime ||
                                     isSubmitting
-                                        ? "opacity-40 cursor-not-allowed bg-gray-400"
-                                        : "hover:bg-gray-800"
+                                        ? "cursor-not-allowed opacity-40"
+                                        : "hover:bg-neutral-800"
                                 }
                             `}
                         >

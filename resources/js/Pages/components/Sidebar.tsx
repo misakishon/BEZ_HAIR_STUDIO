@@ -1,31 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { Link, usePage } from "@inertiajs/react";
+import {
+    LayoutDashboard,
+    Users,
+    CalendarCheck,
+    Scissors,
+    Sparkles,
+    ChevronLeft,
+    ChevronRight,
+    Menu,
+    X,
+    ExternalLink,
+    ShieldCheck,
+} from "lucide-react";
 
-const navItems = [
+interface NavItem {
+    name: string;
+    href: string;
+    icon: React.ComponentType<{ className?: string }>;
+}
+
+const navItems: NavItem[] = [
     {
         name: "Dashboard",
         href: "/admin/dashboard",
-        icon: "dashboard",
+        icon: LayoutDashboard,
     },
     {
         name: "Users",
         href: "/admin/users",
-        icon: "people",
+        icon: Users,
     },
     {
         name: "Appointments",
         href: "/admin/appointments",
-        icon: "event",
+        icon: CalendarCheck,
     },
     {
         name: "Barbers",
         href: "/admin/barbers",
-        icon: "content_cut",
+        icon: Scissors,
     },
     {
         name: "Hairstyles",
         href: "/admin/hairstyles",
-        icon: "style",
+        icon: Sparkles,
     },
 ];
 
@@ -33,7 +52,7 @@ interface SidebarProps {
     children?: React.ReactNode;
 }
 
-function Sidebar({ children }: SidebarProps) {
+export default function Sidebar({ children }: SidebarProps) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { url } = usePage();
@@ -59,201 +78,205 @@ function Sidebar({ children }: SidebarProps) {
         return url === href || url.startsWith(href + "/");
     };
 
-    // Toggle sidebar collapse
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
     };
 
     return (
-        <>
-            {/* Mobile Menu Overlay */}
+        <div className="min-h-screen bg-[#f8f7f4] text-stone-900 flex flex-col lg:flex-row antialiased">
+            {/* Mobile Menu Backdrop */}
             <div
                 className={`
-                    fixed inset-0 bg-black/50 z-40 transition-all duration-300 lg:hidden
-                    ${isMobileMenuOpen ? "opacity-100 visible pointer-events-auto" : "opacity-0 invisible pointer-events-none"}
+                    fixed inset-0 bg-black/70 backdrop-blur-sm z-40 transition-opacity duration-300 lg:hidden
+                    ${
+                        isMobileMenuOpen
+                            ? "opacity-100 pointer-events-auto"
+                            : "opacity-0 pointer-events-none"
+                    }
                 `}
                 onClick={() => setIsMobileMenuOpen(false)}
             />
 
-            <div className="lg:flex lg:min-h-screen">
-                {/* Sidebar */}
-                <aside
-                    className={`
-                        fixed top-0 h-full bg-white border-r border-gray-200 z-50 
-                        transition-all duration-300 ease-in-out
-                        ${isCollapsed ? "lg:w-20 w-full max-w-xs" : "lg:w-64 w-full max-w-xs"}
-                        right-0 lg:right-auto left-auto lg:left-0
-                        ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"}
-                        ${isMobileMenuOpen ? "shadow-xl" : ""}
-                    `}
+            {/* Top Bar for Mobile */}
+            <header className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-[#0e0e10]/95 backdrop-blur-md border-b border-stone-800/80 px-4 h-16 flex items-center justify-between">
+                <Link href="/admin/dashboard" className="flex items-center gap-2">
+                    <span className="text-xl font-bold tracking-widest text-white">
+                        BEZ<span className="text-amber-500">.</span>
+                    </span>
+                    <span className="text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">
+                        Admin
+                    </span>
+                </Link>
+
+                <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="w-10 h-10 flex items-center justify-center rounded-xl bg-stone-900 border border-stone-800 text-stone-300 hover:text-white transition-colors"
+                    aria-label="Toggle navigation menu"
                 >
-                    {/* Logo Section */}
-                    <div
-                        className={`hidden lg:flex items-center ${isCollapsed ? "justify-center" : "justify-between"} h-16 px-4 border-b border-gray-200`}
+                    {isMobileMenuOpen ? (
+                        <X className="w-5 h-5 text-amber-400" />
+                    ) : (
+                        <Menu className="w-5 h-5" />
+                    )}
+                </button>
+            </header>
+
+            {/* Sidebar Desktop & Mobile Drawer */}
+            <aside
+                className={`
+                    fixed top-0 bottom-0 z-50 bg-[#0e0e10] border-r border-stone-800/80
+                    flex flex-col transition-all duration-300 ease-in-out
+                    ${
+                        isCollapsed
+                            ? "lg:w-20 w-72"
+                            : "lg:w-64 w-72"
+                    }
+                    ${
+                        isMobileMenuOpen
+                            ? "translate-x-0 shadow-2xl"
+                            : "-translate-x-full lg:translate-x-0"
+                    }
+                `}
+            >
+                {/* Brand Logo & Studio Header */}
+                <div
+                    className={`h-16 px-4 flex items-center border-b border-stone-800/80 ${
+                        isCollapsed ? "justify-center" : "justify-between"
+                    }`}
+                >
+                    <Link
+                        href="/admin/dashboard"
+                        className={`flex items-center gap-2.5 transition-opacity ${
+                            isCollapsed ? "justify-center" : ""
+                        }`}
+                        title="BEZ Hair Studio Admin"
                     >
+                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-950/40 font-bold text-stone-950 flex-shrink-0">
+                            B
+                        </div>
                         {!isCollapsed && (
                             <div className="flex flex-col">
-                                <div className="text-xl font-bold tracking-tight">
-                                    <span className="text-black">BEZ</span>
-                                    <span className="text-amber-600">.</span>
-                                    <span className="text-gray-400 text-sm font-normal ml-1">
-                                        Admin
-                                    </span>
-                                </div>
-                                <div className="text-[9px] tracking-[0.3em] text-gray-400 uppercase">
-                                    Panel
-                                </div>
+                                <span className="text-base font-bold tracking-wider text-white leading-tight">
+                                    BEZ<span className="text-amber-400">.</span>
+                                </span>
+                                <span className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-medium">
+                                    HAIR STUDIO
+                                </span>
                             </div>
                         )}
-                        {isCollapsed && (
-                            <div className="text-xl font-bold tracking-tight">
-                                <span className="text-black">BEZ</span>
-                                <span className="text-amber-600">.</span>
-                            </div>
-                        )}
+                    </Link>
 
-                        {/* Toggle Button */}
-                        <button
-                            onClick={toggleSidebar}
-                            className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-600"
-                        >
-                            <span className="material-symbols-outlined text-base">
-                                {isCollapsed ? "chevron_right" : "chevron_left"}
+                    {/* Desktop Collapse Toggle */}
+                    <button
+                        onClick={toggleSidebar}
+                        className="hidden lg:flex items-center justify-center w-7 h-7 rounded-lg bg-stone-900 border border-stone-800 text-stone-400 hover:text-amber-400 hover:border-amber-500/30 transition-all"
+                        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                    >
+                        {isCollapsed ? (
+                            <ChevronRight className="w-4 h-4" />
+                        ) : (
+                            <ChevronLeft className="w-4 h-4" />
+                        )}
+                    </button>
+                </div>
+
+                {/* Navigation Links */}
+                <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+                    <div className="px-3 pb-2">
+                        {!isCollapsed && (
+                            <span className="text-[10px] uppercase tracking-wider font-semibold text-stone-300">
+                                Menu
                             </span>
-                        </button>
+                        )}
                     </div>
 
-                    {/* Mobile Header for smaller screens */}
-                    <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-200">
-                        <div>
-                            <div className="text-sm font-semibold tracking-[0.16em] text-black uppercase">
-                                BEZ.
-                            </div>
-                            <div className="text-[9px] tracking-[0.5em] text-gray-500 uppercase mt-1">
-                                Admin Panel
-                            </div>
-                        </div>
-                        <button
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
-                            aria-label="Close menu"
-                        >
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </button>
-                    </div>
+                    {navItems.map((item) => {
+                        const active = isActive(item.href);
+                        const IconComponent = item.icon;
 
-                    {/* Navigation Links */}
-                    <nav className="flex-1 p-4 space-y-4 lg:space-y-1 overflow-y-auto h-full lg:h-auto">
-                        {navItems.map((item) => (
+                        return (
                             <Link
                                 key={item.name}
                                 href={item.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className={`
-                                    flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200
+                                    group flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                                     ${
-                                        isActive(item.href)
-                                            ? "bg-black text-white shadow-sm"
-                                            : "text-gray-600 hover:bg-gray-100 hover:text-black"
+                                        active
+                                            ? "bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-transparent text-amber-300 border-l-2 border-amber-500 shadow-sm font-semibold"
+                                            : "text-stone-400 hover:text-stone-100 hover:bg-stone-900/60"
                                     }
                                     ${isCollapsed ? "justify-center px-2" : ""}
                                 `}
-                                title={isCollapsed ? item.name : ""}
+                                title={isCollapsed ? item.name : undefined}
                             >
-                                <span className="material-symbols-outlined text-base">
-                                    {item.icon}
-                                </span>
-                                {!isCollapsed && <span>{item.name}</span>}
-                            </Link>
-                        ))}
-
-                        {/* Bottom Section - User Profile */}
-                        <div
-                            className={`absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 ${isCollapsed ? "text-center" : ""} lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:border-t-transparent`}
-                        >
-                            <div
-                                className={`flex items-center ${isCollapsed ? "justify-center" : "gap-3"}`}
-                            >
-                                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                                    <span className="material-symbols-outlined text-gray-500">
-                                        admin_panel_settings
-                                    </span>
-                                </div>
+                                <IconComponent
+                                    className={`w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${
+                                        active
+                                            ? "text-amber-400"
+                                            : "text-stone-400 group-hover:text-amber-400"
+                                    }`}
+                                />
                                 {!isCollapsed && (
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-medium text-gray-700 truncate">
-                                            Admin User
-                                        </p>
-                                        <p className="text-xs text-gray-400 truncate">
-                                            Administrator
-                                        </p>
-                                    </div>
+                                    <span className="truncate">{item.name}</span>
                                 )}
-                            </div>
-                        </div>
-                    </nav>
-                </aside>
+                            </Link>
+                        );
+                    })}
 
-                {/* Mobile Header */}
-                <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200">
-                    <div className="flex items-center justify-between px-4 py-4">
-                        <div className="text-lg font-light tracking-[0.35em] uppercase text-black leading-none">
-                            B E Z<span className="font-normal">.</span>
-                        </div>
-                        <button
-                            onClick={() =>
-                                setIsMobileMenuOpen(!isMobileMenuOpen)
-                            }
-                            className="flex items-center justify-center w-10 h-10 rounded-md hover:bg-neutral-100 transition-colors focus:outline-none"
-                            aria-label="Toggle menu"
+                    {/* Quick Link to Public Studio */}
+                    <div className="pt-4 mt-4 border-t border-stone-800/80">
+                        <a
+                            href="/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`
+                                flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-stone-400 hover:text-stone-200 hover:bg-stone-900/40 transition-colors
+                                ${isCollapsed ? "justify-center px-2" : ""}
+                            `}
+                            title={isCollapsed ? "View Public Storefront" : undefined}
                         >
-                            <span className="relative w-5 h-5">
-                                <span
-                                    className={`absolute top-1/2 left-0 w-5 h-0.5 bg-black transition-all duration-300 ease-in-out ${
-                                        isMobileMenuOpen
-                                            ? "rotate-45 translate-y-0"
-                                            : "-translate-y-1.5"
-                                    }`}
-                                />
-                                <span
-                                    className={`absolute top-1/2 left-0 w-5 h-0.5 bg-black transition-all duration-300 ease-in-out ${
-                                        isMobileMenuOpen
-                                            ? "opacity-0"
-                                            : "opacity-100"
-                                    }`}
-                                />
-                                <span
-                                    className={`absolute top-1/2 left-0 w-5 h-0.5 bg-black transition-all duration-300 ease-in-out ${
-                                        isMobileMenuOpen
-                                            ? "-rotate-45 translate-y-0"
-                                            : "translate-y-1.5"
-                                    }`}
-                                />
-                            </span>
-                        </button>
+                            <ExternalLink className="w-4 h-4 flex-shrink-0 text-stone-400" />
+                            {!isCollapsed && <span>Live Storefront</span>}
+                        </a>
+                    </div>
+                </nav>
+
+                {/* Admin Profile Footer */}
+                <div className="p-3 border-t border-stone-800/80 bg-stone-950/60">
+                    <div
+                        className={`flex items-center gap-3 p-2 rounded-xl bg-stone-900/60 border border-stone-800/80 ${
+                            isCollapsed ? "justify-center" : ""
+                        }`}
+                    >
+                        <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0 text-amber-400">
+                            <ShieldCheck className="w-5 h-5" />
+                        </div>
+                        {!isCollapsed && (
+                            <div className="flex-1 min-w-0">
+                                <div className="text-xs font-semibold text-stone-200 truncate">
+                                    Studio Manager
+                                </div>
+                                <div className="flex items-center gap-1.5 text-[10px] text-amber-400/90 font-medium">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    Super Admin
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
+            </aside>
 
-                <div
-                    className={`transition-all duration-300 ${isCollapsed ? "lg:ml-20" : "lg:ml-64"} flex-1 pt-16 lg:pt-0`}
-                >
-                    {children}
-                </div>
+            {/* Main Content Area */}
+            <div
+                className={`
+                    flex-1 flex flex-col min-w-0 transition-all duration-300
+                    pt-16 lg:pt-0
+                    ${isCollapsed ? "lg:pl-20" : "lg:pl-64"}
+                `}
+            >
+                {children}
             </div>
-        </>
+        </div>
     );
 }
-
-export default Sidebar;

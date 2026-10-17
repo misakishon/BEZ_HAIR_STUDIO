@@ -5,7 +5,6 @@ import AchievementsSection from "../section/AchievementsSection";
 import PopularSection from "../section/popularSection";
 import BarbersSection from "../section/BarbersSection";
 import ContactSection from "../section/ContactSection";
-import Booking from "./booking";
 import Footer from "../components/footer";
 import { Head } from "@inertiajs/react";
 import WhyChooseSection from "../section/WhyChooseSection";
@@ -39,25 +38,31 @@ export default function Home({ popularHairstyles, barbers = [] }: HomeProps) {
             <Head title="Premium Haircuts — BEZ Hair Studio" />
 
             <div className="relative min-h-screen bg-white text-black antialiased">
+                <a
+                    href="#main-content"
+                    className="sr-only z-[100] rounded-md bg-white px-4 py-2 text-sm font-medium text-neutral-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+                >
+                    Skip to content
+                </a>
                 <Header />
-                <main>
-                    <div id="home">
+                <main id="main-content">
+                    <div id="home" className="scroll-mt-20">
                         <HeroSection />
                         <AchievementsSection />
                     </div>
-                    <div id="haircut">
+                    <div id="haircut" className="scroll-mt-20">
                         <PopularSection hairstyles={popularHairstyles} />
                     </div>
 
-                    <div id="barbers">
+                    <div id="barbers" className="scroll-mt-20">
                         {/* Pass barbers prop to BarbersSection */}
                         <BarbersSection barbers={barbers} />
                     </div>
-                    <div id="contact">
-                        <ContactSection />
-                    </div>
-                    <div>
+                    <div id="why-bez" className="scroll-mt-20">
                         <WhyChooseSection />
+                    </div>
+                    <div id="contact" className="scroll-mt-20">
+                        <ContactSection />
                     </div>
                 </main>
                 <Footer />

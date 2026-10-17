@@ -1,6 +1,26 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Head, Link, router } from "@inertiajs/react";
 import Sidebar from "../components/Sidebar";
+import AdminToast, { ToastMessage } from "../../components/AdminToast";
+import AdminConfirmModal from "../../components/AdminConfirmModal";
+import {
+    Plus,
+    Search,
+    X,
+    CheckCircle2,
+    CalendarClock,
+    Trash2,
+    Eye,
+    Calendar,
+    ChevronLeft,
+    ChevronRight,
+    Clock,
+    Scissors,
+    User,
+    CreditCard,
+    DollarSign,
+    Sparkles,
+} from "lucide-react";
 
 interface Appointment {
     id: number;
@@ -81,6 +101,12 @@ const MONTHS = [
     "December",
 ];
 
+function formatPeso(value: number): string {
+    return `₱${Number(value ?? 0).toLocaleString("en-PH", {
+        maximumFractionDigits: 0,
+    })}`;
+}
+
 export default function Appointments({
     appointments = [],
     statusFilter = "all",
@@ -96,25 +122,35 @@ export default function Appointments({
     } | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [changeModalOpen, setChangeModalOpen] = useState(false);
-    const [changeAppointmentId, setChangeAppointmentId] = useState<
-        number | null
-    >(null);
+    const [changeAppointmentId, setChangeAppointmentId] = useState<number | null>(null);
     const [changeAppointmentDate, setChangeAppointmentDate] = useState("");
     const [changeAppointmentTime, setChangeAppointmentTime] = useState("");
-    const [changeAppointmentBarberId, setChangeAppointmentBarberId] = useState<
-        number | null
-    >(null);
-    const [changeAppointmentBarbers, setChangeAppointmentBarbers] = useState<
-        BarberOption[]
-    >([]);
-    const [changeAppointmentTimeSlots, setChangeAppointmentTimeSlots] =
-        useState<TimeSlotOption[]>([]);
-    const [changeAppointmentBookedTimes, setChangeAppointmentBookedTimes] =
-        useState<string[]>([]);
+    const [changeAppointmentBarberId, setChangeAppointmentBarberId] = useState<number | null>(null);
+    const [changeAppointmentBarbers, setChangeAppointmentBarbers] = useState<BarberOption[]>([]);
+    const [changeAppointmentTimeSlots, setChangeAppointmentTimeSlots] = useState<TimeSlotOption[]>([]);
+    const [changeAppointmentBookedTimes, setChangeAppointmentBookedTimes] = useState<string[]>([]);
     const [isLoadingAvailability, setIsLoadingAvailability] = useState(false);
-    const [changeAppointmentCalendarMonth, setChangeAppointmentCalendarMonth] =
-        useState<Date>(new Date());
-    const REFRESH_INTERVAL_MS = 5000;
+    const [changeAppointmentCalendarMonth, setChangeAppointmentCalendarMonth] = useState<Date>(new Date());
+    
+    // Toast & Confirm Modal state
+    const [toast, setToast] = useState<ToastMessage | null>(null);
+    const [confirmModalState, setConfirmModalState] = useState<{
+        isOpen: boolean;
+        title: string;
+        message: string;
+        confirmText: string;
+        isDestructive: boolean;
+        action: () => Promise<void>;
+    }>({
+        isOpen: false,
+        title: "",
+        message: "",
+        confirmText: "Confirm",
+        isDestructive: false,
+        action: async () => {},
+    });
+
+    const REFRESH_INTERVAL_MS = 10000;
 
     useEffect(() => {
         setAppointmentList(appointments);
@@ -145,22 +181,22 @@ export default function Appointments({
     }, [refreshAppointments]);
 
     const getStatusBadgeClass = (status: string) => {
-        switch (status) {
+        switch (status?.toLowerCase()) {
             case "confirmed":
-                return "bg-green-100 text-green-700";
+                return "bg-emerald-500/10 text-emerald-700 border border-emerald-500/20";
             case "pending":
-                return "bg-orange-100 text-orange-700";
+                return "bg-amber-500/10 text-amber-700 border border-amber-500/20";
             case "completed":
-                return "bg-blue-100 text-blue-700";
+                return "bg-blue-500/10 text-blue-700 border border-blue-500/20";
             case "cancelled":
-                return "bg-red-100 text-red-700";
+                return "bg-rose-500/10 text-rose-700 border border-rose-500/20";
             default:
-                return "bg-gray-100 text-gray-700";
+                return "bg-stone-100 text-stone-700 border border-stone-200";
         }
     };
 
     const getPaymentMethodLabel = (method: string) => {
-        switch (method) {
+        switch (method?.toLowerCase()) {
             case "credit_card":
                 return "Card";
             case "gcash":
@@ -285,10 +321,8 @@ export default function Appointments({
 
     const isSlotExpired = (slotDate: string, slotTime: string) => {
         if (!slotDate || !slotTime) return false;
-
         const slotDateTime = new Date(`${slotDate}T${slotTime}:00`);
         if (Number.isNaN(slotDateTime.getTime())) return false;
-
         return slotDateTime.getTime() < Date.now();
     };
 
@@ -348,56 +382,50 @@ export default function Appointments({
     }, [changeModalOpen, changeAppointmentDate, changeAppointmentBarberId]);
 
     const sortedAppointments = [...appointmentList].sort((a, b) => {
-        const dateA = new Date(a.appointment_date || 0).getTime();
-        const dateB = new Date(b.appointment_date || 0).getTime();
-
-        if (dateA !== dateB) return dateA - dateB;
-
-        return (a.appointment_time || "").localeCompare(
-            b.appointment_time || "",
-        );
+        const dateA = new Date(
+            `${a.appointment_date}T${a.appointment_time || "00:00"}`,
+        ).getTime();
+        const dateB = new Date(
+            `${b.appointment_date}T${b.appointment_time || "00:00"}`,
+        ).getTime();
+        return dateB - dateA;
     });
 
-    // Filter appointments based on search term
     const filteredAppointments = sortedAppointments.filter((apt) => {
-        if (!searchTerm.trim()) return true;
-
-        const searchLower = searchTerm.toLowerCase().trim();
-        const confirmationNumber =
-            apt.confirmation_number || generateConfirmationNumber(apt.id);
-        const serviceTicketNumber =
-            apt.service_ticket_confirmation_number || "";
+        if (!searchTerm) return true;
+        const term = searchTerm.toLowerCase().trim();
+        const clientName = (apt.client_name || "").toLowerCase();
+        const email = (apt.email || "").toLowerCase();
+        const phone = (apt.phone || "").toLowerCase();
+        const confirmationNumber = (
+            apt.confirmation_number || generateConfirmationNumber(apt.id)
+        ).toLowerCase();
+        const serviceTicketConfirmationNumber = (
+            apt.service_ticket_confirmation_number || ""
+        ).toLowerCase();
+        const barberName = (apt.barber_name || "").toLowerCase();
+        const hairstyleName = (apt.hairstyle_name || "").toLowerCase();
 
         return (
-            confirmationNumber.toLowerCase().includes(searchLower) ||
-            serviceTicketNumber.toLowerCase().includes(searchLower) ||
-            (apt.client_name &&
-                apt.client_name.toLowerCase().includes(searchLower)) ||
-            (apt.email && apt.email.toLowerCase().includes(searchLower)) ||
-            (apt.barber_name &&
-                apt.barber_name.toLowerCase().includes(searchLower)) ||
-            (apt.hairstyle_name &&
-                apt.hairstyle_name.toLowerCase().includes(searchLower)) ||
-            (apt.phone && apt.phone.includes(searchTerm.trim())) ||
-            (apt.id && apt.id.toString().includes(searchTerm.trim()))
+            confirmationNumber.includes(term) ||
+            serviceTicketConfirmationNumber.includes(term) ||
+            clientName.includes(term) ||
+            email.includes(term) ||
+            phone.includes(term) ||
+            barberName.includes(term) ||
+            hairstyleName.includes(term)
         );
     });
 
     const parseJsonResponse = async (response: Response) => {
         const text = await response.text();
-
-        if (!text || !text.trim()) {
-            return {};
-        }
-
+        if (!text) return {};
         const trimmed = text.trim();
-
         if (trimmed.startsWith("<")) {
             throw new Error(
                 "The server returned an HTML page instead of JSON. Please refresh the page and confirm your admin session is still active.",
             );
         }
-
         try {
             return JSON.parse(trimmed);
         } catch {
@@ -407,124 +435,126 @@ export default function Appointments({
         }
     };
 
-    const handleConfirmPayment = async (id: number) => {
-        if (!confirm(`Confirm booking #${id} and send service ticket?`)) return;
+    const requestConfirmPayment = (id: number) => {
+        setConfirmModalState({
+            isOpen: true,
+            title: "Confirm Booking & Service Ticket",
+            message: `Are you sure you want to confirm booking #${id}? An official service ticket and calendar receipt will be issued to the client.`,
+            confirmText: "Confirm Booking",
+            isDestructive: false,
+            action: async () => {
+                setIsUpdating(true);
+                try {
+                    const csrfToken = document
+                        .querySelector('meta[name="csrf-token"]')
+                        ?.getAttribute("content");
 
-        setIsUpdating(true);
-        try {
-            const csrfToken = document
-                .querySelector('meta[name="csrf-token"]')
-                ?.getAttribute("content");
+                    if (!csrfToken) {
+                        setToast({ type: "error", text: "CSRF token not found. Please refresh." });
+                        return;
+                    }
 
-            if (!csrfToken) {
-                alert("Error: CSRF token not found");
-                setIsUpdating(false);
-                return;
-            }
+                    const response = await fetch(
+                        "/admin/appointments/confirm-payment",
+                        {
+                            method: "POST",
+                            credentials: "same-origin",
+                            headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": csrfToken,
+                            },
+                            body: JSON.stringify({ appointment_id: id }),
+                        },
+                    );
 
-            const response = await fetch(
-                "/admin/appointments/confirm-payment",
-                {
-                    method: "POST",
-                    credentials: "same-origin",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": csrfToken,
-                    },
-                    body: JSON.stringify({ appointment_id: id }),
-                },
-            );
+                    const data = await parseJsonResponse(response);
 
-            const data = await parseJsonResponse(response);
-
-            if (response.ok && data.success) {
-                alert(
-                    data.message ||
-                        "Booking confirmed and service ticket sent!",
-                );
-                refreshAppointments();
-            } else {
-                alert(
-                    "Error: " + (data.message || "Failed to confirm booking"),
-                );
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert(
-                "Error confirming booking: " +
-                    (error instanceof Error ? error.message : "Unknown error"),
-            );
-        } finally {
-            setIsUpdating(false);
-        }
+                    if (response.ok && data.success) {
+                        setToast({
+                            type: "success",
+                            text: data.message || "Booking confirmed and service ticket sent!",
+                        });
+                        refreshAppointments();
+                    } else {
+                        setToast({
+                            type: "error",
+                            text: data.message || "Failed to confirm booking.",
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    setToast({
+                        type: "error",
+                        text: error instanceof Error ? error.message : "Error confirming booking.",
+                    });
+                } finally {
+                    setIsUpdating(false);
+                    setConfirmModalState((prev) => ({ ...prev, isOpen: false }));
+                }
+            },
+        });
     };
 
-    const handleCancelAppointment = async (id: number) => {
-        if (!confirm(`Are you sure you want to cancel appointment #${id}?`))
-            return;
+    const requestCancelAppointment = (id: number) => {
+        setConfirmModalState({
+            isOpen: true,
+            title: "Cancel Appointment",
+            message: `Are you sure you want to cancel appointment #${id}? This will release the barber time slot and update client booking records.`,
+            confirmText: "Cancel Appointment",
+            isDestructive: true,
+            action: async () => {
+                setIsUpdating(true);
+                try {
+                    const csrfToken = document
+                        .querySelector('meta[name="csrf-token"]')
+                        ?.getAttribute("content");
 
-        setIsUpdating(true);
-        try {
-            const csrfToken = document
-                .querySelector('meta[name="csrf-token"]')
-                ?.getAttribute("content");
+                    if (!csrfToken) {
+                        setToast({ type: "error", text: "CSRF token not found." });
+                        return;
+                    }
 
-            if (!csrfToken) {
-                alert("Error: CSRF token not found");
-                setIsUpdating(false);
-                return;
-            }
+                    const response = await fetch("/admin/appointments/cancel", {
+                        method: "POST",
+                        credentials: "same-origin",
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrfToken,
+                        },
+                        body: JSON.stringify({ appointment_id: id }),
+                    });
 
-            const response = await fetch("/admin/appointments/cancel", {
-                method: "POST",
-                credentials: "same-origin",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-                body: JSON.stringify({ appointment_id: id }),
-            });
+                    const data = await parseJsonResponse(response);
 
-            const data = await parseJsonResponse(response);
-
-            if (response.ok && data.success) {
-                setAppointmentList((prev) =>
-                    prev.filter((apt) => apt.id !== id),
-                );
-                alert("Appointment cancelled successfully!");
-            } else {
-                alert(
-                    "Error: " +
-                        (data.message || "Failed to cancel appointment"),
-                );
-            }
-        } catch (error) {
-            console.error("Cancel appointment error:", error);
-            alert(
-                "Error cancelling appointment: " +
-                    (error instanceof Error ? error.message : "Unknown error"),
-            );
-        } finally {
-            setIsUpdating(false);
-        }
+                    if (response.ok && data.success) {
+                        setAppointmentList((prev) =>
+                            prev.filter((apt) => apt.id !== id),
+                        );
+                        setToast({
+                            type: "success",
+                            text: "Appointment cancelled successfully.",
+                        });
+                    } else {
+                        setToast({
+                            type: "error",
+                            text: data.message || "Failed to cancel appointment.",
+                        });
+                    }
+                } catch (error) {
+                    console.error("Cancel appointment error:", error);
+                    setToast({
+                        type: "error",
+                        text: error instanceof Error ? error.message : "Error cancelling appointment.",
+                    });
+                } finally {
+                    setIsUpdating(false);
+                    setConfirmModalState((prev) => ({ ...prev, isOpen: false }));
+                }
+            },
+        });
     };
-
-    useEffect(() => {
-        if (changeModalOpen) {
-            if (changeAppointmentDate) {
-                const [year, month, day] = changeAppointmentDate
-                    .split("-")
-                    .map(Number);
-                setChangeAppointmentCalendarMonth(
-                    new Date(year, month - 1, day),
-                );
-            } else {
-                setChangeAppointmentCalendarMonth(new Date());
-            }
-        }
-    }, [changeModalOpen, changeAppointmentDate]);
 
     const openChangeAppointmentModal = async (appointment: Appointment) => {
         setChangeAppointmentId(appointment.id);
@@ -538,28 +568,29 @@ export default function Appointments({
         setChangeModalOpen(true);
 
         try {
-            const response = await fetch("/api/barbers", {
-                credentials: "same-origin",
+            const response = await fetch("/admin/appointments/barbers", {
+                headers: {
+                    Accept: "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                },
             });
-
-            if (response.ok) {
-                const data = await response.json();
-                const barbers = Array.isArray(data) ? data : [];
-                setChangeAppointmentBarbers(barbers);
-
-                const matchingBarber = barbers.find(
-                    (barber: BarberOption) =>
-                        barber.full_name === appointment.barber_name,
+            const data = await parseJsonResponse(response);
+            if (response.ok && Array.isArray(data.barbers)) {
+                setChangeAppointmentBarbers(data.barbers);
+                const currentBarber = data.barbers.find(
+                    (b: BarberOption) => b.full_name === appointment.barber_name,
                 );
-
-                if (matchingBarber) {
-                    setChangeAppointmentBarberId(matchingBarber.id);
-                } else if (barbers.length > 0) {
-                    setChangeAppointmentBarberId(barbers[0].id);
+                if (currentBarber) {
+                    setChangeAppointmentBarberId(currentBarber.id);
+                } else if (data.barbers[0]) {
+                    setChangeAppointmentBarberId(data.barbers[0].id);
                 }
+            } else {
+                setChangeAppointmentBarbers([]);
             }
         } catch (error) {
-            console.error("Unable to load barbers", error);
+            console.error("Unable to load barber options", error);
+            setChangeAppointmentBarbers([]);
         }
     };
 
@@ -581,7 +612,10 @@ export default function Appointments({
             !changeAppointmentTime ||
             !changeAppointmentBarberId
         ) {
-            alert("Please fill in the date, time, and barber before saving.");
+            setToast({
+                type: "error",
+                text: "Please select a date, time, and barber before saving.",
+            });
             return;
         }
 
@@ -592,7 +626,7 @@ export default function Appointments({
                 ?.getAttribute("content");
 
             if (!csrfToken) {
-                alert("Error: CSRF token not found");
+                setToast({ type: "error", text: "CSRF token not found." });
                 setIsUpdating(false);
                 return;
             }
@@ -620,19 +654,22 @@ export default function Appointments({
             if (response.ok && data.success) {
                 closeChangeAppointmentModal();
                 refreshAppointments();
-                alert(data.message || "Appointment updated successfully.");
+                setToast({
+                    type: "success",
+                    text: data.message || "Appointment updated successfully.",
+                });
             } else {
-                alert(
-                    "Error: " +
-                        (data.message || "Failed to update appointment"),
-                );
+                setToast({
+                    type: "error",
+                    text: data.message || "Failed to update appointment.",
+                });
             }
         } catch (error) {
             console.error("Change appointment error:", error);
-            alert(
-                "Error updating appointment: " +
-                    (error instanceof Error ? error.message : "Unknown error"),
-            );
+            setToast({
+                type: "error",
+                text: error instanceof Error ? error.message : "Error updating appointment.",
+            });
         } finally {
             setIsUpdating(false);
         }
@@ -655,29 +692,13 @@ export default function Appointments({
     };
 
     const filters = [
-        { key: "all", label: "All", status: "all", date: "all" },
-        { key: "today", label: "Today", status: "all", date: "today" },
+        { key: "all", label: "All Bookings", status: "all", date: "all" },
         { key: "upcoming", label: "Upcoming", status: "all", date: "upcoming" },
-        { key: "past", label: "Past", status: "all", date: "past" },
+        { key: "past", label: "Past History", status: "all", date: "past" },
         { key: "pending", label: "Pending", status: "pending", date: "all" },
-        {
-            key: "confirmed",
-            label: "Confirmed",
-            status: "confirmed",
-            date: "all",
-        },
-        {
-            key: "cancelled",
-            label: "Cancelled",
-            status: "cancelled",
-            date: "all",
-        },
-        {
-            key: "completed",
-            label: "Completed",
-            status: "completed",
-            date: "all",
-        },
+        { key: "confirmed", label: "Confirmed", status: "confirmed", date: "all" },
+        { key: "completed", label: "Completed", status: "completed", date: "all" },
+        { key: "cancelled", label: "Cancelled", status: "cancelled", date: "all" },
     ];
 
     const isFilterActive = (filter: (typeof filters)[0]) => {
@@ -706,303 +727,310 @@ export default function Appointments({
         }
     };
 
-    // Clear search input
-    const clearSearch = () => {
-        setSearchTerm("");
-    };
-
     return (
         <>
             <Head title="Appointments — BEZ Hair Studio" />
+
+            <AdminToast toast={toast} onClose={() => setToast(null)} />
+
+            <AdminConfirmModal
+                isOpen={confirmModalState.isOpen}
+                title={confirmModalState.title}
+                message={confirmModalState.message}
+                confirmText={confirmModalState.confirmText}
+                isDestructive={confirmModalState.isDestructive}
+                isLoading={isUpdating}
+                onConfirm={confirmModalState.action}
+                onCancel={() => setConfirmModalState((prev) => ({ ...prev, isOpen: false }))}
+            />
+
             <Sidebar>
-                <main className="min-h-screen bg-[#f0ede7]">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <main className="min-h-screen bg-[#f8f7f4]">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+                        {/* Page Header Card */}
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-900">
-                                    APPOINTMENTS
-                                </h1>
-                                <p className="text-sm text-gray-500 mt-1">
-                                    Manage all client bookings
+                                <div className="flex items-center gap-2">
+                                    <h1 className="text-2xl font-bold tracking-tight text-stone-900">
+                                        Studio Appointments
+                                    </h1>
+                                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/20">
+                                        {appointmentList.length} total
+                                    </span>
+                                </div>
+                                <p className="text-sm text-stone-500 mt-1">
+                                    Client schedule, service ticket dispatches & payment confirmations
                                 </p>
                             </div>
+
                             <Link
                                 href="/booking/step-1"
-                                className="px-6 py-2.5 bg-black text-white text-sm font-semibold uppercase tracking-wider hover:bg-gray-800 transition rounded-lg"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-100 text-xs font-semibold tracking-wide transition shadow-sm"
                             >
-                                + New Booking
+                                <Plus className="w-4 h-4 text-amber-400" />
+                                New Appointment
                             </Link>
                         </div>
 
-                        {/* Search Bar */}
-                        <div className="mb-4">
-                            <div className="relative max-w-md">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg
-                                        className="h-5 w-5 text-gray-400"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </div>
+                        {/* Search & Filter Toolbar */}
+                        <div className="bg-white p-5 rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] space-y-4">
+                            {/* Search Input */}
+                            <div className="relative max-w-xl">
+                                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                                 <input
                                     type="text"
-                                    placeholder="Search by Booking Confirmation (BZ-XXXXXX), Service Ticket (ST-XXXXXX), Name, Email, Phone..."
+                                    placeholder="Search by Confirmation (BZ-XXXXXX), Service Ticket (ST-XXXXXX), Name, Email..."
                                     value={searchTerm}
-                                    onChange={(e) =>
-                                        setSearchTerm(e.target.value)
-                                    }
-                                    className="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg bg-white text-sm text-gray-900 focus:ring-2 focus:ring-black focus:border-transparent transition"
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-full pl-10 pr-10 py-2.5 text-xs bg-stone-50 border border-stone-200 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-amber-500 transition-all placeholder:text-stone-400"
                                 />
                                 {searchTerm && (
                                     <button
-                                        onClick={clearSearch}
-                                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                        type="button"
+                                        onClick={() => setSearchTerm("")}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 p-1"
                                     >
-                                        <svg
-                                            className="h-5 w-5 text-gray-400 hover:text-gray-600"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
+                                        <X className="w-3.5 h-3.5" />
                                     </button>
                                 )}
                             </div>
-                            {searchTerm && (
-                                <p className="text-xs text-gray-500 mt-1">
-                                    Found {filteredAppointments.length} result
-                                    {filteredAppointments.length !== 1
-                                        ? "s"
-                                        : ""}
-                                </p>
-                            )}
+
+                            {/* Segmented Filter Pills */}
+                            <div className="flex flex-wrap gap-2 pt-1 border-t border-stone-100">
+                                {filters.map((filter) => {
+                                    const active = isFilterActive(filter);
+
+                                    return (
+                                        <button
+                                            key={filter.key}
+                                            type="button"
+                                            onClick={() => handleFilterClick(filter)}
+                                            className={`
+                                                px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all duration-150 flex items-center gap-1.5
+                                                ${
+                                                    active
+                                                        ? "bg-stone-900 text-amber-300 shadow-sm font-semibold border border-stone-800"
+                                                        : "bg-stone-100/80 text-stone-600 hover:bg-stone-200/70 hover:text-stone-900 border border-transparent"
+                                                }
+                                            `}
+                                        >
+                                            <span>{filter.label}</span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
 
-                        <div className="flex flex-wrap gap-2 mb-6">
-                            {filters.map((filter) => (
-                                <button
-                                    key={filter.key}
-                                    onClick={() => handleFilterClick(filter)}
-                                    className={`
-                                        px-4 py-1.5 rounded-md text-xs font-medium transition-all
-                                        ${isFilterActive(filter) ? "bg-black text-white" : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"}
-                                    `}
-                                >
-                                    {filter.label}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                            <div className="overflow-x-auto px-2 sm:px-0">
-                                <table className="min-w-[1200px] w-full text-sm divide-y divide-gray-200">
+                        {/* Appointments Table Card */}
+                        <div className="bg-white rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-[1280px] w-full text-left text-xs">
                                     <thead>
-                                        <tr className="border-b border-gray-100 bg-gray-50">
-                                            <th className="text-left py-3 px-2 sm:px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider whitespace-nowrap">
-                                                Booking Confirmation
+                                        <tr className="bg-stone-50/75 border-b border-stone-100 text-stone-400 uppercase text-[10px] tracking-wider">
+                                            <th className="py-3 px-4 font-semibold">
+                                                Booking Code
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3 px-4 font-semibold">
                                                 Service Ticket
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3 px-4 font-semibold">
                                                 Client
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Email
-                                            </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3 px-4 font-semibold">
                                                 Service
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3 px-4 font-semibold">
                                                 Barber
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Date
+                                            <th className="py-3 px-4 font-semibold">
+                                                Schedule
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Time
-                                            </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3 px-4 font-semibold">
                                                 Status
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3 px-4 font-semibold">
                                                 Payment
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Payment ID
+                                            <th className="py-3 px-4 font-semibold">
+                                                Payment Ref
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3 px-4 font-semibold">
+                                                Receipt
+                                            </th>
+                                            <th className="py-3 px-4 font-semibold text-right">
                                                 Actions
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody className="divide-y divide-stone-100 text-stone-700">
                                         {filteredAppointments.length > 0 ? (
                                             filteredAppointments.map((apt) => {
                                                 const confirmationNumber =
                                                     apt.confirmation_number ||
-                                                    generateConfirmationNumber(
-                                                        apt.id,
-                                                    );
+                                                    generateConfirmationNumber(apt.id);
+                                                const clientInitials = (apt.client_name || "C")
+                                                    .split(" ")
+                                                    .map((n) => n[0])
+                                                    .join("")
+                                                    .slice(0, 2)
+                                                    .toUpperCase();
+
                                                 return (
                                                     <tr
                                                         key={apt.id}
-                                                        className="border-b border-gray-50 hover:bg-gray-50 transition"
+                                                        className="hover:bg-amber-50/20 transition-colors group"
                                                     >
-                                                        <td className="py-3 px-2 sm:px-4">
-                                                            <span className="font-mono text-xs font-bold text-gray-700 bg-gray-100 px-2 py-1 rounded">
-                                                                {
-                                                                    confirmationNumber
-                                                                }
+                                                        {/* Booking Confirmation Code */}
+                                                        <td className="py-3.5 px-4 font-mono font-bold text-stone-900">
+                                                            <span className="px-2 py-0.5 rounded-md bg-stone-100 text-stone-800 border border-stone-200">
+                                                                {confirmationNumber}
                                                             </span>
                                                         </td>
-                                                        <td className="py-3 px-2 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
-                                                            {apt.service_ticket_confirmation_number ||
-                                                                "Not sent yet"}
-                                                        </td>
-                                                        <td className="py-3 px-2 sm:px-4 text-gray-700 font-medium whitespace-nowrap">
-                                                            {apt.client_name ||
-                                                                "N/A"}
-                                                        </td>
-                                                        <td className="py-3 px-2 sm:px-4 text-gray-500 text-xs whitespace-nowrap">
-                                                            {apt.email || "N/A"}
-                                                        </td>
-                                                        <td className="py-3 px-2 sm:px-4 text-gray-700 whitespace-nowrap">
-                                                            {apt.hairstyle_name ||
-                                                                "N/A"}
-                                                        </td>
-                                                        <td className="py-4 px-4 text-gray-500">
-                                                            {apt.barber_name ||
-                                                                "N/A"}
-                                                        </td>
-                                                        <td className="py-4 px-4 text-gray-500">
-                                                            {formatAppointmentDate(
-                                                                apt.appointment_date,
+
+                                                        {/* Service Ticket Confirmation */}
+                                                        <td className="py-3.5 px-4 font-mono text-stone-700">
+                                                            {apt.service_ticket_confirmation_number ? (
+                                                                <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-semibold border border-amber-500/20">
+                                                                    {apt.service_ticket_confirmation_number}
+                                                                </span>
+                                                            ) : (
+                                                                <span className="text-stone-300 italic text-[11px]">
+                                                                    Unissued
+                                                                </span>
                                                             )}
                                                         </td>
-                                                        <td className="py-4 px-4 text-gray-500">
-                                                            {formatAppointmentTime(
-                                                                apt.appointment_time,
-                                                            )}
+
+                                                        {/* Client Info */}
+                                                        <td className="py-3.5 px-4">
+                                                            <div className="flex items-center gap-2.5">
+                                                                <div className="w-7 h-7 rounded-full bg-stone-100 text-stone-700 flex items-center justify-center font-bold text-[10px] border border-stone-200 flex-shrink-0">
+                                                                    {clientInitials}
+                                                                </div>
+                                                                <div className="min-w-0">
+                                                                    <div className="font-semibold text-stone-900 truncate">
+                                                                        {apt.client_name || "Client"}
+                                                                    </div>
+                                                                    <div className="text-[11px] text-stone-400 truncate">
+                                                                        {apt.email || "No email"}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </td>
-                                                        <td className="py-4 px-4">
+
+                                                        {/* Hairstyle / Service */}
+                                                        <td className="py-3.5 px-4 font-medium text-stone-800">
+                                                            {apt.hairstyle_name || "Standard Cut"}
+                                                        </td>
+
+                                                        {/* Barber */}
+                                                        <td className="py-3.5 px-4 text-stone-600">
+                                                            {apt.barber_name || "Any Barber"}
+                                                        </td>
+
+                                                        {/* Date & Time */}
+                                                        <td className="py-3.5 px-4">
+                                                            <div className="font-medium text-stone-900">
+                                                                {formatAppointmentDate(apt.appointment_date)}
+                                                            </div>
+                                                            <div className="text-[11px] text-stone-400">
+                                                                {formatAppointmentTime(apt.appointment_time)}
+                                                            </div>
+                                                        </td>
+
+                                                        {/* Status Badge */}
+                                                        <td className="py-3.5 px-4">
                                                             <span
-                                                                className={`px-2 py-1 rounded-full text-[10px] font-medium uppercase ${getStatusBadgeClass(apt.status)}`}
+                                                                className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide ${getStatusBadgeClass(
+                                                                    apt.status,
+                                                                )}`}
                                                             >
                                                                 {apt.status}
                                                             </span>
                                                         </td>
-                                                        <td className="py-3 px-2 sm:px-4 text-sm text-gray-600">
-                                                            <div>
-                                                                {getPaymentMethodLabel(
-                                                                    apt.payment_method ||
-                                                                        "cash",
-                                                                )}
+
+                                                        {/* Payment Method & Status */}
+                                                        <td className="py-3.5 px-4">
+                                                            <div className="font-medium text-stone-800">
+                                                                {getPaymentMethodLabel(apt.payment_method)}
                                                             </div>
-                                                            {apt.payment_status && (
-                                                                <div className="text-xs text-gray-400 capitalize">
-                                                                    {
-                                                                        apt.payment_status
-                                                                    }
-                                                                </div>
-                                                            )}
+                                                            <div className="text-[11px] text-stone-400 capitalize">
+                                                                {apt.payment_status || "Unpaid"}
+                                                            </div>
                                                         </td>
-                                                        <td className="py-3 px-2 sm:px-4 text-sm text-gray-600 break-words max-w-[150px]">
+
+                                                        {/* Payment ID */}
+                                                        <td className="py-3.5 px-4">
                                                             {apt.payment_source_id ? (
-                                                                <span className="font-mono text-xs text-gray-700 break-all">
-                                                                    {
-                                                                        apt.payment_source_id
-                                                                    }
+                                                                <span className="font-mono text-[11px] text-stone-600 break-all max-w-[130px] inline-block">
+                                                                    {apt.payment_source_id}
                                                                 </span>
                                                             ) : (
-                                                                <span className="text-gray-400 text-xs">
-                                                                    N/A
+                                                                <span className="text-stone-300">
+                                                                    —
                                                                 </span>
                                                             )}
                                                         </td>
-                                                        <td className="py-4 px-4">
+
+                                                        {/* Receipt Preview */}
+                                                        <td className="py-3.5 px-4">
                                                             {apt.receipt_image ? (
                                                                 <button
+                                                                    type="button"
                                                                     onClick={() =>
                                                                         openReceiptModal(
                                                                             apt.receipt_image,
                                                                             apt.payment_source_id,
                                                                         )
                                                                     }
-                                                                    className="text-blue-600 hover:text-blue-800 transition text-xs underline"
+                                                                    className="inline-flex items-center gap-1 text-amber-600 hover:text-amber-700 font-semibold transition"
                                                                 >
-                                                                    View Receipt
+                                                                    <Eye className="w-3.5 h-3.5" />
+                                                                    View
                                                                 </button>
                                                             ) : (
-                                                                <span className="text-gray-400 text-xs">
-                                                                    No receipt
+                                                                <span className="text-stone-300 text-[11px]">
+                                                                    None
                                                                 </span>
                                                             )}
                                                         </td>
-                                                        <td className="py-4 px-4">
-                                                            <div className="flex items-center gap-2">
-                                                                {apt.status ===
-                                                                    "pending" && (
+
+                                                        {/* Action Buttons */}
+                                                        <td className="py-3.5 px-4 text-right">
+                                                            <div className="inline-flex items-center gap-1.5">
+                                                                {apt.status === "pending" && (
                                                                     <button
+                                                                        type="button"
                                                                         onClick={() =>
-                                                                            handleConfirmPayment(
-                                                                                apt.id,
-                                                                            )
+                                                                            requestConfirmPayment(apt.id)
                                                                         }
-                                                                        disabled={
-                                                                            isUpdating
-                                                                        }
-                                                                        className="text-gray-400 hover:text-green-600 transition disabled:opacity-50"
-                                                                        title="Confirm Booking & Send Service Ticket"
+                                                                        disabled={isUpdating}
+                                                                        className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition"
+                                                                        title="Confirm Booking & Issue Service Ticket"
                                                                     >
-                                                                        <span className="material-symbols-outlined text-lg">
-                                                                            check_circle
-                                                                        </span>
+                                                                        <CheckCircle2 className="w-4 h-4" />
                                                                     </button>
                                                                 )}
-                                                                {apt.status ===
-                                                                    "confirmed" && (
-                                                                    <span className="text-green-600 text-xs font-medium">
-                                                                        ✓ Sent
-                                                                    </span>
-                                                                )}
+
                                                                 <button
+                                                                    type="button"
                                                                     onClick={() =>
-                                                                        openChangeAppointmentModal(
-                                                                            apt,
-                                                                        )
+                                                                        openChangeAppointmentModal(apt)
                                                                     }
-                                                                    className="text-gray-400 hover:text-blue-600 transition"
-                                                                    title="Change Appointment"
+                                                                    className="p-1.5 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition"
+                                                                    title="Reschedule / Change Details"
                                                                 >
-                                                                    <span className="material-symbols-outlined text-lg">
-                                                                        event_repeat
-                                                                    </span>
+                                                                    <CalendarClock className="w-4 h-4" />
                                                                 </button>
+
                                                                 <button
+                                                                    type="button"
                                                                     onClick={() =>
-                                                                        handleCancelAppointment(
-                                                                            apt.id,
-                                                                        )
+                                                                        requestCancelAppointment(apt.id)
                                                                     }
-                                                                    className="text-gray-400 hover:text-red-600 transition"
-                                                                    title="Cancel"
+                                                                    className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition"
+                                                                    title="Cancel Appointment"
                                                                 >
-                                                                    <span className="material-symbols-outlined text-lg">
-                                                                        cancel
-                                                                    </span>
+                                                                    <Trash2 className="w-4 h-4" />
                                                                 </button>
                                                             </div>
                                                         </td>
@@ -1012,24 +1040,20 @@ export default function Appointments({
                                         ) : (
                                             <tr>
                                                 <td
-                                                    colSpan={12}
-                                                    className="py-8 text-center text-gray-500 px-4"
+                                                    colSpan={11}
+                                                    className="py-12 text-center text-stone-400 text-xs"
                                                 >
                                                     {searchTerm ? (
                                                         <div>
-                                                            <p className="text-lg">
-                                                                No results found
-                                                                for "
-                                                                {searchTerm}"
+                                                            <p className="text-stone-600 font-medium">
+                                                                No matching appointments found for "{searchTerm}"
                                                             </p>
-                                                            <p className="text-sm text-gray-400 mt-1">
-                                                                Try adjusting
-                                                                your search
-                                                                terms
+                                                            <p className="text-stone-400 mt-1">
+                                                                Try searching with a different name, email, or confirmation code.
                                                             </p>
                                                         </div>
                                                     ) : (
-                                                        "No appointments found."
+                                                        "No appointments in this category."
                                                     )}
                                                 </td>
                                             </tr>
@@ -1038,27 +1062,14 @@ export default function Appointments({
                                 </table>
                             </div>
 
-                            <div className="flex justify-between items-center px-4 py-3 border-t border-gray-100">
-                                <div className="text-xs text-gray-500">
+                            {/* Table Footer */}
+                            <div className="p-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-400">
+                                <div>
                                     Showing {filteredAppointments.length} of{" "}
-                                    {appointmentList.length} appointments
-                                    {searchTerm &&
-                                        ` (filtered by "${searchTerm}")`}
+                                    {appointmentList.length} total bookings
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <button className="w-8 h-8 flex items-center justify-center border border-gray-200 rounded text-xs text-gray-500 hover:border-black hover:text-black transition">
-                                        <span className="material-symbols-outlined text-base">
-                                            chevron_left
-                                        </span>
-                                    </button>
-                                    <button className="w-8 h-8 flex items-center justify-center border border-black rounded text-xs text-white bg-black">
-                                        1
-                                    </button>
-                                    <button className="w-8 h-8 flex items-center justify-center border border-gray-200 rounded text-xs text-gray-500 hover:border-black hover:text-black transition">
-                                        <span className="material-symbols-outlined text-base">
-                                            chevron_right
-                                        </span>
-                                    </button>
+                                <div className="text-[11px] text-stone-400 font-medium">
+                                    Auto-refreshed live
                                 </div>
                             </div>
                         </div>
@@ -1068,292 +1079,230 @@ export default function Appointments({
 
             {/* Change Appointment Modal */}
             {changeModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75">
-                    <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl relative">
-                        <button
-                            onClick={closeChangeAppointmentModal}
-                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
-                        >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                    <div
+                        className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 relative"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+                            <div>
+                                <h3 className="text-base font-bold text-stone-900">
+                                    Reschedule Appointment
+                                </h3>
+                                <p className="text-xs text-stone-400 mt-0.5">
+                                    Select new date, time, and assigned barber
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={closeChangeAppointmentModal}
+                                className="text-stone-400 hover:text-stone-600 p-1 rounded-lg hover:bg-stone-100"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </button>
-                        <div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-4">
-                                Change Appointment
-                            </h3>
-                            <p className="text-sm text-gray-500 mb-6">
-                                Pick a new date, time, and barber for this
-                                booking.
-                            </p>
+                                <X className="w-4 h-4" />
+                            </button>
+                        </div>
 
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Date
-                                    </label>
-                                    <div className="rounded-lg border border-gray-300 p-3">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    setChangeAppointmentCalendarMonth(
-                                                        new Date(
-                                                            changeAppointmentCalendarMonth.getFullYear(),
-                                                            changeAppointmentCalendarMonth.getMonth() -
-                                                                1,
-                                                            1,
-                                                        ),
-                                                    )
-                                                }
-                                                className="text-gray-500 hover:text-black"
-                                            >
-                                                ←
-                                            </button>
-                                            <span className="text-sm font-semibold text-gray-700">
-                                                {
-                                                    MONTHS[
-                                                        changeAppointmentCalendarMonth.getMonth()
-                                                    ]
-                                                }{" "}
-                                                {changeAppointmentCalendarMonth.getFullYear()}
-                                            </span>
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    setChangeAppointmentCalendarMonth(
-                                                        new Date(
-                                                            changeAppointmentCalendarMonth.getFullYear(),
-                                                            changeAppointmentCalendarMonth.getMonth() +
-                                                                1,
-                                                            1,
-                                                        ),
-                                                    )
-                                                }
-                                                className="text-gray-500 hover:text-black"
-                                            >
-                                                →
-                                            </button>
-                                        </div>
+                        <div className="space-y-4 my-4">
+                            {/* Calendar Month Selector */}
+                            <div>
+                                <label className="block text-xs font-semibold text-stone-700 mb-1.5">
+                                    Appointment Date
+                                </label>
+                                <div className="rounded-xl border border-stone-200 p-3 bg-stone-50/50">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setChangeAppointmentCalendarMonth(
+                                                    new Date(
+                                                        changeAppointmentCalendarMonth.getFullYear(),
+                                                        changeAppointmentCalendarMonth.getMonth() - 1,
+                                                        1,
+                                                    ),
+                                                )
+                                            }
+                                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-stone-100 text-stone-600"
+                                        >
+                                            <ChevronLeft className="w-4 h-4" />
+                                        </button>
+                                        <span className="text-xs font-bold text-stone-800">
+                                            {MONTHS[changeAppointmentCalendarMonth.getMonth()]}{" "}
+                                            {changeAppointmentCalendarMonth.getFullYear()}
+                                        </span>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setChangeAppointmentCalendarMonth(
+                                                    new Date(
+                                                        changeAppointmentCalendarMonth.getFullYear(),
+                                                        changeAppointmentCalendarMonth.getMonth() + 1,
+                                                        1,
+                                                    ),
+                                                )
+                                            }
+                                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-stone-100 text-stone-600"
+                                        >
+                                            <ChevronRight className="w-4 h-4" />
+                                        </button>
+                                    </div>
 
-                                        <div className="grid grid-cols-7 gap-1 mb-2">
-                                            {WEEKDAYS.map((day) => (
-                                                <div
-                                                    key={day}
-                                                    className="text-center text-[10px] font-medium text-gray-400"
-                                                >
-                                                    {day}
-                                                </div>
-                                            ))}
-                                        </div>
+                                    <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold text-stone-400 mb-1">
+                                        {WEEKDAYS.map((d) => (
+                                            <span key={d}>{d}</span>
+                                        ))}
+                                    </div>
 
-                                        <div className="grid grid-cols-7 gap-1">
-                                            {getCalendarDays(
-                                                changeAppointmentCalendarMonth,
-                                            ).map((day, index) => {
-                                                const isDisabled =
-                                                    day.isPast ||
-                                                    !day.isCurrentMonth;
-                                                const isSelected =
-                                                    day.isSelected;
+                                    <div className="grid grid-cols-7 gap-1">
+                                        {getCalendarDays(changeAppointmentCalendarMonth).map(
+                                            (day, idx) => {
+                                                const disabled = day.isPast || !day.isCurrentMonth;
+                                                const selected = day.isSelected;
 
                                                 return (
                                                     <button
-                                                        key={`${day.date.toDateString()}-${index}`}
+                                                        key={idx}
                                                         type="button"
-                                                        disabled={isDisabled}
+                                                        disabled={disabled}
                                                         onClick={() => {
                                                             setChangeAppointmentDate(
-                                                                toLocalDateString(
-                                                                    day.date,
-                                                                ),
+                                                                toLocalDateString(day.date),
                                                             );
-                                                            setChangeAppointmentTime(
-                                                                "",
-                                                            );
+                                                            setChangeAppointmentTime("");
                                                         }}
-                                                        className={`h-8 rounded-md text-sm transition ${
-                                                            isSelected
-                                                                ? "bg-black text-white"
-                                                                : day.isToday
-                                                                  ? "bg-amber-100 text-amber-700"
-                                                                  : day.isCurrentMonth
-                                                                    ? "text-gray-700 hover:bg-gray-100"
-                                                                    : "text-gray-300"
-                                                        }`}
+                                                        className={`
+                                                            h-7 rounded-lg text-xs font-medium transition flex items-center justify-center
+                                                            ${
+                                                                selected
+                                                                    ? "bg-amber-500 text-stone-950 font-bold shadow-sm"
+                                                                    : day.isToday
+                                                                    ? "border border-amber-500 text-amber-600 font-semibold"
+                                                                    : day.isCurrentMonth
+                                                                    ? "text-stone-700 hover:bg-stone-100"
+                                                                    : "text-stone-300 cursor-not-allowed"
+                                                            }
+                                                        `}
                                                     >
                                                         {day.date.getDate()}
                                                     </button>
                                                 );
-                                            })}
-                                        </div>
+                                            },
+                                        )}
                                     </div>
-                                    <p className="mt-2 text-sm text-gray-500">
-                                        Selected:{" "}
+                                </div>
+                                <div className="text-[11px] text-stone-500 mt-1.5">
+                                    Selected:{" "}
+                                    <span className="font-semibold text-stone-800">
                                         {formatDateLabel(changeAppointmentDate)}
-                                    </p>
+                                    </span>
                                 </div>
+                            </div>
 
-                                <div>
-                                    <div className="flex items-center justify-between mb-2">
-                                        <label className="block text-sm font-medium text-gray-700">
-                                            Available Time
-                                        </label>
-                                        {isLoadingAvailability && (
-                                            <span className="text-xs text-gray-500">
-                                                Loading times...
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    {!changeAppointmentDate ||
-                                    !changeAppointmentBarberId ? (
-                                        <p className="text-sm text-gray-500">
-                                            Select a date and barber to view the
-                                            available time slots.
-                                        </p>
-                                    ) : (
-                                        <div className="grid grid-cols-3 gap-2 max-h-72 overflow-y-auto pr-1">
-                                            {ALL_TIME_SLOTS.map((slot) => {
-                                                const slotData =
-                                                    changeAppointmentTimeSlots.find(
-                                                        (item) =>
-                                                            item.slot_time.substring(
-                                                                0,
-                                                                5,
-                                                            ) === slot,
-                                                    );
-                                                const isExpired = slotData
-                                                    ? isSlotExpired(
-                                                          slotData.slot_date ||
-                                                              changeAppointmentDate,
-                                                          slotData.slot_time,
-                                                      )
-                                                    : isSlotExpired(
-                                                          changeAppointmentDate,
-                                                          slot,
-                                                      );
-                                                const isBooked =
-                                                    changeAppointmentBookedTimes.includes(
-                                                        slot,
-                                                    );
-                                                const isBlocked = !!(
-                                                    slotData &&
-                                                    (!slotData.is_available ||
-                                                        isExpired)
-                                                );
-                                                const isAvailable =
-                                                    !isBooked && !isBlocked;
-                                                const isSelected =
-                                                    changeAppointmentTime ===
-                                                    slot;
-
-                                                return (
-                                                    <button
-                                                        key={slot}
-                                                        type="button"
-                                                        onClick={() =>
-                                                            setChangeAppointmentTime(
-                                                                slot,
-                                                            )
-                                                        }
-                                                        disabled={
-                                                            isBooked ||
-                                                            isExpired ||
-                                                            isLoadingAvailability
-                                                        }
-                                                        className={`rounded-lg border px-2 py-2 text-xs font-medium transition ${
-                                                            isSelected
-                                                                ? "border-black bg-black text-white"
-                                                                : isAvailable
-                                                                  ? "border-green-200 bg-green-50 text-green-700 hover:bg-green-100"
-                                                                  : "border-red-200 bg-red-50 text-red-700"
-                                                        }`}
-                                                        title={
-                                                            isBooked
-                                                                ? "Booked"
-                                                                : isBlocked
-                                                                  ? "Blocked"
-                                                                  : "Available"
-                                                        }
-                                                    >
-                                                        {formatTimeLabel(slot)}
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-                                    )}
-
-                                    <div className="mt-3 flex items-center gap-3 text-[11px] text-gray-500">
-                                        <span className="flex items-center gap-1">
-                                            <span className="h-2.5 w-2.5 rounded-full bg-green-50 border border-green-200"></span>
-                                            Available
-                                        </span>
-                                        <span className="flex items-center gap-1">
-                                            <span className="h-2.5 w-2.5 rounded-full bg-red-50 border border-red-200"></span>
-                                            Booked / Blocked
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Barber
+                            {/* Available Time Slots */}
+                            <div>
+                                <div className="flex items-center justify-between mb-1.5">
+                                    <label className="block text-xs font-semibold text-stone-700">
+                                        Time Slot
                                     </label>
-                                    <select
-                                        value={changeAppointmentBarberId ?? ""}
-                                        onChange={(e) =>
-                                            setChangeAppointmentBarberId(
-                                                Number(e.target.value),
-                                            )
-                                        }
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                                    >
-                                        {changeAppointmentBarbers.length > 0 ? (
-                                            changeAppointmentBarbers.map(
-                                                (barber) => (
-                                                    <option
-                                                        key={barber.id}
-                                                        value={barber.id}
-                                                    >
-                                                        {barber.full_name}
-                                                    </option>
-                                                ),
-                                            )
-                                        ) : (
-                                            <option value="">
-                                                No barbers available
-                                            </option>
-                                        )}
-                                    </select>
+                                    {isLoadingAvailability && (
+                                        <span className="text-[10px] text-amber-600 animate-pulse font-medium">
+                                            Loading slots...
+                                        </span>
+                                    )}
                                 </div>
+
+                                {!changeAppointmentDate || !changeAppointmentBarberId ? (
+                                    <p className="text-xs text-stone-400 italic">
+                                        Select a date and barber to preview open slots.
+                                    </p>
+                                ) : (
+                                    <div className="grid grid-cols-3 gap-1.5 max-h-48 overflow-y-auto pr-1">
+                                        {ALL_TIME_SLOTS.map((slot) => {
+                                            const slotData = changeAppointmentTimeSlots.find(
+                                                (item) =>
+                                                    item.slot_time.substring(0, 5) === slot,
+                                            );
+                                            const isExpired = slotData
+                                                ? isSlotExpired(
+                                                      slotData.slot_date || changeAppointmentDate,
+                                                      slotData.slot_time,
+                                                    )
+                                                : isSlotExpired(changeAppointmentDate, slot);
+                                            const isBooked = changeAppointmentBookedTimes.includes(slot);
+                                            const isBlocked = !!(
+                                                slotData &&
+                                                (!slotData.is_available || isExpired)
+                                            );
+                                            const isAvailable = !isBooked && !isBlocked;
+                                            const isSelected = changeAppointmentTime === slot;
+
+                                            return (
+                                                <button
+                                                    key={slot}
+                                                    type="button"
+                                                    onClick={() => setChangeAppointmentTime(slot)}
+                                                    disabled={isBooked || isExpired || isLoadingAvailability}
+                                                    className={`
+                                                        py-1.5 px-2 rounded-lg text-xs font-medium transition flex items-center justify-between
+                                                        ${
+                                                            isSelected
+                                                                ? "bg-stone-900 text-amber-400 font-bold shadow-sm"
+                                                                : isAvailable
+                                                                ? "bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
+                                                                : "bg-stone-100 text-stone-400 line-through cursor-not-allowed"
+                                                        }
+                                                    `}
+                                                >
+                                                    <span>{formatTimeLabel(slot)}</span>
+                                                    <span className="text-[10px]">
+                                                        {isAvailable ? "✓" : "✕"}
+                                                    </span>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </div>
 
-                            <div className="flex justify-end gap-3 mt-6">
-                                <button
-                                    onClick={closeChangeAppointmentModal}
-                                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition"
+                            {/* Barber Selector */}
+                            <div>
+                                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                                    Assigned Barber
+                                </label>
+                                <select
+                                    value={changeAppointmentBarberId ?? ""}
+                                    onChange={(e) => setChangeAppointmentBarberId(Number(e.target.value))}
+                                    className="w-full text-xs py-2 px-3 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-amber-500 text-stone-800"
                                 >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleChangeAppointmentSubmit}
-                                    disabled={isUpdating}
-                                    className="px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-800 transition disabled:opacity-50"
-                                >
-                                    {isUpdating ? "Saving..." : "Save Changes"}
-                                </button>
+                                    {changeAppointmentBarbers.length > 0 ? (
+                                        changeAppointmentBarbers.map((barber) => (
+                                            <option key={barber.id} value={barber.id}>
+                                                {barber.full_name} {barber.specialty ? `(${barber.specialty})` : ""}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        <option value="">No barbers available</option>
+                                    )}
+                                </select>
                             </div>
+                        </div>
+
+                        {/* Modal Actions */}
+                        <div className="flex justify-end gap-3 pt-3 border-t border-stone-100">
+                            <button
+                                type="button"
+                                onClick={closeChangeAppointmentModal}
+                                className="px-4 py-2 rounded-xl text-xs font-semibold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleChangeAppointmentSubmit}
+                                disabled={isUpdating}
+                                className="px-5 py-2 rounded-xl text-xs font-semibold bg-stone-900 text-stone-100 hover:bg-stone-800 transition disabled:opacity-50"
+                            >
+                                {isUpdating ? "Saving Changes..." : "Save Changes"}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1361,65 +1310,56 @@ export default function Appointments({
 
             {/* Receipt Modal */}
             {selectedReceipt && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75">
-                    <div className="bg-white rounded-xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-                        <button
-                            onClick={closeReceiptModal}
-                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
-                        >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+                    <div
+                        className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-stone-200 relative max-h-[90vh] overflow-y-auto"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+                            <div>
+                                <h3 className="text-base font-bold text-stone-900">
+                                    Customer Payment Receipt
+                                </h3>
+                                {selectedReceipt.paymentSourceId && (
+                                    <p className="text-xs text-stone-500 font-mono mt-0.5">
+                                        PayMongo ID: {selectedReceipt.paymentSourceId}
+                                    </p>
+                                )}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={closeReceiptModal}
+                                className="text-stone-400 hover:text-stone-600 p-1 rounded-lg hover:bg-stone-100"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </button>
-                        <div className="text-center">
-                            <h3 className="text-xl font-bold text-gray-900 mb-4">
-                                Payment Receipt
-                            </h3>
-                            {selectedReceipt.paymentSourceId && (
-                                <div className="mb-4 text-left text-sm text-gray-600">
-                                    <span className="font-semibold">
-                                        PayMongo Payment ID:
-                                    </span>{" "}
-                                    {selectedReceipt.paymentSourceId}
-                                </div>
-                            )}
+                                <X className="w-4 h-4" />
+                            </button>
+                        </div>
+
+                        <div className="my-4 flex justify-center">
                             <img
                                 src={selectedReceipt.image}
                                 alt="Payment Receipt"
-                                className="w-full max-h-[70vh] object-contain border rounded-lg"
+                                className="w-full max-h-[60vh] object-contain rounded-xl border border-stone-200 shadow-sm"
                                 onError={(e) => {
                                     const img = e.currentTarget;
                                     img.style.display = "none";
                                     const parent = img.parentElement;
                                     if (parent) {
-                                        const fallbackDiv =
-                                            document.createElement("div");
-                                        fallbackDiv.className =
-                                            "p-8 bg-gray-100 rounded-lg";
-                                        fallbackDiv.innerHTML = `
-                                            <div class="text-center">
-                                                <span class="text-4xl text-gray-400 block">📷</span>
-                                                <p class="text-sm text-gray-500 mt-2">Receipt image not found</p>
-                                                <p class="text-xs text-gray-400 mt-1">Please check the file path</p>
+                                        parent.innerHTML = `
+                                            <div class="p-8 text-center bg-stone-50 rounded-xl border border-dashed border-stone-200">
+                                                <p class="text-xs text-stone-500 font-medium">Receipt image file not found or inaccessible.</p>
                                             </div>
                                         `;
-                                        parent.appendChild(fallbackDiv);
                                     }
                                 }}
                             />
+                        </div>
+
+                        <div className="flex justify-end pt-2 border-t border-stone-100">
                             <button
+                                type="button"
                                 onClick={closeReceiptModal}
-                                className="mt-4 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition"
+                                className="px-4 py-2 bg-stone-900 text-stone-100 text-xs font-semibold rounded-xl hover:bg-stone-800 transition"
                             >
                                 Close
                             </button>

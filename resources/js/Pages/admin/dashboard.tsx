@@ -2,6 +2,25 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Head, Link } from "@inertiajs/react";
 import Sidebar from "../components/Sidebar";
 import RevenueTrendCard, { MonthlyData } from "../components/RevenueTrendCard";
+import AdminToast, { ToastMessage } from "../../components/AdminToast";
+import {
+    CalendarCheck2,
+    Banknote,
+    Users,
+    Scissors,
+    TrendingUp,
+    TrendingDown,
+    Plus,
+    X,
+    ChevronLeft,
+    ChevronRight,
+    Clock,
+    Lock,
+    Check,
+    Calendar,
+    ArrowUpRight,
+    Sparkles,
+} from "lucide-react";
 
 interface DashboardProps {
     totalBookings?: number;
@@ -137,11 +156,9 @@ export default function Dashboard({
     const [showAddSlot, setShowAddSlot] = useState(false);
     const [newSlotTime, setNewSlotTime] = useState("09:00");
     const [isSaving, setIsSaving] = useState(false);
-    const [message, setMessage] = useState<{
-        type: "success" | "error";
-        text: string;
-    } | null>(null);
-    // Memoized derived data
+    const [toast, setToast] = useState<ToastMessage | null>(null);
+
+    // Derived chart monthly data
     const chartMonthlyData: MonthlyData[] = useMemo(() => {
         return MONTH_NAMES_SHORT.map((month, idx) => {
             const mKey = idx + 1;
@@ -171,7 +188,29 @@ export default function Dashboard({
         [topBarbers],
     );
 
-    // Memoized calendar render
+    const toLocalDateString = useCallback((date: Date): string => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }, []);
+
+    const to12Hour = useCallback((time: string): string => {
+        const [hours, minutes] = time.split(":");
+        const hour = parseInt(hours, 10);
+        const ampm = hour >= 12 ? "PM" : "AM";
+        const hour12 = hour % 12 || 12;
+        return `${hour12}:${minutes} ${ampm}`;
+    }, []);
+
+    const isSlotExpired = useCallback((slotDate: string, slotTime: string) => {
+        if (!slotDate || !slotTime) return false;
+        const slotDateTime = new Date(`${slotDate}T${slotTime}:00`);
+        if (Number.isNaN(slotDateTime.getTime())) return false;
+        return slotDateTime.getTime() < Date.now();
+    }, []);
+
+    // Calendar grid calculation
     const calendarDays = useMemo(() => {
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
@@ -182,14 +221,14 @@ export default function Dashboard({
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const daysInPrevMonth = new Date(year, month, 0).getDate();
 
-        const days: JSX.Element[] = [];
+        const days: React.ReactNode[] = [];
 
         for (let i = firstDay - 1; i >= 0; i--) {
             const day = daysInPrevMonth - i;
             days.push(
                 <div
                     key={`prev-${day}`}
-                    className="h-9 flex items-center justify-center text-sm text-gray-300"
+                    className="h-8 flex items-center justify-center text-xs text-stone-300"
                 >
                     {day}
                 </div>,
@@ -205,16 +244,28 @@ export default function Dashboard({
                 date.toDateString() === selectedDate.toDateString();
 
             days.push(
-                <div key={day} className="h-9 flex items-center justify-center">
+                <div key={day} className="h-8 flex items-center justify-center">
                     <button
+                        type="button"
                         onClick={() => !isPast && setSelectedDate(date)}
                         disabled={isPast}
                         className={`
-                            w-8 h-8 rounded-full text-sm font-medium transition-all duration-150
-                            ${isPast ? "text-gray-300 cursor-not-allowed" : ""}
-                            ${isSelected ? "bg-amber-600 text-white shadow-lg scale-105" : ""}
-                            ${isToday && !isSelected ? "border-2 border-amber-600 text-amber-600" : ""}
-                            ${!isPast && !isSelected ? "hover:bg-gray-100 text-gray-700" : ""}
+                            w-7 h-7 rounded-lg text-xs font-medium transition-all duration-150 flex items-center justify-center
+                            ${
+                                isPast
+                                    ? "text-stone-300 cursor-not-allowed"
+                                    : "hover:bg-amber-50 text-stone-700"
+                            }
+                            ${
+                                isSelected
+                                    ? "!bg-amber-500 !text-stone-950 font-bold shadow-md shadow-amber-500/20 scale-105"
+                                    : ""
+                            }
+                            ${
+                                isToday && !isSelected
+                                    ? "border border-amber-500/50 text-amber-600 font-semibold"
+                                    : ""
+                            }
                         `}
                     >
                         {day}
@@ -229,7 +280,7 @@ export default function Dashboard({
             days.push(
                 <div
                     key={`next-${day}`}
-                    className="h-9 flex items-center justify-center text-sm text-gray-300"
+                    className="h-8 flex items-center justify-center text-xs text-stone-300"
                 >
                     {day}
                 </div>,
@@ -270,7 +321,7 @@ export default function Dashboard({
         } finally {
             setIsLoading(false);
         }
-    }, [selectedDate, selectedBarber]);
+    }, [selectedDate, selectedBarber, toLocalDateString]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -279,35 +330,11 @@ export default function Dashboard({
         return () => clearTimeout(timer);
     }, [selectedDate, selectedBarber, loadTimeSlots]);
 
-    const toLocalDateString = useCallback((date: Date): string => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-    }, []);
-
-    const to12Hour = useCallback((time: string): string => {
-        const [hours, minutes] = time.split(":");
-        const hour = parseInt(hours);
-        const ampm = hour >= 12 ? "PM" : "AM";
-        const hour12 = hour % 12 || 12;
-        return `${hour12}:${minutes} ${ampm}`;
-    }, []);
-
-    const isSlotExpired = useCallback((slotDate: string, slotTime: string) => {
-        if (!slotDate || !slotTime) return false;
-
-        const slotDateTime = new Date(`${slotDate}T${slotTime}:00`);
-        if (Number.isNaN(slotDateTime.getTime())) return false;
-
-        return slotDateTime.getTime() < Date.now();
-    }, []);
-
     const handleToggleSlot = useCallback(
         async (slotId: number, currentStatus: boolean) => {
             const slot = timeSlots.find((item) => item.id === slotId);
             if (slot && isSlotExpired(slot.slot_date, slot.slot_time)) {
-                setMessage({
+                setToast({
                     type: "error",
                     text: "This time slot has already expired and is locked.",
                 });
@@ -331,21 +358,20 @@ export default function Dashboard({
                 );
                 const data = await response.json();
                 if (data.success) {
-                    setMessage({
+                    setToast({
                         type: "success",
-                        text: "Time slot updated successfully!",
+                        text: "Time slot status updated.",
                     });
                     loadTimeSlots();
-                    setTimeout(() => setMessage(null), 3000);
                 } else {
-                    setMessage({
+                    setToast({
                         type: "error",
                         text: data.message || "Failed to update time slot.",
                     });
                 }
             } catch (error) {
                 console.error("Error toggling slot:", error);
-                setMessage({
+                setToast({
                     type: "error",
                     text: "Failed to update time slot.",
                 });
@@ -377,22 +403,21 @@ export default function Dashboard({
                 });
                 const data = await response.json();
                 if (data.success) {
-                    setMessage({
+                    setToast({
                         type: "success",
                         text: "Time slot added successfully!",
                     });
                     setShowAddSlot(false);
                     loadTimeSlots();
-                    setTimeout(() => setMessage(null), 3000);
                 } else {
-                    setMessage({
+                    setToast({
                         type: "error",
                         text: data.message || "Failed to add time slot.",
                     });
                 }
             } catch (error) {
                 console.error("Error adding slot:", error);
-                setMessage({ type: "error", text: "Failed to add time slot." });
+                setToast({ type: "error", text: "Failed to add time slot." });
             } finally {
                 setIsSaving(false);
             }
@@ -410,7 +435,7 @@ export default function Dashboard({
         async (slotTime: string) => {
             if (!selectedDate) return;
             if (isSlotExpired(toLocalDateString(selectedDate), slotTime)) {
-                setMessage({
+                setToast({
                     type: "error",
                     text: "This time slot has already expired and is locked.",
                 });
@@ -436,17 +461,17 @@ export default function Dashboard({
                 });
                 const data = await response.json();
                 if (data.success) {
-                    setMessage({ type: "success", text: "Time slot added." });
+                    setToast({ type: "success", text: "Time slot blocked." });
                     loadTimeSlots();
                 } else {
-                    setMessage({
+                    setToast({
                         type: "error",
-                        text: data.message || "Failed to add slot.",
+                        text: data.message || "Failed to block slot.",
                     });
                 }
             } catch (e) {
                 console.error(e);
-                setMessage({ type: "error", text: "Failed to add slot." });
+                setToast({ type: "error", text: "Failed to block slot." });
             } finally {
                 setIsSaving(false);
             }
@@ -461,51 +486,59 @@ export default function Dashboard({
     );
 
     const getStatusBadgeClass = useCallback((status: string) => {
-        switch (status) {
+        switch (status?.toLowerCase()) {
             case "confirmed":
-                return "bg-green-100 text-green-700";
+                return "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20";
             case "pending":
-                return "bg-orange-100 text-orange-700";
+                return "bg-amber-500/10 text-amber-600 border border-amber-500/20";
             case "completed":
-                return "bg-blue-100 text-blue-700";
+                return "bg-blue-500/10 text-blue-600 border border-blue-500/20";
             case "cancelled":
-                return "bg-red-100 text-red-700";
+                return "bg-rose-500/10 text-rose-600 border border-rose-500/20";
             default:
-                return "bg-gray-100 text-gray-700";
+                return "bg-stone-100 text-stone-600 border border-stone-200";
         }
     }, []);
 
     const kpiCards = useMemo(
         () => [
             {
-                label: "Revenue",
-                value: `₱${Number(totalRevenue ?? 0).toFixed(2)}`,
-                change: revenueChange,
-            },
-            {
                 label: "Total Bookings",
-                value: totalBookings.toLocaleString(),
+                value: Number(totalBookings ?? 0).toLocaleString(),
                 change: bookingsChange,
+                icon: CalendarCheck2,
+                color: "amber",
             },
             {
-                label: "Customers",
-                value: totalCustomers.toLocaleString(),
+                label: "Total Revenue",
+                value: formatPeso(totalRevenue),
+                change: revenueChange,
+                icon: Banknote,
+                color: "emerald",
+            },
+            {
+                label: "Active Clients",
+                value: Number(totalCustomers ?? 0).toLocaleString(),
                 change: customersChange,
+                icon: Users,
+                color: "blue",
             },
             {
-                label: "Avg. Per Visit",
-                value: `₱${Number(avgPerVisit ?? 0).toFixed(2)}`,
+                label: "Studio Barbers",
+                value: Number(totalBarbers ?? 0).toLocaleString(),
                 change: avgChange,
+                icon: Scissors,
+                color: "purple",
             },
         ],
         [
-            totalRevenue,
             totalBookings,
-            totalCustomers,
-            avgPerVisit,
-            revenueChange,
             bookingsChange,
+            totalRevenue,
+            revenueChange,
+            totalCustomers,
             customersChange,
+            totalBarbers,
             avgChange,
         ],
     );
@@ -514,9 +547,10 @@ export default function Dashboard({
         return ALL_TIME_SLOTS.filter(
             (slot) =>
                 !bookedTimes.has(slot) &&
-                !timeSlots.some(
+                !timeSlots.find(
                     (s) =>
-                        s.slot_time.substring(0, 5) === slot && !s.is_available,
+                        s.slot_time.substring(0, 5) === slot &&
+                        !s.is_available,
                 ),
         ).length;
     }, [bookedTimes, timeSlots]);
@@ -529,65 +563,113 @@ export default function Dashboard({
     return (
         <>
             <Head title="Admin Dashboard — BEZ Hair Studio" />
+
+            <AdminToast toast={toast} onClose={() => setToast(null)} />
+
             <Sidebar>
-                <main className="min-h-screen bg-[#f0ede7]">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                        {/* Top Bar */}
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
+                <main className="min-h-screen bg-[#f8f7f4]">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+                        {/* Top Bar Header */}
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-900">
-                                    Analytics Overview
-                                </h1>
-                                <p className="text-sm text-gray-500 mt-0.5">
-                                    Studio performance ·{" "}
-                                    {new Date().toLocaleString("default", {
-                                        month: "long",
-                                        year: "numeric",
-                                    })}
+                                <div className="flex items-center gap-2">
+                                    <h1 className="text-2xl font-bold tracking-tight text-stone-900">
+                                        Studio Overview
+                                    </h1>
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 text-xs font-semibold">
+                                        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                                        Live System
+                                    </span>
+                                </div>
+                                <p className="text-sm text-stone-500 mt-1">
+                                    Performance analytics & operational control for{" "}
+                                    <span className="font-medium text-stone-800">
+                                        {new Date().toLocaleString("default", {
+                                            month: "long",
+                                            year: "numeric",
+                                        })}
+                                    </span>
                                 </p>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-green-50 text-green-600 text-xs font-semibold">
-                                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                                    Live
-                                </span>
-                                {["7D", "30D", "90D"].map((period) => (
-                                    <button
-                                        key={period}
-                                        className="px-3 py-1.5 rounded-md text-xs font-medium transition bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
-                                    >
-                                        {period}
-                                    </button>
-                                ))}
+
+                            <div className="flex items-center gap-3">
+                                <Link
+                                    href="/booking/step-1"
+                                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-100 text-xs font-semibold tracking-wide transition shadow-sm"
+                                >
+                                    <Plus className="w-4 h-4 text-amber-400" />
+                                    New Booking
+                                </Link>
+
+                                <div className="flex items-center p-1 rounded-xl bg-stone-100 border border-stone-200">
+                                    {["7D", "30D", "90D"].map((period, idx) => (
+                                        <button
+                                            key={period}
+                                            type="button"
+                                            className={`px-3 py-1 rounded-lg text-xs font-medium transition ${
+                                                idx === 1
+                                                    ? "bg-white text-stone-900 shadow-sm font-semibold"
+                                                    : "text-stone-500 hover:text-stone-800"
+                                            }`}
+                                        >
+                                            {period}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
-                        {/* KPI Cards */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-                            {kpiCards.map((card, idx) => (
-                                <div
-                                    key={idx}
-                                    className="bg-white rounded-lg p-4 shadow-sm"
-                                >
-                                    <div className="text-[10px] uppercase tracking-wider text-gray-400">
-                                        {card.label}
-                                    </div>
-                                    <div className="text-2xl font-bold text-gray-900 mt-1">
-                                        {card.value}
-                                    </div>
+                        {/* KPI Metric Cards */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {kpiCards.map((card, idx) => {
+                                const IconComponent = card.icon;
+                                const isPositive = card.change >= 0;
+
+                                return (
                                     <div
-                                        className={`text-xs font-medium mt-1.5 ${card.change >= 0 ? "text-green-600" : "text-red-600"}`}
+                                        key={idx}
+                                        className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.05)] hover:border-amber-500/30 transition-all duration-200 group"
                                     >
-                                        {card.change >= 0 ? "↑" : "↓"}{" "}
-                                        {Math.abs(card.change)}% vs last month
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+                                                {card.label}
+                                            </span>
+                                            <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center transition-transform group-hover:scale-110">
+                                                <IconComponent className="w-4 h-4" />
+                                            </div>
+                                        </div>
+
+                                        <div className="text-2xl font-bold text-stone-900 mt-3 tracking-tight">
+                                            {card.value}
+                                        </div>
+
+                                        <div className="flex items-center gap-1.5 mt-2 text-xs font-medium">
+                                            <span
+                                                className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md ${
+                                                    isPositive
+                                                        ? "bg-emerald-50 text-emerald-700"
+                                                        : "bg-rose-50 text-rose-700"
+                                                }`}
+                                            >
+                                                {isPositive ? (
+                                                    <TrendingUp className="w-3 h-3" />
+                                                ) : (
+                                                    <TrendingDown className="w-3 h-3" />
+                                                )}
+                                                {Math.abs(card.change)}%
+                                            </span>
+                                            <span className="text-stone-400">
+                                                vs last month
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
 
                         {/* Charts Row */}
-                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
-                            {/* Revenue Trend — Custom RevenueTrendCard */}
+                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                            {/* Revenue Trend Card */}
                             <div className="lg:col-span-3 flex flex-col h-full">
                                 <RevenueTrendCard
                                     data={chartMonthlyData}
@@ -595,106 +677,104 @@ export default function Dashboard({
                                 />
                             </div>
 
-                            {/* Admin Calendar */}
-                            <div className="lg:col-span-2 bg-white rounded-lg p-4 shadow-sm">
-                                <div className="flex justify-between items-center mb-3">
-                                    <div className="text-[10px] uppercase tracking-wider text-gray-400">
-                                        Manage Time Slots
-                                    </div>
-                                    <button
-                                        onClick={() =>
-                                            setShowAddSlot(!showAddSlot)
-                                        }
-                                        className="text-xs text-amber-600 hover:text-amber-700 transition font-medium"
-                                    >
-                                        {showAddSlot ? "Cancel" : "+ Add Slot"}
-                                    </button>
-                                </div>
-
-                                <div className="mb-2">
-                                    <div className="flex justify-between items-center mb-1.5">
+                            {/* Admin Time Slot Calendar */}
+                            <div className="lg:col-span-2 bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+                                <div>
+                                    <div className="flex justify-between items-center pb-3 border-b border-stone-100">
+                                        <div>
+                                            <h2 className="text-sm font-semibold text-stone-900 flex items-center gap-1.5">
+                                                <Calendar className="w-4 h-4 text-amber-500" />
+                                                Time Slot Management
+                                            </h2>
+                                            <p className="text-[11px] text-stone-400">
+                                                Configure barber availability
+                                            </p>
+                                        </div>
                                         <button
+                                            type="button"
+                                            onClick={() => setShowAddSlot(!showAddSlot)}
+                                            className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-700 hover:bg-amber-500/20 text-xs font-semibold transition flex items-center gap-1"
+                                        >
+                                            {showAddSlot ? (
+                                                <X className="w-3 h-3" />
+                                            ) : (
+                                                <Plus className="w-3 h-3" />
+                                            )}
+                                            {showAddSlot ? "Close" : "Add Slot"}
+                                        </button>
+                                    </div>
+
+                                    {/* Month Navigation */}
+                                    <div className="flex justify-between items-center my-3 px-1">
+                                        <button
+                                            type="button"
                                             onClick={() =>
                                                 setCurrentDate(
                                                     new Date(
                                                         currentDate.getFullYear(),
-                                                        currentDate.getMonth() -
-                                                            1,
+                                                        currentDate.getMonth() - 1,
                                                         1,
                                                     ),
                                                 )
                                             }
-                                            className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-gray-100 transition text-sm"
+                                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-stone-100 text-stone-600 transition"
                                         >
-                                            ←
+                                            <ChevronLeft className="w-4 h-4" />
                                         </button>
-                                        <span className="font-semibold text-xs">
+                                        <span className="font-semibold text-xs text-stone-800">
                                             {MONTHS[currentDate.getMonth()]}{" "}
                                             {currentDate.getFullYear()}
                                         </span>
                                         <button
+                                            type="button"
                                             onClick={() =>
                                                 setCurrentDate(
                                                     new Date(
                                                         currentDate.getFullYear(),
-                                                        currentDate.getMonth() +
-                                                            1,
+                                                        currentDate.getMonth() + 1,
                                                         1,
                                                     ),
                                                 )
                                             }
-                                            className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-gray-100 transition text-sm"
+                                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-stone-100 text-stone-600 transition"
                                         >
-                                            →
+                                            <ChevronRight className="w-4 h-4" />
                                         </button>
                                     </div>
-                                    <div className="grid grid-cols-7 gap-0.5 mb-1">
-                                        {WEEKDAYS.map((day) => (
-                                            <div
-                                                key={day}
-                                                className="text-center text-[9px] font-medium text-gray-400 py-0.5"
-                                            >
-                                                {day}
-                                            </div>
+
+                                    {/* Weekday Labels */}
+                                    <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold text-stone-400 mb-1">
+                                        {WEEKDAYS.map((d) => (
+                                            <span key={d}>{d}</span>
                                         ))}
                                     </div>
-                                    <div className="grid grid-cols-7 gap-0.5">
+
+                                    {/* Days Grid */}
+                                    <div className="grid grid-cols-7 gap-1">
                                         {calendarDays}
                                     </div>
                                 </div>
 
+                                {/* Selected Date Details & Slots */}
                                 {selectedDate && (
-                                    <div className="mt-1.5 pt-2 border-t border-gray-100">
-                                        <div className="flex justify-between items-center mb-1.5">
-                                            <span className="text-xs font-medium text-gray-700">
-                                                {
-                                                    MONTHS[
-                                                        selectedDate.getMonth()
-                                                    ]
-                                                }{" "}
-                                                {selectedDate.getDate()},{" "}
-                                                {selectedDate.getFullYear()}
-                                            </span>
-                                            <span className="text-[10px] text-gray-400">
-                                                {availableSlotsCount} slots
-                                                available
+                                    <div className="mt-4 pt-3 border-t border-stone-100">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <div className="text-xs font-semibold text-stone-800 flex items-center gap-1.5">
+                                                <Clock className="w-3.5 h-3.5 text-stone-400" />
+                                                {MONTHS[selectedDate.getMonth()]}{" "}
+                                                {selectedDate.getDate()}
+                                            </div>
+                                            <span className="text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                                                {availableSlotsCount} slots available
                                             </span>
                                         </div>
-
-                                        {message && (
-                                            <div
-                                                className={`mb-2 p-1.5 rounded text-xs ${message.type === "success" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"}`}
-                                            >
-                                                {message.text}
-                                            </div>
-                                        )}
 
                                         {showAddSlot && (
                                             <form
                                                 onSubmit={handleAddSlot}
-                                                className="mb-2 p-2 bg-gray-50 rounded-lg"
+                                                className="mb-3 p-2.5 bg-stone-50 border border-stone-200 rounded-xl"
                                             >
-                                                <div className="flex gap-1.5">
+                                                <div className="flex items-center gap-2">
                                                     <select
                                                         value={newSlotTime}
                                                         onChange={(e) =>
@@ -702,7 +782,7 @@ export default function Dashboard({
                                                                 e.target.value,
                                                             )
                                                         }
-                                                        className="flex-1 px-2 py-1 text-xs border border-gray-300 rounded-lg focus:outline-none focus:border-amber-500"
+                                                        className="flex-1 px-2.5 py-1.5 text-xs bg-white border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500"
                                                     >
                                                         {ALL_TIME_SLOTS.map(
                                                             (slot) => (
@@ -720,310 +800,305 @@ export default function Dashboard({
                                                     <button
                                                         type="submit"
                                                         disabled={isSaving}
-                                                        className="px-3 py-1 bg-black text-white text-xs font-medium rounded-lg hover:bg-gray-800 transition disabled:opacity-50"
+                                                        className="px-3 py-1.5 bg-stone-900 text-stone-100 text-xs font-semibold rounded-lg hover:bg-stone-800 transition disabled:opacity-50"
                                                     >
-                                                        {isSaving
-                                                            ? "Adding..."
-                                                            : "Add"}
+                                                        {isSaving ? "Saving..." : "Add"}
                                                     </button>
                                                 </div>
                                             </form>
                                         )}
 
                                         {isLoading ? (
-                                            <div className="flex justify-center py-2">
-                                                <div className="w-4 h-4 border-2 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
+                                            <div className="flex justify-center py-4">
+                                                <div className="w-5 h-5 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
                                             </div>
                                         ) : (
-                                            <div className="max-h-32 overflow-y-auto pr-0.5 scrollbar-thin">
-                                                <div className="grid grid-cols-3 gap-1">
-                                                    {ALL_TIME_SLOTS.map(
-                                                        (slot) => {
-                                                            const slotDateStr =
-                                                                selectedDate
-                                                                    ? toLocalDateString(
-                                                                          selectedDate,
-                                                                      )
-                                                                    : "";
-                                                            const slotData =
-                                                                timeSlots.find(
-                                                                    (s) =>
-                                                                        s.slot_time.substring(
-                                                                            0,
-                                                                            5,
-                                                                        ) ===
-                                                                        slot,
-                                                                );
-                                                            const isExpired =
-                                                                slotData
-                                                                    ? isSlotExpired(
-                                                                          slotData.slot_date,
-                                                                          slotData.slot_time,
-                                                                      )
-                                                                    : isSlotExpired(
-                                                                          slotDateStr,
-                                                                          slot,
-                                                                      );
-                                                            const isBooked =
-                                                                bookedTimes.has(
-                                                                    slot,
-                                                                );
-                                                            const isBlocked =
-                                                                !!(
-                                                                    slotData &&
-                                                                    (!slotData.is_available ||
-                                                                        isExpired)
-                                                                );
-                                                            const isAvailable =
-                                                                !isBooked &&
-                                                                !isBlocked;
+                                            <div className="max-h-36 overflow-y-auto pr-1 space-y-1">
+                                                <div className="grid grid-cols-3 gap-1.5">
+                                                    {ALL_TIME_SLOTS.map((slot) => {
+                                                        const slotDateStr =
+                                                            selectedDate
+                                                                ? toLocalDateString(
+                                                                      selectedDate,
+                                                                  )
+                                                                : "";
+                                                        const slotData =
+                                                            timeSlots.find(
+                                                                (s) =>
+                                                                    s.slot_time.substring(
+                                                                        0,
+                                                                        5,
+                                                                    ) === slot,
+                                                            );
+                                                        const isExpired =
+                                                            slotData
+                                                                ? isSlotExpired(
+                                                                      slotData.slot_date,
+                                                                      slotData.slot_time,
+                                                                  )
+                                                                : isSlotExpired(
+                                                                      slotDateStr,
+                                                                      slot,
+                                                                  );
+                                                        const isBooked =
+                                                            bookedTimes.has(
+                                                                slot,
+                                                            );
+                                                        const isBlocked =
+                                                            !!(
+                                                                slotData &&
+                                                                (!slotData.is_available ||
+                                                                    isExpired)
+                                                            );
+                                                        const isAvailable =
+                                                            !isBooked &&
+                                                            !isBlocked;
 
-                                                            return (
-                                                                <button
-                                                                    key={slot}
-                                                                    onClick={() => {
-                                                                        if (
-                                                                            isBooked ||
-                                                                            isExpired
-                                                                        )
-                                                                            return;
-                                                                        if (
-                                                                            slotData
-                                                                        ) {
-                                                                            handleToggleSlot(
-                                                                                slotData.id,
-                                                                                slotData.is_available,
-                                                                            );
-                                                                        } else {
-                                                                            createBlockedSlot(
-                                                                                slot,
-                                                                            );
-                                                                        }
-                                                                    }}
-                                                                    disabled={
+                                                        return (
+                                                            <button
+                                                                key={slot}
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    if (
                                                                         isBooked ||
                                                                         isExpired
+                                                                    )
+                                                                        return;
+                                                                    if (slotData) {
+                                                                        handleToggleSlot(
+                                                                            slotData.id,
+                                                                            slotData.is_available,
+                                                                        );
+                                                                    } else {
+                                                                        createBlockedSlot(
+                                                                            slot,
+                                                                        );
                                                                     }
-                                                                    className={`
-                                                                    py-1 px-1.5 text-[9px] font-medium rounded transition-all duration-150
-                                                                    ${!slotData && isAvailable ? "bg-green-50 text-green-700 hover:bg-green-100 border border-green-200" : ""}
-                                                                    ${slotData && slotData.is_available && !isExpired ? "bg-green-50 text-green-700 hover:bg-green-100 border border-green-200" : ""}
-                                                                    ${isBlocked || isBooked ? "bg-red-50 text-red-700 hover:bg-red-100 border border-red-200" : ""}
-                                                                    ${isExpired ? "bg-red-100 text-red-700 border border-red-300 cursor-not-allowed" : ""}
-                                                                `}
-                                                                    title={
+                                                                }}
+                                                                disabled={
+                                                                    isBooked ||
+                                                                    isExpired
+                                                                }
+                                                                className={`
+                                                                    py-1 px-1.5 rounded-lg text-[10px] font-medium transition-all duration-150 flex items-center justify-between
+                                                                    ${
+                                                                        isAvailable
+                                                                            ? "bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 hover:border-emerald-300"
+                                                                            : ""
+                                                                    }
+                                                                    ${
                                                                         isBooked
-                                                                            ? "Booked by customer"
-                                                                            : isExpired
-                                                                              ? "Expired slot - locked automatically"
-                                                                              : slotData
-                                                                                ? slotData.is_available
-                                                                                    ? "Available - Click to block"
-                                                                                    : "Blocked - Click to make available"
-                                                                                : "Available (not configured) - Click to block"
+                                                                            ? "bg-amber-50 text-amber-900 border border-amber-200 cursor-not-allowed font-semibold"
+                                                                            : ""
                                                                     }
-                                                                >
-                                                                    {to12Hour(
-                                                                        slot,
+                                                                    ${
+                                                                        isBlocked && !isExpired
+                                                                            ? "bg-stone-100 text-stone-400 line-through border border-stone-200"
+                                                                            : ""
+                                                                    }
+                                                                    ${
+                                                                        isExpired
+                                                                            ? "bg-stone-100 text-stone-300 border border-stone-200 cursor-not-allowed"
+                                                                            : ""
+                                                                    }
+                                                                `}
+                                                                title={
+                                                                    isBooked
+                                                                        ? "Booked appointment"
+                                                                        : isExpired
+                                                                        ? "Locked (Time has passed)"
+                                                                        : isAvailable
+                                                                        ? "Available - click to block"
+                                                                        : "Blocked - click to enable"
+                                                                }
+                                                            >
+                                                                <span>{to12Hour(slot)}</span>
+                                                                <span className="text-[9px]">
+                                                                    {isExpired ? (
+                                                                        <Lock className="w-2.5 h-2.5 opacity-60" />
+                                                                    ) : isBooked ? (
+                                                                        "•"
+                                                                    ) : isAvailable ? (
+                                                                        <Check className="w-2.5 h-2.5 text-emerald-600" />
+                                                                    ) : (
+                                                                        "✕"
                                                                     )}
-                                                                    <span className="block text-[7px] opacity-60">
-                                                                        {isExpired
-                                                                            ? "LOCK"
-                                                                            : isAvailable
-                                                                              ? "✓"
-                                                                              : "✗"}
-                                                                    </span>
-                                                                </button>
-                                                            );
-                                                        },
-                                                    )}
+                                                                </span>
+                                                            </button>
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                         )}
 
-                                        <div className="flex items-center justify-center gap-3 mt-1.5 pt-1.5 border-t border-gray-100">
-                                            <div className="flex items-center gap-1">
-                                                <div className="w-2.5 h-2.5 rounded bg-green-50 border border-green-200"></div>
-                                                <span className="text-[8px] text-gray-500">
-                                                    Available
-                                                </span>
+                                        <div className="flex items-center justify-center gap-4 mt-3 pt-2 border-t border-stone-100 text-[10px] text-stone-400">
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                                                <span>Available</span>
                                             </div>
-                                            <div className="flex items-center gap-1">
-                                                <div className="w-2.5 h-2.5 rounded bg-red-50 border border-red-200"></div>
-                                                <span className="text-[8px] text-gray-500">
-                                                    Booked
-                                                </span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="w-2 h-2 rounded-full bg-amber-500" />
+                                                <span>Booked</span>
                                             </div>
-                                            <div className="flex items-center gap-1">
-                                                <div className="w-2.5 h-2.5 rounded bg-gray-100"></div>
-                                                <span className="text-[8px] text-gray-500">
-                                                    Not Set
-                                                </span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="w-2 h-2 rounded-full bg-stone-300" />
+                                                <span>Blocked</span>
                                             </div>
                                         </div>
-                                    </div>
-                                )}
-
-                                {!selectedDate && (
-                                    <div className="text-center py-4 text-gray-400 text-xs">
-                                        Select a date to manage time slots
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        {/* Bottom Row */}
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-                            <div className="bg-white rounded-lg p-4 shadow-sm">
-                                <div className="text-[10px] uppercase tracking-wider text-gray-400 mb-3">
-                                    Bookings by Day
+                        {/* Mid Row: Bookings by Day, Top Barbers, Live Activity */}
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            {/* Bookings by Day Chart */}
+                            <div className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+                                        Bookings by Day
+                                    </h3>
+                                    <span className="text-[11px] text-amber-600 font-medium">
+                                        Peak: Sat/Sun
+                                    </span>
                                 </div>
-                                <div className="h-36">
-                                    <div className="flex h-full items-end gap-2">
-                                        {[
-                                            "Mon",
-                                            "Tue",
-                                            "Wed",
-                                            "Thu",
-                                            "Fri",
-                                            "Sat",
-                                            "Sun",
-                                        ].map((day, idx) => (
+                                <div className="h-40 flex items-end gap-2 pt-4">
+                                    {[
+                                        "Mon",
+                                        "Tue",
+                                        "Wed",
+                                        "Thu",
+                                        "Fri",
+                                        "Sat",
+                                        "Sun",
+                                    ].map((day, idx) => {
+                                        const count = bookingsByDayData[idx] || 0;
+                                        const heightPct = Math.round(
+                                            (count / maxDayBookings) * 100,
+                                        );
+
+                                        return (
                                             <div
                                                 key={day}
-                                                className="flex-1 flex flex-col items-center gap-1"
+                                                className="flex-1 flex flex-col items-center gap-2 group"
                                             >
-                                                <div
-                                                    className="w-full bg-[#c9a84c] rounded-t transition-all duration-500"
-                                                    style={{
-                                                        height: `${(bookingsByDayData[idx] / maxDayBookings) * 100}px`,
-                                                        opacity:
-                                                            idx === 5
-                                                                ? 1
-                                                                : idx === 4
-                                                                  ? 0.8
-                                                                  : 0.5,
-                                                    }}
-                                                ></div>
-                                                <div className="text-[9px] text-gray-400">
-                                                    {day}
+                                                <span className="text-[10px] font-semibold text-stone-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    {count}
+                                                </span>
+                                                <div className="w-full bg-stone-100 h-28 rounded-xl flex items-end overflow-hidden p-0.5">
+                                                    <div
+                                                        className={`w-full rounded-lg transition-all duration-500 ${
+                                                            idx >= 4
+                                                                ? "bg-gradient-to-t from-amber-600 to-amber-400 shadow-sm"
+                                                                : "bg-stone-800"
+                                                        }`}
+                                                        style={{
+                                                            height: `${Math.max(
+                                                                heightPct,
+                                                                8,
+                                                            )}%`,
+                                                        }}
+                                                    />
                                                 </div>
+                                                <span className="text-[11px] font-medium text-stone-500">
+                                                    {day}
+                                                </span>
                                             </div>
-                                        ))}
-                                    </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
-                            <div className="bg-white rounded-lg p-4 shadow-sm">
-                                <div className="text-[10px] uppercase tracking-wider text-gray-400 mb-3">
-                                    Top Barbers
+                            {/* Top Barbers Ranking */}
+                            <div className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+                                        Top Barbers
+                                    </h3>
+                                    <Sparkles className="w-4 h-4 text-amber-500" />
                                 </div>
+
                                 {topBarbers.length > 0 ? (
-                                    topBarbers.map((barber, idx) => {
-                                        const pct = Math.round(
-                                            (barber.appointment_count /
-                                                totalAppointments) *
-                                                100,
-                                        );
-                                        return (
-                                            <div
-                                                key={idx}
-                                                className="flex items-center gap-3 mb-2 last:mb-0"
-                                            >
-                                                <div className="text-xs text-gray-500 w-14 truncate">
-                                                    {(
-                                                        barber.full_name || ""
-                                                    ).split(" ")[0] || "N/A"}
+                                    <div className="space-y-3.5">
+                                        {topBarbers.map((barber, idx) => {
+                                            const pct = Math.round(
+                                                (barber.appointment_count /
+                                                    totalAppointments) *
+                                                    100,
+                                            );
+
+                                            return (
+                                                <div key={idx} className="space-y-1.5">
+                                                    <div className="flex justify-between text-xs">
+                                                        <span className="font-semibold text-stone-800">
+                                                            {barber.full_name}
+                                                        </span>
+                                                        <span className="text-stone-500 font-medium">
+                                                            {barber.appointment_count}{" "}
+                                                            cuts ({pct}%)
+                                                        </span>
+                                                    </div>
+                                                    <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+                                                        <div
+                                                            className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-amber-600 to-amber-400"
+                                                            style={{
+                                                                width: `${pct}%`,
+                                                            }}
+                                                        />
+                                                    </div>
                                                 </div>
-                                                <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                                    <div
-                                                        className="h-full rounded-full transition-all duration-500"
-                                                        style={{
-                                                            width: `${pct}%`,
-                                                            background: [
-                                                                "#c9a84c",
-                                                                "#0a0a0a",
-                                                                "#8a8a8a",
-                                                                "#d4d4d4",
-                                                            ][idx % 4],
-                                                        }}
-                                                    ></div>
-                                                </div>
-                                                <div className="text-xs text-gray-400 w-7 text-right">
-                                                    {pct}%
-                                                </div>
-                                            </div>
-                                        );
-                                    })
+                                            );
+                                        })}
+                                    </div>
                                 ) : (
-                                    <div className="text-sm text-gray-500 text-center py-6">
-                                        No barber data available
+                                    <div className="h-40 flex items-center justify-center text-xs text-stone-400">
+                                        No barber performance data recorded yet.
                                     </div>
                                 )}
                             </div>
 
-                            <div className="bg-white rounded-lg p-4 shadow-sm">
-                                <div className="text-[10px] uppercase tracking-wider text-gray-400 mb-3">
-                                    Live Activity
+                            {/* Live Activity Feed */}
+                            <div className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+                                        Live Activity
+                                    </h3>
+                                    <span className="text-[11px] font-medium text-stone-400">
+                                        Recent events
+                                    </span>
                                 </div>
-                                <div className="space-y-2 max-h-36 overflow-y-auto pr-1 scrollbar-thin">
+
+                                <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
                                     {limitedLiveActivity &&
                                     limitedLiveActivity.length > 0 ? (
                                         limitedLiveActivity.map(
-                                            (activity, idx) => {
-                                                const statusTexts: Record<
-                                                    string,
-                                                    string
-                                                > = {
-                                                    pending: "New booking",
-                                                    confirmed: "Confirmed",
-                                                    completed: "Completed",
-                                                    cancelled: "Cancelled",
-                                                };
-                                                const boldText =
-                                                    statusTexts[
-                                                        activity.status
-                                                    ] || activity.status;
-                                                return (
-                                                    <div
-                                                        key={idx}
-                                                        className="flex items-center gap-2 pb-2 border-b border-gray-50 last:border-0"
-                                                    >
-                                                        <div
-                                                            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                                                            style={{
-                                                                background:
-                                                                    activity.color,
-                                                            }}
-                                                        ></div>
-                                                        <div className="flex-1 min-w-0">
-                                                            <span className="text-xs text-gray-600">
-                                                                <strong className="text-gray-800">
-                                                                    {boldText}
-                                                                </strong>
-                                                                <span className="break-words">
-                                                                    {activity.message.substring(
-                                                                        boldText.length,
-                                                                    )}
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                        <div className="text-[9px] text-gray-400 flex-shrink-0">
+                                            (activity, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className="flex items-start gap-3 p-2 rounded-xl hover:bg-stone-50 transition"
+                                                >
+                                                    <span
+                                                        className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
+                                                        style={{
+                                                            backgroundColor:
+                                                                activity.color ||
+                                                                "#d97706",
+                                                        }}
+                                                    />
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-medium text-stone-800 leading-snug">
+                                                            {activity.message}
+                                                        </p>
+                                                        <span className="text-[10px] text-stone-400">
                                                             {activity.timeAgo}
-                                                        </div>
+                                                        </span>
                                                     </div>
-                                                );
-                                            },
+                                                </div>
+                                            ),
                                         )
                                     ) : (
-                                        <div className="text-sm text-gray-500 text-center py-6">
-                                            No recent activity
-                                        </div>
-                                    )}
-                                    {liveActivity.length > 5 && (
-                                        <div className="text-center text-[9px] text-gray-400 pt-1">
-                                            Showing 5 of {liveActivity.length}{" "}
-                                            activities
+                                        <div className="h-40 flex items-center justify-center text-xs text-stone-400">
+                                            No recent activity stream.
                                         </div>
                                     )}
                                 </div>
@@ -1031,116 +1106,141 @@ export default function Dashboard({
                         </div>
 
                         {/* Recent Appointments Table */}
-                        <div className="bg-white rounded-lg shadow-sm p-4">
-                            <div className="flex justify-between items-center mb-3">
-                                <div className="text-[9px] uppercase tracking-wider text-gray-400">
-                                    Recent Appointments
+                        <div className="bg-white rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+                            <div className="p-5 border-b border-stone-100 flex items-center justify-between">
+                                <div>
+                                    <h2 className="text-base font-bold text-stone-900">
+                                        Recent Studio Appointments
+                                    </h2>
+                                    <p className="text-xs text-stone-400 mt-0.5">
+                                        Latest bookings submitted via customer portal
+                                    </p>
                                 </div>
+
                                 <Link
                                     href="/admin/appointments"
-                                    className="text-[9px] uppercase tracking-wider text-gray-400 hover:text-black transition"
+                                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600 hover:text-amber-700 transition"
                                 >
-                                    View All
+                                    View Full Schedule
+                                    <ArrowUpRight className="w-3.5 h-3.5" />
                                 </Link>
                             </div>
+
                             <div className="overflow-x-auto">
-                                <table className="w-full text-sm">
+                                <table className="w-full text-left text-xs">
                                     <thead>
-                                        <tr className="border-b border-gray-100">
-                                            <th className="text-left py-2 px-2 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                        <tr className="bg-stone-50/75 border-b border-stone-100 text-stone-400 uppercase text-[10px] tracking-wider">
+                                            <th className="py-3 px-5 font-semibold">
                                                 Client
                                             </th>
-                                            <th className="text-left py-2 px-2 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Email
+                                            <th className="py-3 px-5 font-semibold">
+                                                Service
                                             </th>
-                                            <th className="text-left py-2 px-2 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Appointment
-                                            </th>
-                                            <th className="text-left py-2 px-2 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3 px-5 font-semibold">
                                                 Barber
                                             </th>
-                                            <th className="text-left py-2 px-2 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Date
+                                            <th className="py-3 px-5 font-semibold">
+                                                Schedule
                                             </th>
-                                            <th className="text-left py-2 px-2 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Time
+                                            <th className="py-3 px-5 font-semibold">
+                                                Price
                                             </th>
-                                            <th className="text-left py-2 px-2 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3 px-5 font-semibold">
                                                 Status
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody className="divide-y divide-stone-100 text-stone-700">
                                         {recentAppointments.length > 0 ? (
-                                            recentAppointments.map((apt) => (
-                                                <tr
-                                                    key={apt.id}
-                                                    className="border-b border-gray-50 hover:bg-gray-50 transition"
-                                                >
-                                                    <td className="py-2 px-2 font-medium text-gray-900">
-                                                        {apt.first_name ||
-                                                        apt.last_name
-                                                            ? `${apt.first_name || ""} ${apt.last_name || ""}`.trim()
-                                                            : apt.booking_full_name ||
-                                                              "N/A"}
-                                                    </td>
-                                                    <td className="py-2 px-2 text-gray-500 text-xs">
-                                                        {apt.email ||
-                                                            apt.booking_email ||
-                                                            "N/A"}
-                                                    </td>
-                                                    <td className="py-2 px-2 text-gray-700">
-                                                        {apt.hairstyle_name ||
-                                                            "N/A"}
-                                                    </td>
-                                                    <td className="py-2 px-2 text-gray-500">
-                                                        {apt.barber_name ||
-                                                            "N/A"}
-                                                    </td>
-                                                    <td className="py-2 px-2 text-gray-500">
-                                                        {apt.appointment_date
-                                                            ? new Date(
-                                                                  apt.appointment_date,
-                                                              ).toLocaleDateString(
-                                                                  "en-US",
-                                                                  {
-                                                                      month: "short",
-                                                                      day: "numeric",
-                                                                      year: "numeric",
-                                                                  },
-                                                              )
-                                                            : "N/A"}
-                                                    </td>
-                                                    <td className="py-2 px-2 text-gray-500">
-                                                        {apt.appointment_time
-                                                            ? new Date(
-                                                                  `2000-01-01T${apt.appointment_time}`,
-                                                              ).toLocaleTimeString(
-                                                                  "en-US",
-                                                                  {
-                                                                      hour: "numeric",
-                                                                      minute: "2-digit",
-                                                                      hour12: true,
-                                                                  },
-                                                              )
-                                                            : "N/A"}
-                                                    </td>
-                                                    <td className="py-2 px-2">
-                                                        <span
-                                                            className={`px-2 py-1 rounded-full text-[10px] font-medium uppercase ${getStatusBadgeClass(apt.status)}`}
-                                                        >
-                                                            {apt.status}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            ))
+                                            recentAppointments.map((apt) => {
+                                                const clientName =
+                                                    apt.first_name ||
+                                                    apt.last_name
+                                                        ? `${apt.first_name || ""} ${apt.last_name || ""}`.trim()
+                                                        : apt.booking_full_name ||
+                                                          "Client";
+                                                const initials = clientName
+                                                    .split(" ")
+                                                    .map((n) => n[0])
+                                                    .join("")
+                                                    .slice(0, 2)
+                                                    .toUpperCase();
+
+                                                return (
+                                                    <tr
+                                                        key={apt.id}
+                                                        className="hover:bg-amber-50/30 transition-colors"
+                                                    >
+                                                        <td className="py-3.5 px-5">
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="w-8 h-8 rounded-full bg-stone-100 text-stone-700 font-bold flex items-center justify-center text-[11px] border border-stone-200">
+                                                                    {initials}
+                                                                </div>
+                                                                <div>
+                                                                    <div className="font-semibold text-stone-900">
+                                                                        {clientName}
+                                                                    </div>
+                                                                    <div className="text-[11px] text-stone-400">
+                                                                        {apt.email ||
+                                                                            apt.booking_email ||
+                                                                            "No email"}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="py-3.5 px-5 font-medium text-stone-800">
+                                                            {apt.hairstyle_name || "Haircut"}
+                                                        </td>
+                                                        <td className="py-3.5 px-5 text-stone-600">
+                                                            {apt.barber_name || "Any Barber"}
+                                                        </td>
+                                                        <td className="py-3.5 px-5">
+                                                            <div className="font-medium text-stone-900">
+                                                                {apt.appointment_date
+                                                                    ? new Date(
+                                                                          apt.appointment_date,
+                                                                      ).toLocaleDateString(
+                                                                          "en-US",
+                                                                          {
+                                                                              month: "short",
+                                                                              day: "numeric",
+                                                                          },
+                                                                      )
+                                                                    : "N/A"}
+                                                            </div>
+                                                            <div className="text-[11px] text-stone-400">
+                                                                {apt.appointment_time
+                                                                    ? to12Hour(
+                                                                          apt.appointment_time.slice(
+                                                                              0,
+                                                                              5,
+                                                                          ),
+                                                                      )
+                                                                    : ""}
+                                                            </div>
+                                                        </td>
+                                                        <td className="py-3.5 px-5 font-semibold text-stone-900">
+                                                            {formatPeso(apt.total_price)}
+                                                        </td>
+                                                        <td className="py-3.5 px-5">
+                                                            <span
+                                                                className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide ${getStatusBadgeClass(
+                                                                    apt.status,
+                                                                )}`}
+                                                            >
+                                                                {apt.status}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
                                         ) : (
                                             <tr>
                                                 <td
-                                                    colSpan={7}
-                                                    className="py-8 text-center text-gray-500"
+                                                    colSpan={6}
+                                                    className="py-12 text-center text-stone-400"
                                                 >
-                                                    No appointments found.
+                                                    No appointments scheduled yet.
                                                 </td>
                                             </tr>
                                         )}

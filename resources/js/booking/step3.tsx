@@ -528,23 +528,24 @@ export default function BookingStep3({
             <Head title="Contact Information — BEZ Hair Studio" />
             <Header />
 
-            <main className="min-h-screen bg-white pb-20">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 pb-20">
+            <main className="min-h-screen bg-[#faf9f6] pb-12">
+                <div className="mx-auto max-w-5xl px-4 pb-12 pt-8 sm:px-6 sm:pt-12">
                     <StepIndicator currentStep={3} />
 
-                    <div className="grid md:grid-cols-2 gap-8 items-start mt-8">
+                    <div className="mt-8 grid items-start gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
                         {/* Booking Summary */}
                         <div>
-                            <h3 className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-4">
+                            <h2 className="mb-3 text-sm font-semibold text-neutral-950">
                                 Booking Summary
-                            </h3>
+                            </h2>
 
-                            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                                <div className="flex gap-4 p-5 border-b border-gray-100 items-center">
+                            <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+                                <div className="flex items-center gap-4 border-b border-neutral-100 p-5">
                                     <img
                                         src={imageUrl}
                                         alt={serviceName}
-                                        className="w-16 h-16 object-cover rounded-lg grayscale flex-shrink-0"
+                                        className="h-16 w-16 flex-shrink-0 rounded-xl object-cover"
+                                        loading="lazy"
                                         onError={(e) => {
                                             (
                                                 e.currentTarget as HTMLImageElement
@@ -553,10 +554,10 @@ export default function BookingStep3({
                                         }}
                                     />
                                     <div>
-                                        <p className="text-base font-bold text-gray-900">
+                                        <p className="text-base font-semibold text-neutral-950">
                                             {serviceName}
                                         </p>
-                                        <p className="text-sm text-gray-500">
+                                        <p className="text-sm text-neutral-500">
                                             {hairstyle?.duration_minutes ??
                                                 "--"}{" "}
                                             min · ₱{price}
@@ -564,7 +565,7 @@ export default function BookingStep3({
                                     </div>
                                 </div>
 
-                                <div className="p-5 space-y-1">
+                                <div className="space-y-1 p-5">
                                     {[
                                         { label: "Barber", value: barberName },
                                         { label: "Date", value: displayDate },
@@ -576,22 +577,22 @@ export default function BookingStep3({
                                     ].map(({ label, value }) => (
                                         <div
                                             key={label}
-                                            className="flex justify-between items-center py-2 border-b border-gray-50 last:border-0"
+                                            className="flex items-center justify-between gap-4 border-b border-neutral-100 py-3 last:border-0"
                                         >
-                                            <span className="text-[10px] uppercase tracking-[0.15em] text-gray-400 font-medium">
+                                            <span className="text-xs text-neutral-500">
                                                 {label}
                                             </span>
-                                            <span className="text-sm font-medium text-gray-800">
+                                            <span className="text-right text-sm font-medium text-neutral-900">
                                                 {value}
                                             </span>
                                         </div>
                                     ))}
 
                                     <div className="flex justify-between items-center pt-3 mt-2 border-t-2 border-gray-200">
-                                        <span className="text-sm font-bold text-gray-900 uppercase tracking-wider">
+                                        <span className="text-sm font-semibold text-neutral-900">
                                             Total
                                         </span>
-                                        <span className="text-2xl font-bold text-amber-600">
+                                        <span className="text-2xl font-semibold text-neutral-950">
                                             ₱{price}
                                         </span>
                                     </div>
@@ -601,74 +602,76 @@ export default function BookingStep3({
 
                         {/* Contact Form */}
                         <div>
-                            <h3 className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-4">
+                            <h2 className="mb-3 text-sm font-semibold text-neutral-950">
                                 Your Information
-                            </h3>
+                            </h2>
 
                             <form
                                 onSubmit={handleSubmit}
                                 noValidate
-                                className="space-y-4"
+                                className="space-y-4 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6"
                             >
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                    <label htmlFor="booking-full-name" className="mb-1.5 block text-sm font-medium text-neutral-800">
                                         Full Name *
                                     </label>
                                     <input
                                         type="text"
+                                        id="booking-full-name"
                                         value={fullName}
                                         onChange={(e) =>
                                             setFullName(e.target.value)
                                         }
                                         placeholder="Enter your full name"
-                                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition ${
+                                        className={`w-full rounded-xl border px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500/20 ${
                                             errors.fullName
                                                 ? "border-red-500"
-                                                : "border-gray-300"
+                                                : "border-neutral-300"
                                         }`}
                                     />
                                     {errors.fullName && (
-                                        <p className="text-xs text-red-500 mt-1">
+                                        <p role="alert" className="mt-1 text-xs text-red-600">
                                             {errors.fullName}
                                         </p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                    <label htmlFor="booking-email" className="mb-1.5 block text-sm font-medium text-neutral-800">
                                         Email Address *
                                     </label>
                                     <div className="flex gap-2">
                                         <input
                                             type="email"
+                                            id="booking-email"
                                             value={email}
                                             onChange={(e) =>
                                                 setEmail(e.target.value)
                                             }
                                             placeholder="your@email.com"
                                             disabled={otpSent}
-                                            className={`flex-1 px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition ${
+                                            className={`min-w-0 flex-1 rounded-xl border px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500/20 ${
                                                 errors.email
                                                     ? "border-red-500"
-                                                    : "border-gray-300"
-                                            } ${otpSent ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""}`}
+                                                    : "border-neutral-300"
+                                            } ${otpSent ? "cursor-not-allowed bg-neutral-100 text-neutral-500" : ""}`}
                                         />
                                     </div>
                                     {otpSuccess && (
-                                        <p className="text-xs text-green-600 mt-1">
+                                        <p role="status" className="mt-1 text-xs text-emerald-700">
                                             OTP sent successfully! Check your
                                             email.
                                         </p>
                                     )}
                                     {errors.email && (
-                                        <p className="text-xs text-red-500 mt-1">
+                                        <p role="alert" className="mt-1 text-xs text-red-600">
                                             {errors.email}
                                         </p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                    <label htmlFor="booking-phone" className="mb-1.5 block text-sm font-medium text-neutral-800">
                                         Phone Number *
                                     </label>
                                     <div className="relative">
@@ -680,40 +683,42 @@ export default function BookingStep3({
                                         <input
                                             ref={phoneInputRef}
                                             type="tel"
+                                            id="booking-phone"
                                             value={phone}
                                             onChange={handlePhoneChange}
                                             onFocus={handlePhoneFocus}
                                             placeholder="912 345 6789"
-                                            className={`w-full pl-12 pr-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition ${
+                                            className={`w-full rounded-xl border py-3 pl-12 pr-4 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500/20 ${
                                                 errors.phone
                                                     ? "border-red-500"
-                                                    : "border-gray-300"
+                                                    : "border-neutral-300"
                                             }`}
                                         />
                                     </div>
-                                    <p className="text-xs text-gray-400 mt-1">
+                                    <p className="mt-1 text-xs text-neutral-500">
                                         Enter 10-digit phone number (e.g., 912
                                         345 6789)
                                     </p>
                                     {errors.phone && (
-                                        <p className="text-xs text-red-500 mt-1">
+                                        <p role="alert" className="mt-1 text-xs text-red-600">
                                             {errors.phone}
                                         </p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                                    <label htmlFor="booking-notes" className="mb-1.5 block text-sm font-medium text-neutral-800">
                                         Special Requests (Optional)
                                     </label>
                                     <textarea
                                         value={notes}
+                                        id="booking-notes"
                                         onChange={(e) =>
                                             setNotes(e.target.value)
                                         }
                                         placeholder="Any preferences or notes for your barber…"
                                         rows={3}
-                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition resize-none"
+                                        className="w-full resize-none rounded-xl border border-neutral-300 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                                     />
                                 </div>
 
@@ -725,23 +730,23 @@ export default function BookingStep3({
                                         onChange={(e) =>
                                             setAgreed(e.target.checked)
                                         }
-                                        className="w-4 h-4 mt-0.5 accent-black rounded border-gray-300 focus:ring-black"
+                                        className="mt-0.5 h-4 w-4 rounded border-neutral-300 accent-amber-600 focus:ring-amber-600"
                                     />
                                     <div>
                                         <label
                                             htmlFor="agree"
-                                            className="text-sm text-gray-600 cursor-pointer"
+                                            className="cursor-pointer text-sm text-neutral-700"
                                         >
                                             I agree to the{" "}
                                             <a
                                                 href="#"
-                                                className="text-black underline hover:no-underline"
+                                                className="font-medium text-neutral-950 underline underline-offset-2 hover:no-underline"
                                             >
                                                 cancellation policy
                                             </a>
                                         </label>
                                         {errors.agreed && (
-                                            <p className="text-xs text-red-500 mt-1">
+                                            <p role="alert" className="mt-1 text-xs text-red-600">
                                                 {errors.agreed}
                                             </p>
                                         )}
@@ -755,12 +760,12 @@ export default function BookingStep3({
                                         isSendingOTP ||
                                         isVerifyingOTP
                                     }
-                                    className={`w-full py-3.5 text-sm font-semibold uppercase tracking-wider rounded-lg transition ${
+                                    className={`w-full rounded-full py-3.5 text-sm font-semibold transition-colors ${
                                         isSubmitting ||
                                         isSendingOTP ||
                                         isVerifyingOTP
-                                            ? "bg-gray-400 text-white cursor-not-allowed"
-                                            : "bg-black text-white hover:bg-gray-800"
+                                            ? "cursor-not-allowed bg-neutral-400 text-white"
+                                            : "bg-neutral-950 text-white hover:bg-neutral-800"
                                     }`}
                                 >
                                     {isSubmitting
@@ -777,7 +782,7 @@ export default function BookingStep3({
                         <Link
                             href="/booking/step-2"
                             onClick={(e) => handleLeave(e, "/booking/step-2")}
-                            className="text-xs uppercase tracking-wider text-gray-400 hover:text-black transition"
+                            className="rounded-full px-4 py-3 text-sm text-neutral-600 transition-colors hover:bg-white hover:text-neutral-950"
                         >
                             ← Back
                         </Link>

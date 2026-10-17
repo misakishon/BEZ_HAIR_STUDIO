@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+}
+
 .scrollbar-none {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -9,4 +14,39 @@
 
 .scrollbar-none::-webkit-scrollbar {
     display: none;
+}
+
+@keyframes marquee-scroll-left {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+.animate-marquee-left {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll-left 30s linear infinite;
+    will-change: transform;
+}
+
+.animate-marquee-left:hover {
+    animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

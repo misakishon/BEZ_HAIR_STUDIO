@@ -1,352 +1,170 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, usePage } from "@inertiajs/react";
+import { ArrowRight, Menu, X } from "lucide-react";
+
+const sectionLinks = [
+    { label: "Home", id: "home" },
+    { label: "Haircuts", id: "haircut" },
+    { label: "Our barbers", id: "barbers" },
+    { label: "Contact", id: "contact" },
+];
 
 function Header() {
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isLogoVisible, setIsLogoVisible] = useState(false);
-
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const page = usePage();
-    const currentUrl =
-        page.url && typeof window !== "undefined"
-            ? new URL(page.url, window.location.origin)
-            : undefined;
     const currentPath =
-        currentUrl?.pathname ||
-        (typeof window !== "undefined" ? window.location.pathname : "");
+        page.url && typeof window !== "undefined"
+            ? new URL(page.url, window.location.origin).pathname
+            : "";
     const isHomePage = currentPath === "/";
     const isBookingPage = currentPath.startsWith("/booking");
 
     useEffect(() => {
-        const handleScroll = () => {
-            const isMobile = window.innerWidth < 768;
-
-            if (isMobile) {
-                // On mobile: show logo always (but controlled by menu state)
-                setIsLogoVisible(!isMobileMenuOpen);
-                setIsScrolled(window.scrollY > 50);
-            } else {
-                // On desktop: show logo only after scroll
-                if (window.scrollY > 100) {
-                    setIsScrolled(true);
-                    setIsLogoVisible(true);
-                } else {
-                    setIsScrolled(false);
-                    setIsLogoVisible(false);
-                }
-            }
-        };
-
-        handleScroll();
-        window.addEventListener("scroll", handleScroll);
-        window.addEventListener("resize", handleScroll);
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-            window.removeEventListener("resize", handleScroll);
-        };
-    }, [isMobileMenuOpen]);
-
-    useEffect(() => {
-        setIsMobileMenuOpen(false);
+        setIsMenuOpen(false);
     }, [currentPath]);
 
     useEffect(() => {
-        if (isMobileMenuOpen) {
-            document.body.style.overflow = "hidden";
-            // Hide logo on mobile when menu opens
-            const isMobile = window.innerWidth < 768;
-            if (isMobile) {
-                setIsLogoVisible(false);
-            }
-        } else {
-            document.body.style.overflow = "unset";
-            // Show logo on mobile when menu closes
-            const isMobile = window.innerWidth < 768;
-            if (isMobile) {
-                setIsLogoVisible(true);
-            }
-        }
-        return () => {
-            document.body.style.overflow = "unset";
-        };
-    }, [isMobileMenuOpen]);
+        if (!isMenuOpen) return;
 
-    const handleScrollToSection = (
-        e: React.MouseEvent<HTMLAnchorElement>,
+        const closeOnEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setIsMenuOpen(false);
+        };
+        const closeOnDesktop = () => {
+            if (window.innerWidth >= 768) setIsMenuOpen(false);
+        };
+
+        window.addEventListener("keydown", closeOnEscape);
+        window.addEventListener("resize", closeOnDesktop);
+        return () => {
+            window.removeEventListener("keydown", closeOnEscape);
+            window.removeEventListener("resize", closeOnDesktop);
+        };
+    }, [isMenuOpen]);
+
+    const handleSectionClick = (
+        event: React.MouseEvent<HTMLAnchorElement>,
         id: string,
     ) => {
-        e.preventDefault();
-        setIsMobileMenuOpen(false);
+        const target = document.getElementById(id);
+        setIsMenuOpen(false);
 
-        const targetSection = document.getElementById(id);
-
-        if (targetSection) {
-            const headerOffset = 80;
-            const elementPosition = targetSection.getBoundingClientRect().top;
-            const offsetPosition =
-                elementPosition + window.scrollY - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth",
-            });
-            return;
+        if (target) {
+            event.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-
-        const basePath =
-            document.querySelector("base")?.getAttribute("href") || "/";
-        const normalizedBase = basePath.endsWith("/")
-            ? basePath
-            : `${basePath}/`;
-        window.location.href = `${window.location.origin}${normalizedBase}#${id}`;
     };
 
     return (
-        <>
+        <header className="sticky top-0 z-50">
             <nav
-                className={`w-full bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 border-b border-neutral-100 transition-all duration-300 ${
-                    isScrolled ? "py-2" : "py-3 sm:py-4"
-                }`}
+                aria-label="Main navigation"
+                className="border-b border-neutral-200/80 bg-white/90 backdrop-blur-xl"
             >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-                    {/* DESKTOP LOGO - Hidden on mobile */}
-                    <div
-                        className={`hidden md:flex items-center transition-all duration-500 ease-in-out ${
-                            isLogoVisible
-                                ? "opacity-100 visible translate-x-0"
-                                : "opacity-0 invisible -translate-x-4 pointer-events-none"
-                        }`}
+                <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
+                    <a
+                        href="/#home"
+                        onClick={(event) => handleSectionClick(event, "home")}
+                        aria-label="BEZ Hair Studio home"
+                        className="group flex shrink-0 flex-col leading-none"
                     >
-                        <a
-                            href="#home"
-                            onClick={(e) => handleScrollToSection(e, "home")}
-                            className="flex flex-col select-none group"
-                        >
-                            <span className="text-xl sm:text-2xl font-light tracking-[0.25em] text-black leading-none uppercase transition-colors group-hover:text-neutral-600">
-                                B E Z<span className="font-normal">.</span>
-                            </span>
-                            <span className="hidden sm:block text-[8px] sm:text-[9px] tracking-[0.65em] font-light text-black/70 uppercase mt-1 sm:mt-1.5 transition-colors group-hover:text-black">
-                                HAIR STUDIO
-                            </span>
-                        </a>
+                        <span className="text-xl font-medium tracking-[0.22em] text-neutral-950 transition-colors group-hover:text-amber-700">
+                            BEZ<span className="text-amber-600">.</span>
+                        </span>
+                        <span className="mt-1.5 text-[9px] font-medium uppercase tracking-[0.34em] text-neutral-500">
+                            Hair Studio
+                        </span>
+                    </a>
+
+                    <div className="hidden items-center gap-8 md:flex">
+                        {sectionLinks.map(({ label, id }) => (
+                            <a
+                                key={id}
+                                href={`/#${id}`}
+                                onClick={(event) =>
+                                    handleSectionClick(event, id)
+                                }
+                                aria-current={
+                                    id === "home" && isHomePage
+                                        ? "page"
+                                        : undefined
+                                }
+                                className={`text-sm transition-colors hover:text-neutral-950 ${
+                                    id === "home" && isHomePage
+                                        ? "font-medium text-neutral-950"
+                                        : "text-neutral-600"
+                                }`}
+                            >
+                                {label}
+                            </a>
+                        ))}
                     </div>
 
-                    {/* MOBILE LOGO - Always visible on mobile, hidden when menu is open */}
-                    <div
-                        className={`md:hidden flex items-center transition-all duration-300 ${
-                            isMobileMenuOpen
-                                ? "opacity-0 scale-95 pointer-events-none"
-                                : "opacity-100 scale-100"
-                        }`}
-                    >
-                        <a
-                            href="#home"
-                            onClick={(e) => handleScrollToSection(e, "home")}
-                            className="flex flex-col select-none"
-                        >
-                            <span className="text-xl font-light tracking-[0.25em] text-black leading-none uppercase">
-                                B E Z<span className="font-normal">.</span>
-                            </span>
-                        </a>
-                    </div>
-
-                    {/* DESKTOP NAVIGATION - Centered */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center gap-6 lg:gap-8 text-xs font-medium uppercase tracking-widest text-neutral-500">
-                        <a
-                            href="#home"
-                            onClick={(e) => handleScrollToSection(e, "home")}
-                            className={`transition-colors ${
-                                isHomePage
-                                    ? "text-black font-semibold"
-                                    : "text-neutral-500 hover:text-black"
-                            }`}
-                        >
-                            Home
-                        </a>
-                        <a
-                            href="#haircut"
-                            onClick={(e) => handleScrollToSection(e, "haircut")}
-                            className="text-neutral-500 hover:text-black transition-colors"
-                        >
-                            Haircut
-                        </a>
-                        <a
-                            href="#barbers"
-                            onClick={(e) => handleScrollToSection(e, "barbers")}
-                            className="text-neutral-500 hover:text-black transition-colors"
-                        >
-                            Barbers
-                        </a>
-                        <a
-                            href="#contact"
-                            onClick={(e) => handleScrollToSection(e, "contact")}
-                            className="text-neutral-500 hover:text-black transition-colors"
-                        >
-                            Contact
-                        </a>
-                        <Link
-                            href="/booking/step-1"
-                            className={`transition-colors ${
-                                isBookingPage
-                                    ? "text-black font-semibold"
-                                    : "text-neutral-500 hover:text-black"
-                            }`}
-                        >
-                            Book
-                        </Link>
-                    </div>
-
-                    {/* RIGHT SIDE - Book Button & Hamburger */}
                     <div className="flex items-center gap-3">
-                        {/* Desktop Book Button */}
                         <Link
                             href="/booking/step-1"
-                            className={`hidden sm:block px-4 sm:px-6 py-2 text-xs font-medium uppercase tracking-wider border border-black/40 rounded-md transition-all ${
+                            className={`hidden items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors sm:inline-flex ${
                                 isBookingPage
-                                    ? "bg-black text-white"
-                                    : "text-black hover:bg-black hover:text-white hover:border-black"
+                                    ? "bg-amber-500 text-neutral-950"
+                                    : "bg-neutral-950 text-white hover:bg-neutral-800"
                             }`}
                         >
-                            Book Now
+                            Book a visit
+                            <ArrowRight aria-hidden="true" className="h-4 w-4" />
                         </Link>
 
-                        {/* Mobile Menu Button (Hamburger) */}
                         <button
-                            onClick={() =>
-                                setIsMobileMenuOpen(!isMobileMenuOpen)
-                            }
-                            className="md:hidden flex flex-col items-center justify-center w-10 h-10 rounded-md hover:bg-neutral-100 transition-colors focus:outline-none relative z-50"
-                            aria-label="Toggle menu"
+                            type="button"
+                            onClick={() => setIsMenuOpen((open) => !open)}
+                            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                            aria-expanded={isMenuOpen}
+                            aria-controls="mobile-navigation"
+                            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-neutral-800 transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 md:hidden"
                         >
-                            <span className="relative w-5 h-5">
-                                <span
-                                    className={`absolute top-1/2 left-0 w-5 h-0.5 bg-black transition-all duration-300 ease-in-out ${
-                                        isMobileMenuOpen
-                                            ? "rotate-45 translate-y-0"
-                                            : "-translate-y-1.5"
-                                    }`}
-                                />
-                                <span
-                                    className={`absolute top-1/2 left-0 w-5 h-0.5 bg-black transition-all duration-300 ease-in-out ${
-                                        isMobileMenuOpen
-                                            ? "opacity-0"
-                                            : "opacity-100"
-                                    }`}
-                                />
-                                <span
-                                    className={`absolute top-1/2 left-0 w-5 h-0.5 bg-black transition-all duration-300 ease-in-out ${
-                                        isMobileMenuOpen
-                                            ? "-rotate-45 translate-y-0"
-                                            : "translate-y-1.5"
-                                    }`}
-                                />
-                            </span>
+                            {isMenuOpen ? (
+                                <X aria-hidden="true" className="h-5 w-5" />
+                            ) : (
+                                <Menu aria-hidden="true" className="h-5 w-5" />
+                            )}
                         </button>
+                    </div>
+                </div>
+
+                <div
+                    id="mobile-navigation"
+                    className={`absolute inset-x-0 top-full border-b border-neutral-200 bg-white px-5 shadow-lg shadow-neutral-900/5 transition-[opacity,transform,visibility] duration-200 md:hidden ${
+                        isMenuOpen
+                            ? "visible translate-y-0 opacity-100"
+                            : "invisible -translate-y-2 opacity-0"
+                    }`}
+                    aria-hidden={!isMenuOpen}
+                >
+                    <div className="mx-auto flex max-w-7xl flex-col py-3">
+                        {sectionLinks.map(({ label, id }) => (
+                            <a
+                                key={id}
+                                href={`/#${id}`}
+                                tabIndex={isMenuOpen ? 0 : -1}
+                                onClick={(event) =>
+                                    handleSectionClick(event, id)
+                                }
+                                className="rounded-lg px-3 py-3 text-sm text-neutral-700 transition-colors hover:bg-neutral-50 hover:text-neutral-950"
+                            >
+                                {label}
+                            </a>
+                        ))}
+                        <Link
+                            href="/booking/step-1"
+                            tabIndex={isMenuOpen ? 0 : -1}
+                            onClick={() => setIsMenuOpen(false)}
+                            className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+                        >
+                            Book a visit
+                            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                        </Link>
                     </div>
                 </div>
             </nav>
-
-            {/* MOBILE MENU OVERLAY */}
-            <div
-                className={`
-                    fixed inset-0 bg-black/50 z-40 transition-all duration-300 md:hidden
-                    ${isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}
-                `}
-                onClick={() => setIsMobileMenuOpen(false)}
-            />
-
-            {/* MOBILE MENU PANEL */}
-            <div
-                className={`
-                    fixed top-0 right-0 h-full w-64 bg-white shadow-xl z-50 transition-transform duration-300 ease-in-out md:hidden
-                    ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}
-                `}
-            >
-                <div className="flex flex-col h-full">
-                    {/* Mobile Menu Header */}
-                    <div className="flex items-center justify-between p-4 border-b border-neutral-100">
-                        <div className="flex flex-col">
-                            <span className="text-lg font-light tracking-[0.25em] text-black leading-none">
-                                B E Z<span className="font-normal">.</span>
-                            </span>
-                            <span className="text-[8px] tracking-[0.65em] font-light text-black/70 uppercase mt-1">
-                                HAIR STUDIO
-                            </span>
-                        </div>
-                        <button
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition-colors"
-                            aria-label="Close menu"
-                        >
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </button>
-                    </div>
-
-                    {/* Mobile Navigation Links */}
-                    <div className="flex-1 flex flex-col p-4 space-y-4">
-                        <a
-                            href="#home"
-                            onClick={(e) => handleScrollToSection(e, "home")}
-                            className={`text-sm font-medium uppercase tracking-wider py-2 transition-colors ${
-                                isHomePage
-                                    ? "text-black font-semibold"
-                                    : "text-neutral-600 hover:text-black"
-                            }`}
-                        >
-                            Home
-                        </a>
-                        <a
-                            href="#haircut"
-                            onClick={(e) => handleScrollToSection(e, "haircut")}
-                            className="text-sm font-medium uppercase tracking-wider py-2 text-neutral-600 hover:text-black transition-colors"
-                        >
-                            Haircut
-                        </a>
-                        <a
-                            href="#barbers"
-                            onClick={(e) => handleScrollToSection(e, "barbers")}
-                            className="text-sm font-medium uppercase tracking-wider py-2 text-neutral-600 hover:text-black transition-colors"
-                        >
-                            Barbers
-                        </a>
-                        <a
-                            href="#contact"
-                            onClick={(e) => handleScrollToSection(e, "contact")}
-                            className="text-sm font-medium uppercase tracking-wider py-2 text-neutral-600 hover:text-black transition-colors"
-                        >
-                            Contact
-                        </a>
-
-                        <div className="pt-4 border-t border-neutral-100">
-                            <Link
-                                href="/booking/step-1"
-                                className={`block w-full text-center px-4 py-3 text-sm font-medium uppercase tracking-wider rounded-md transition-all ${
-                                    isBookingPage
-                                        ? "bg-black text-white"
-                                        : "bg-black text-white hover:bg-neutral-800"
-                                }`}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Book Appointment
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
+        </header>
     );
 }
 

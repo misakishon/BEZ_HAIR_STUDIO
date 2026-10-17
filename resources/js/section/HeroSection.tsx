@@ -1,98 +1,109 @@
-import React, { useState, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
+import React from "react";
+import { ArrowDown, ArrowRight, MapPin, Star } from "lucide-react";
 import { Link } from "@inertiajs/react";
-import bgImage from "../../assets/bg.png";
-import bgImagePhone from "../../assets/bgphone.png";
+import archImage from "../../assets/positionperson.avif";
+import toolsImage from "../../assets/tableSecondimage.jpg";
 
 function HeroSection() {
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
-        handleResize(); // Check on mount
-        window.addEventListener("resize", handleResize);
-
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
     return (
-        <section className="relative w-full h-screen min-h-[700px] bg-white overflow-hidden flex items-center mb-0 pb-0">
-            <div className="absolute inset-0 pointer-events-none z-0">
-                <div
-                    className="h-full w-full bg-cover bg-center"
-                    style={{
-                        backgroundImage: `url('${isMobile ? bgImagePhone : bgImage}')`,
-                    }}
-                />
-                {/* Dark overlay to make text readable */}
-                <div className="absolute inset-0 bg-black/30" />
-            </div>
-
-            {/* Light soft gradient overlay for smooth blending on smaller viewports */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent z-10 pointer-events-none md:block hidden" />
-            <div className="absolute inset-0 bg-white/80 z-10 pointer-events-none md:hidden block" />
-
-            {/* MAIN CONTENT LAYER */}
-            <div className="relative z-20 w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-center">
-                <div className="max-w-xl flex flex-col gap-6 md:gap-8">
-                    {/* BRAND LOGO / HEADER */}
-                    <div className="relative">
-                        {/* Animated floating particles */}
-                        <div className="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl animate-pulse" />
-                        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-black/5 rounded-full blur-2xl animate-pulse delay-1000" />
-
-                        {/* Brand with 3D floating effect */}
-                        <div className="flex flex-col select-none transform transition-all duration-500 hover:scale-105 hover:translate-y-[-5px]">
-                            <h1 className="text-4xl md:text-5xl font-light tracking-[0.25em] text-black leading-none uppercase relative inline-block">
-                                B E Z<span className="font-normal">.</span>
-                                <span className="absolute inset-0 text-transparent bg-gradient-to-r from-black/20 to-transparent bg-clip-text blur-sm">
-                                    B E Z.
-                                </span>
-                            </h1>
-                            <p className="text-xs md:text-sm tracking-[0.65em] font-light text-black/70 uppercase mt-2 transition-all duration-700 hover:tracking-[0.85em] hover:text-black">
-                                HAIR STUDIO
-                            </p>
-                        </div>
-
-                        {/* MAIN COPY SECTION with stagger animation on scroll */}
-                        <div className="flex flex-col gap-4 mt-4 transform transition-all duration-700 hover:translate-x-3">
-                            <h2 className="text-4xl sm:text-5xl md:text-6xl font-normal text-black tracking-tight leading-[1.15]">
-                                Modern Cuts. <br />
-                                Clean Confidence.
-                            </h2>
-
-                            {/* Minimalist divider line with gradient animation */}
-                            <div className="relative w-full max-w-md my-2">
-                                <div className="h-[1px] bg-black/20 w-full" />
-                                <div className="absolute top-0 left-0 h-[1px] bg-gradient-to-r from-amber-500 via-amber-500 to-transparent w-0 transition-all duration-1000 group-hover:w-full" />
-                            </div>
-
-                            <p className="text-black/80 text-sm sm:text-base max-w-md leading-relaxed font-light transition-all duration-500 hover:text-black hover:translate-x-2">
-                                Experience premium haircuts and fades in a
-                                modern and comfortable environment.
-                            </p>
-                        </div>
+        <section className="relative overflow-hidden border-b border-neutral-200/70 bg-[#faf9f6]">
+            <div className="mx-auto grid min-h-[calc(100svh-68px)] max-w-7xl items-center gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-2 lg:gap-16 lg:px-12 lg:py-24">
+                <div className="relative z-10 max-w-2xl">
+                    <div className="mb-7 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-neutral-600">
+                        <MapPin
+                            aria-hidden="true"
+                            className="h-4 w-4 text-amber-700"
+                        />
+                        <span>Bangui, Ilocos Norte</span>
                     </div>
 
-                    {/* INTERACTIVE CALL TO ACTIONS */}
-                    <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                    <h1 className="max-w-xl font-serif text-5xl font-medium leading-[1.04] tracking-tight text-neutral-950 sm:text-6xl lg:text-7xl">
+                        A better kind of
+                        <span className="mt-1 block font-normal italic text-amber-800">
+                            barbershop.
+                        </span>
+                    </h1>
+
+                    <p className="mt-6 max-w-lg text-base leading-7 text-neutral-600 sm:text-lg sm:leading-8">
+                        Thoughtful cuts, clean fades, and a relaxed studio
+                        experience—tailored to you, every time.
+                    </p>
+
+                    <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                         <Link
                             href="/booking/step-1"
-                            className="flex items-center justify-between px-6 py-3.5 bg-black text-white text-sm font-medium tracking-wide transition-all hover:bg-neutral-800 rounded-md w-full sm:w-60 group"
+                            className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-neutral-950 px-6 text-sm font-medium text-white transition-colors hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700"
                         >
-                            <span>Book Appointment</span>
-                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            Book an appointment
+                            <ArrowRight
+                                aria-hidden="true"
+                                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                            />
                         </Link>
                         <a
-                            href="#"
-                            className="flex items-center justify-between px-6 py-3.5 bg-white border border-black/40 text-black text-sm font-medium tracking-wide transition-all hover:bg-neutral-50 rounded-md w-full sm:w-60 group"
+                            href="/#haircut"
+                            onClick={(event) => {
+                                const styles =
+                                    document.getElementById("haircut");
+                                if (styles) {
+                                    event.preventDefault();
+                                    styles.scrollIntoView({
+                                        behavior: "smooth",
+                                        block: "start",
+                                    });
+                                }
+                            }}
+                            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white/70 px-6 text-sm font-medium text-neutral-800 transition-colors hover:border-neutral-400 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700"
                         >
-                            <span>Explore Styles</span>
-                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            Explore our cuts
+                            <ArrowDown
+                                aria-hidden="true"
+                                className="h-4 w-4"
+                            />
                         </a>
+                    </div>
+
+                    <div className="mt-9 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-neutral-200 pt-5 text-sm text-neutral-600">
+                        <span className="inline-flex items-center gap-1.5">
+                            <Star
+                                aria-hidden="true"
+                                className="h-4 w-4 fill-amber-500 text-amber-500"
+                            />
+                            <strong className="font-semibold text-neutral-900">
+                                4.9 / 5
+                            </strong>
+                        </span>
+                        <span aria-hidden="true" className="text-neutral-300">
+                            ·
+                        </span>
+                        <span>500+ happy clients</span>
+                        <span aria-hidden="true" className="text-neutral-300">
+                            ·
+                        </span>
+                        <span>Walk-ins welcome</span>
+                    </div>
+                </div>
+
+                <div className="relative mx-auto w-full max-w-lg pb-8 sm:pb-10">
+                    <div className="aspect-[4/5] overflow-hidden rounded-t-[48%] rounded-b-3xl bg-neutral-200">
+                        <img
+                            src={archImage}
+                            alt="Barber at work in a calm, modern studio"
+                            className="h-full w-full object-cover object-top"
+                            fetchPriority="high"
+                        />
+                    </div>
+                    <div className="absolute -bottom-1 left-0 w-32 rounded-2xl border-4 border-[#faf9f6] bg-white shadow-lg sm:-left-8 sm:w-40">
+                        <img
+                            src={toolsImage}
+                            alt="Barber tools ready for a precision cut"
+                            className="aspect-square w-full rounded-xl object-cover"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </div>
+                    <div className="absolute bottom-4 right-0 rounded-full border border-white/80 bg-white/90 px-4 py-2 text-xs font-medium text-neutral-700 shadow-md backdrop-blur sm:-right-3 sm:bottom-8">
+                        Your style, thoughtfully crafted
                     </div>
                 </div>
             </div>

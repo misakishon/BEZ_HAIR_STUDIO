@@ -648,10 +648,10 @@
     "semantic_hash": "d27ea040e70330441613ff51df383c65"
   },
   "resources/js/Pages/admin/dashboard.tsx": {
-    "mtime": 1792042695.8425448,
-    "seen": 1792042983.4758692,
-    "ast_hash": "9f897f40c1593d196f56e349ca562222",
-    "semantic_hash": "9f897f40c1593d196f56e349ca562222"
+    "mtime": 1792044040.574405,
+    "seen": 1792246689.9135628,
+    "ast_hash": "be512ec51e6c956186065b6e4bb6d670",
+    "semantic_hash": "be512ec51e6c956186065b6e4bb6d670"
   },
   "resources/js/Pages/admin/index.tsx": {
     "mtime": 1782043462.0,
@@ -804,10 +804,10 @@
     "semantic_hash": "18a1042ef32a8a9e94f5f8f4c2d63956"
   },
   "resources/js/components/footer.tsx": {
-    "mtime": 1785587101.4759583,
-    "seen": 1792042983.4758692,
-    "ast_hash": "df09a37b14bffa8838ad0c051a324b00",
-    "semantic_hash": "df09a37b14bffa8838ad0c051a324b00"
+    "mtime": 1792047357.1230035,
+    "seen": 1792246689.9218273,
+    "ast_hash": "1a6d59502578d436a0ab4408d1d4cef8",
+    "semantic_hash": "1a6d59502578d436a0ab4408d1d4cef8"
   },
   "resources/js/components/header.tsx": {
     "mtime": 1782217650.6227386,
@@ -822,40 +822,40 @@
     "semantic_hash": "9832f790acff0177b7fdcb4162896594"
   },
   "resources/js/section/AchievementsSection.tsx": {
-    "mtime": 1785420499.0422218,
-    "seen": 1792042983.4758692,
-    "ast_hash": "4127bf587a8567b0cd77ba18194a0868",
-    "semantic_hash": "4127bf587a8567b0cd77ba18194a0868"
+    "mtime": 1792051488.962053,
+    "seen": 1792246689.9224982,
+    "ast_hash": "78c45ff2d6289ee69ecde0a7dd6ff631",
+    "semantic_hash": "78c45ff2d6289ee69ecde0a7dd6ff631"
   },
   "resources/js/section/BarbersSection.tsx": {
-    "mtime": 1787582031.1039476,
-    "seen": 1792042983.4758692,
-    "ast_hash": "0d7b7c7d81c7639f313fb6a7e4149d9f",
-    "semantic_hash": "0d7b7c7d81c7639f313fb6a7e4149d9f"
+    "mtime": 1792046898.898686,
+    "seen": 1792246689.9224982,
+    "ast_hash": "e696a964febe82901fc61d79ac2bdcbd",
+    "semantic_hash": "e696a964febe82901fc61d79ac2bdcbd"
   },
   "resources/js/section/ContactSection.tsx": {
-    "mtime": 1785587229.0867445,
-    "seen": 1792042983.4758692,
-    "ast_hash": "97ab7a8a55978b98f4e8269982c69094",
-    "semantic_hash": "97ab7a8a55978b98f4e8269982c69094"
+    "mtime": 1792046899.4827101,
+    "seen": 1792246689.9224982,
+    "ast_hash": "bc889f0b03eea7a2fc25972c00852a54",
+    "semantic_hash": "bc889f0b03eea7a2fc25972c00852a54"
   },
   "resources/js/section/HeroSection.tsx": {
-    "mtime": 1785568490.1352315,
-    "seen": 1792042983.4758692,
-    "ast_hash": "786bcea3763dd8f4707184ba999074a1",
-    "semantic_hash": "786bcea3763dd8f4707184ba999074a1"
+    "mtime": 1792050995.0507553,
+    "seen": 1792246689.9224982,
+    "ast_hash": "800ae08f00d075450690c50accdd108d",
+    "semantic_hash": "800ae08f00d075450690c50accdd108d"
   },
   "resources/js/section/WhyChooseSection.tsx": {
-    "mtime": 1785421516.0864081,
-    "seen": 1792042983.4758692,
-    "ast_hash": "263680cc2847a234a8ab2112aaa74419",
-    "semantic_hash": "263680cc2847a234a8ab2112aaa74419"
+    "mtime": 1792046302.4425163,
+    "seen": 1792246689.9224982,
+    "ast_hash": "d2c21439bc1f78e9fd01bb8d645dd5cc",
+    "semantic_hash": "d2c21439bc1f78e9fd01bb8d645dd5cc"
   },
   "resources/js/section/popularSection.tsx": {
-    "mtime": 1785848670.977865,
-    "seen": 1792042983.4758692,
-    "ast_hash": "5125e91e860b330295e7de0b9e1286af",
-    "semantic_hash": "5125e91e860b330295e7de0b9e1286af"
+    "mtime": 1792044457.3982666,
+    "seen": 1792246689.9224982,
+    "ast_hash": "b628685712da076090dc89bdb94d0fc6",
+    "semantic_hash": "b628685712da076090dc89bdb94d0fc6"
   },
   "resources/js/types/global.d.ts": {
     "mtime": 1781073992.0,
@@ -1170,10 +1170,10 @@
     "semantic_hash": "078611e5785f4fb273f0cc45bcd98b7f"
   },
   "README.md": {
-    "mtime": 1787586534.1799645,
-    "seen": 1792042983.4758692,
-    "ast_hash": "172b0781eff5cf5b296d4909a2313942",
-    "semantic_hash": "172b0781eff5cf5b296d4909a2313942"
+    "mtime": 1792052308.7951105,
+    "seen": 1792246689.937541,
+    "ast_hash": "7a51ab70e2d1918bf661cb2a4e7ce957",
+    "semantic_hash": "7a51ab70e2d1918bf661cb2a4e7ce957"
   },
   "assets/default.jpg": {
     "mtime": 1779847028.0,
@@ -1260,15 +1260,81 @@
     "semantic_hash": "27593fc4fae9570710717aa0043577a1"
   },
   "resources/assets/bg.png": {
-    "mtime": 1785426120.2552845,
-    "seen": 1792042983.4758692,
-    "ast_hash": "6907f2d500f022f44fcf4cc0cc4ca787",
-    "semantic_hash": "6907f2d500f022f44fcf4cc0cc4ca787"
+    "mtime": 1792048314.6570408,
+    "seen": 1792246689.9413254,
+    "ast_hash": "5b0c38f636c479ebbe8523fe2915125c",
+    "semantic_hash": "5b0c38f636c479ebbe8523fe2915125c"
   },
   "resources/assets/bgphone.png": {
     "mtime": 1785586767.22599,
     "seen": 1792042983.4758692,
     "ast_hash": "6f47fa74e02ea4f13f1841e70f45366f",
     "semantic_hash": "6f47fa74e02ea4f13f1841e70f45366f"
+  },
+  "resources/js/Pages/components/RevenueTrendCard.tsx": {
+    "mtime": 1792043847.9366617,
+    "seen": 1792246689.914617,
+    "ast_hash": "2d9120760b6beec8951590b8066e7718",
+    "semantic_hash": "2d9120760b6beec8951590b8066e7718"
+  },
+  "public/uploads/paymentImage/1782566406_ChatGPT Image Jun 22, 2026, 03_57_32 PM.png": {
+    "mtime": 1782566403.8658807,
+    "seen": 1792246689.9392521,
+    "ast_hash": "1e998d2b2712827f975e6bf71d718ae0",
+    "semantic_hash": "1e998d2b2712827f975e6bf71d718ae0"
+  },
+  "resources/assets/bg1.png": {
+    "mtime": 1785426120.2552845,
+    "seen": 1792246689.9413254,
+    "ast_hash": "6907f2d500f022f44fcf4cc0cc4ca787",
+    "semantic_hash": "6907f2d500f022f44fcf4cc0cc4ca787"
+  },
+  "resources/assets/bg232.png": {
+    "mtime": 1792047982.8257015,
+    "seen": 1792246689.9413254,
+    "ast_hash": "dc1af995b26b4fb10fcff5fbe65f2555",
+    "semantic_hash": "dc1af995b26b4fb10fcff5fbe65f2555"
+  },
+  "resources/assets/gemini-svg.svg": {
+    "mtime": 1792049045.8311038,
+    "seen": 1792246689.9413254,
+    "ast_hash": "043c264ed113873b8008de792f48735b",
+    "semantic_hash": "043c264ed113873b8008de792f48735b"
+  },
+  "resources/assets/hero-barber-arch-clean.png": {
+    "mtime": 1792050176.1149292,
+    "seen": 1792246689.9413254,
+    "ast_hash": "59042e0adfc6af0a6b4da12044d39efc",
+    "semantic_hash": "59042e0adfc6af0a6b4da12044d39efc"
+  },
+  "resources/assets/hero-barber-arch-white.png": {
+    "mtime": 1792050162.8931408,
+    "seen": 1792246689.9413254,
+    "ast_hash": "d2f46d6d23ca59677d433dee92317948",
+    "semantic_hash": "d2f46d6d23ca59677d433dee92317948"
+  },
+  "resources/assets/hero-barber-arch.png": {
+    "mtime": 1792049587.4534965,
+    "seen": 1792246689.9413254,
+    "ast_hash": "c1beb82535f384b9a1c00df9f11c56fc",
+    "semantic_hash": "c1beb82535f384b9a1c00df9f11c56fc"
+  },
+  "resources/assets/hero-tools-placeholder.png": {
+    "mtime": 1792049587.47847,
+    "seen": 1792246689.9413254,
+    "ast_hash": "82eccaa0f718fe95730975b2572d051e",
+    "semantic_hash": "82eccaa0f718fe95730975b2572d051e"
+  },
+  "resources/assets/hero-tools-white.png": {
+    "mtime": 1792050162.9124072,
+    "seen": 1792246689.9413254,
+    "ast_hash": "531be111d740a5e838b0324cb4cdd9bb",
+    "semantic_hash": "531be111d740a5e838b0324cb4cdd9bb"
+  },
+  "resources/assets/tableSecondimage.jpg": {
+    "mtime": 1792050398.86456,
+    "seen": 1792246689.9413254,
+    "ast_hash": "26494ef82a926b2289240484a54976f2",
+    "semantic_hash": "26494ef82a926b2289240484a54976f2"
   }
 }

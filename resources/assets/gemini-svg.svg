@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Subtle diagonal cut mask so the scissors cleanly overlap the 'B' -->
+    <mask id="crest-cutout">
+      <rect width="500" height="500" fill="white" />
+      <!-- Clear gap around the scissor blades for crisp separation -->
+      <path d="M155 375 L335 125" stroke="black" stroke-width="26" stroke-linecap="round" />
+      <path d="M135 335 L350 165" stroke="black" stroke-width="22" stroke-linecap="round" />
+    </mask>
+  </defs>
+
+  <!-- Main Emblem Group (Change fill/stroke color here, e.g., #1A1A1A or #9E9B95) -->
+  <g fill="#2C2A29" stroke="#2C2A29">
+
+    <!-- ================= 1. POMPADOUR HAIR CROWN (TOP) ================= -->
+    <g stroke="none">
+      <!-- Main sweeping hair waves -->
+      <path d="M175 135 C165 95, 205 55, 260 58 C235 68, 220 85, 215 105 C235 72, 280 52, 325 70 C295 76, 275 92, 265 112 C290 88, 330 82, 355 105 C325 104, 298 115, 282 132 C308 116, 338 118, 352 136 C322 132, 290 140, 260 148 C225 142, 195 140, 175 135 Z" />
+      <!-- Upper loose hair strands -->
+      <path d="M195 78 C220 45, 275 38, 315 55 C275 50, 230 58, 195 78 Z" />
+      <path d="M162 125 C155 102, 170 78, 198 70 C178 85, 168 105, 162 125 Z" />
+    </g>
+
+    <!-- ================= 2. CENTRAL SERIF "B" MONOGRAM ================= -->
+    <g mask="url(#crest-cutout)" stroke="none">
+      <!-- Top & bottom serif slab bars and vertical stem -->
+      <path fill-rule="evenodd" clip-rule="evenodd" d="
+        M170 145 H275 C322 145, 350 166, 350 198 C350 223, 332 241, 304 247
+        C339 253, 362 275, 362 308 C362 346, 330 370, 276 370 H170 V354 H184
+        C192 354, 196 349, 196 340 V175 C196 166, 192 161, 184 161 H170 V145 Z
+        M238 163 V240 H268 C296 240, 312 225, 312 199 C312 175, 296 163, 268 163 H238 Z
+        M238 256 V338 C238 348, 243 352, 255 352 H274 C306 352, 322 335, 322 305
+        C322 274, 304 256, 270 256 H238 Z
+      " />
+    </g>
+
+    <!-- ================= 3. BARBER COMB (RIGHT SIDE) ================= -->
+    <g transform="translate(382, 215) rotate(40)" stroke="none">
+      <!-- Comb spine -->
+      <rect x="-75" y="-22" width="150" height="12" rx="4" />
+      <rect x="-75" y="-22" width="14" height="42" rx="3" />
+      <rect x="61" y="-22" width="14" height="42" rx="3" />
+      <!-- Comb teeth -->
+      <g>
+        <rect x="-55" y="-10" width="4" height="28" rx="1.5" />
+        <rect x="-45" y="-10" width="4" height="28" rx="1.5" />
+        <rect x="-35" y="-10" width="4" height="28" rx="1.5" />
+        <rect x="-25" y="-10" width="4" height="28" rx="1.5" />
+        <rect x="-15" y="-10" width="4" height="28" rx="1.5" />
+        <rect x="-5"  y="-10" width="4" height="28" rx="1.5" />
+        <rect x="5"   y="-10" width="4" height="28" rx="1.5" />
+        <rect x="15"  y="-10" width="4" height="28" rx="1.5" />
+        <rect x="25"  y="-10" width="4" height="28" rx="1.5" />
+        <rect x="35"  y="-10" width="4" height="28" rx="1.5" />
+        <rect x="45"  y="-10" width="4" height="28" rx="1.5" />
+        <rect x="53"  y="-10" width="4" height="28" rx="1.5" />
+      </g>
+    </g>
+
+    <!-- ================= 4. DIAGONAL BARBER SHEARS (SCISSORS) ================= -->
+    <g>
+      <!-- Blade 1 (Steeper angle: bottom-right handle to top-right tip) -->
+      <path d="M212 335 L328 118 C332 128, 326 144, 315 162 L224 342 Z" stroke="none" />
+      <!-- Blade 2 (Crossing angle: bottom-left handle to upper-right tip) -->
+      <path d="M168 302 L346 156 C342 168, 332 180, 316 193 L176 314 Z" stroke="none" />
+      <!-- Pivot screw -->
+      <circle cx="248" cy="246" r="5" fill="#FFFFFF" stroke="#2C2A29" stroke-width="3" />
+      <!-- Finger Ring 1 (Left) -->
+      <circle cx="152" cy="326" r="24" fill="none" stroke-width="10" />
+      <!-- Finger Ring 2 (Bottom) -->
+      <circle cx="198" cy="364" r="24" fill="none" stroke-width="10" />
+      <!-- Pinky Tang / Rest Hook -->
+      <path d="M214 382 C226 392, 240 390, 246 380" fill="none" stroke-width="8" stroke-linecap="round" />
+    </g>
+
+    <!-- ================= 5. LEFT & RIGHT LAUREL WREATHS ================= -->
+    <!-- Left Laurel Branch -->
+    <g stroke="none">
+      <path d="M140 360 C95 305, 82 225, 112 155" fill="none" stroke="#2C2A29" stroke-width="4" stroke-linecap="round" />
+      <!-- Left Leaves -->
+      <path d="M122 335 C95 330, 82 310, 88 290 C108 300, 120 318, 122 335 Z" />
+      <path d="M104 295 C78 282, 68 258, 78 238 C96 252, 104 274, 104 295 Z" />
+      <path d="M98 248 C74 230, 70 205, 84 185 C98 202, 102 226, 98 248 Z" />
+      <path d="M104 202 C86 182, 88 158, 105 142 C114 160, 112 182, 104 202 Z" />
+      <!-- Inner Left Leaves -->
+      <path d="M126 312 C142 298, 148 278, 138 262 C124 276, 120 295, 126 312 Z" />
+      <path d="M112 268 C130 254, 136 234, 128 216 C114 230, 108 250, 112 268 Z" />
+      <path d="M110 222 C128 210, 136 190, 130 172 C116 184, 108 204, 110 222 Z" />
+    </g>
+
+    <!-- Right Laurel Branch -->
+    <g stroke="none">
+      <path d="M275 405 C345 395, 402 345, 418 275" fill="none" stroke="#2C2A29" stroke-width="4" stroke-linecap="round" />
+      <!-- Right Leaves -->
+      <path d="M295 402 C318 415, 342 408, 355 392 C335 385, 312 390, 295 402 Z" />
+      <path d="M338 386 C364 394, 388 382, 398 362 C376 360, 354 370, 338 386 Z" />
+      <path d="M374 358 C400 360, 420 344, 426 322 C404 324, 386 338, 374 358 Z" />
+      <path d="M400 320 C424 316, 438 298, 438 276 C418 284, 406 300, 400 320 Z" />
+      <!-- Inner Right Leaves -->
+      <path d="M312 390 C322 370, 340 358, 358 362 C346 378, 330 388, 312 390 Z" />
+      <path d="M352 368 C358 348, 374 334, 392 334 C382 352, 368 364, 352 368 Z" />
+      <path d="M382 334 C384 314, 396 298, 414 296 C408 314, 396 328, 382 334 Z" />
+    </g>
+
+    <!-- ================= 6. FOUR-POINT SPARKLE STARS (✦) ================= -->
+    <g stroke="none">
+      <!-- Inside lower loop of the 'B' -->
+      <path d="M282 280 Q282 304 306 304 Q282 304 282 328 Q282 304 258 304 Q282 304 282 280 Z" />
+      <!-- Top-Right Sparkle -->
+      <path d="M372 96 Q372 114 390 114 Q372 114 372 132 Q372 114 354 114 Q372 114 372 96 Z" />
+      <!-- Top-Left Sparkle -->
+      <path d="M138 92 Q138 108 154 108 Q138 108 138 124 Q138 108 122 108 Q138 108 138 92 Z" />
+      <!-- Far-Right Sparkle (below comb) -->
+      <path d="M412 238 Q412 252 426 252 Q412 252 412 266 Q412 252 398 252 Q412 252 412 238 Z" />
+      <!-- Bottom Sparkle -->
+      <path d="M262 392 Q262 404 274 404 Q262 404 262 416 Q262 404 250 404 Q262 404 262 392 Z" />
+    </g>
+
+  </g>
+</svg>

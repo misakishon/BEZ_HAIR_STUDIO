@@ -1,6 +1,26 @@
 import React, { useState } from "react";
 import { Head, Link, router } from "@inertiajs/react";
 import Sidebar from "../components/Sidebar";
+import AdminToast, { ToastMessage } from "../../components/AdminToast";
+import AdminConfirmModal from "../../components/AdminConfirmModal";
+import {
+    Users as UsersIcon,
+    CalendarCheck,
+    UserCheck,
+    Search,
+    Eye,
+    Edit3,
+    Trash2,
+    ChevronLeft,
+    ChevronRight,
+    Shield,
+    Phone,
+    Mail,
+    Lock,
+    X,
+    Check,
+    UserPlus,
+} from "lucide-react";
 
 interface User {
     id: number;
@@ -39,10 +59,14 @@ export default function Users({
 }: UsersProps) {
     const [search, setSearch] = useState(initialSearch || "");
     const [roleFilter, setRoleFilter] = useState(initialRoleFilter || "all");
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState<number | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingUser, setEditingUser] = useState<User | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
+
+    const [toast, setToast] = useState<ToastMessage | null>(null);
+
     const [editForm, setEditForm] = useState({
         first_name: "",
         last_name: "",
@@ -88,11 +112,6 @@ export default function Users({
         );
     };
 
-    const confirmDelete = (id: number) => {
-        setDeleteId(id);
-        setShowDeleteConfirm(true);
-    };
-
     const openEditModal = (user: User) => {
         setEditingUser(user);
         setEditForm({
@@ -130,19 +149,14 @@ export default function Users({
 
     const parseJsonResponse = async (response: Response) => {
         const text = await response.text();
-
-        if (!text) {
-            return {};
-        }
-
+        if (!text) return {};
         try {
             return JSON.parse(text);
         } catch (error) {
             console.error("Failed to parse JSON response:", error, text);
             return {
                 success: false,
-                message:
-                    "The server returned an invalid response. Please refresh and try again.",
+                message: "The server returned an invalid response. Please refresh and try again.",
             };
         }
     };
@@ -150,6 +164,7 @@ export default function Users({
     const handleEditSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!editingUser) return;
+        setIsSaving(true);
 
         try {
             const payload: Record<string, string> = {
@@ -181,31 +196,28 @@ export default function Users({
             if (result.success) {
                 setShowEditModal(false);
                 setEditingUser(null);
-                setEditForm({
-                    first_name: "",
-                    last_name: "",
-                    email: "",
-                    phone: "",
-                    role: "user",
-                    password: "",
-                    password_confirmation: "",
-                });
+                setToast({ text: "User account updated successfully.", type: "success" });
                 router.reload();
             } else {
-                alert(result.message || "Error updating user");
+                setToast({ text: result.message || "Error updating user.", type: "error" });
             }
         } catch (error) {
             console.error("Error updating user:", error);
-            alert(
-                error instanceof Error
-                    ? error.message
-                    : "Error updating user. Please refresh and try again.",
-            );
+            setToast({
+                text:
+                    error instanceof Error
+                        ? error.message
+                        : "Error updating user. Please refresh and try again.",
+                type: "error",
+            });
+        } finally {
+            setIsSaving(false);
         }
     };
 
     const handleDelete = async () => {
         if (!deleteId) return;
+        setIsDeleting(true);
 
         try {
             const response = await fetch(`/admin/users/${deleteId}`, {
@@ -220,117 +232,141 @@ export default function Users({
             }
 
             if (result.success) {
-                setShowDeleteConfirm(false);
                 setDeleteId(null);
+                setToast({ text: "User account deleted successfully.", type: "success" });
                 router.reload();
             } else {
-                alert(result.message || "Error deleting user");
+                setToast({ text: result.message || "Error deleting user.", type: "error" });
             }
         } catch (error) {
             console.error("Error:", error);
-            alert(
-                error instanceof Error
-                    ? error.message
-                    : "Error deleting user. Please refresh and try again.",
-            );
+            setToast({
+                text:
+                    error instanceof Error
+                        ? error.message
+                        : "Error deleting user. Please refresh and try again.",
+                type: "error",
+            });
+        } finally {
+            setIsDeleting(false);
         }
     };
 
-    const getRoleBadgeClass = (role: string) => {
-        switch (role) {
-            case "admin":
-                return "bg-purple-100 text-purple-700";
-            case "user":
-                return "bg-blue-100 text-blue-700";
-            default:
-                return "bg-gray-100 text-gray-700";
-        }
-    };
+    const targetDeleteUser = users.data.find((u) => u.id === deleteId);
 
     return (
         <>
-            <Head title="Users — BEZ Hair Studio" />
+            <Head title="Client Directory — BEZ Hair Studio" />
             <Sidebar>
-                <main className="min-h-screen bg-[#f0ede7]">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                        {/* Header */}
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <main className="min-h-screen bg-[#f8f7f4] text-stone-900">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        {/* Header Banner */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-900">
-                                    USERS
+                                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-600 mb-1">
+                                    <UsersIcon className="h-3.5 w-3.5 text-amber-500" />
+                                    <span>Client & Membership Management</span>
+                                </div>
+                                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
+                                    User Accounts
                                 </h1>
-                                <p className="text-sm text-gray-500 mt-1">
-                                    Manage your customers
+                                <p className="text-sm text-stone-500 mt-1">
+                                    Browse registered clients, track booking histories, and manage administrator access.
                                 </p>
                             </div>
                         </div>
 
-                        {/* Stats Cards - Small like in the image */}
-                        <div className="flex gap-3 mb-6">
-                            <div className="bg-white rounded-lg px-4 py-3 shadow-sm border border-gray-100 min-w-[120px]">
-                                <div className="text-[10px] uppercase tracking-wider text-gray-400">
-                                    Total Users
+                        {/* Top KPI Metrics Cards */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+                            <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex items-center justify-between">
+                                <div>
+                                    <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-400">
+                                        Total Registered Users
+                                    </span>
+                                    <div className="text-2xl font-bold tracking-tight text-stone-900 mt-1">
+                                        {totalUsers}
+                                    </div>
+                                    <span className="text-[11px] text-stone-500">
+                                        Accounts across all roles
+                                    </span>
                                 </div>
-                                <div className="text-xl font-bold text-gray-900 mt-0.5">
-                                    {totalUsers}
+                                <div className="h-12 w-12 rounded-2xl bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600">
+                                    <UsersIcon className="h-6 w-6" />
                                 </div>
                             </div>
-                            <div className="bg-white rounded-lg px-4 py-3 shadow-sm border border-gray-100 min-w-[120px]">
-                                <div className="text-[10px] uppercase tracking-wider text-gray-400">
-                                    Total Bookings
+
+                            <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex items-center justify-between">
+                                <div>
+                                    <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-400">
+                                        Total Client Bookings
+                                    </span>
+                                    <div className="text-2xl font-bold tracking-tight text-stone-900 mt-1">
+                                        {totalBookings}
+                                    </div>
+                                    <span className="text-[11px] text-stone-500">
+                                        Historical studio visits
+                                    </span>
                                 </div>
-                                <div className="text-xl font-bold text-gray-900 mt-0.5">
-                                    {totalBookings}
+                                <div className="h-12 w-12 rounded-2xl bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-700">
+                                    <CalendarCheck className="h-6 w-6" />
                                 </div>
                             </div>
-                            <div className="bg-white rounded-lg px-4 py-3 shadow-sm border border-gray-100 min-w-[120px]">
-                                <div className="text-[10px] uppercase tracking-wider text-gray-400">
-                                    Active Users
+
+                            <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex items-center justify-between">
+                                <div>
+                                    <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-400">
+                                        Active (Last 30 Days)
+                                    </span>
+                                    <div className="text-2xl font-bold tracking-tight text-emerald-600 mt-1">
+                                        {activeUsers}
+                                    </div>
+                                    <span className="text-[11px] text-stone-500">
+                                        Engaged studio clients
+                                    </span>
                                 </div>
-                                <div className="text-xl font-bold text-gray-900 mt-0.5">
-                                    {activeUsers}
+                                <div className="h-12 w-12 rounded-2xl bg-emerald-50 border border-emerald-200/60 flex items-center justify-center text-emerald-600">
+                                    <UserCheck className="h-6 w-6" />
                                 </div>
                             </div>
                         </div>
 
-                        {/* Search and Filters */}
-                        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-                            <div className="flex flex-col sm:flex-row gap-4">
+                        {/* Search & Role Filter Toolbar */}
+                        <div className="bg-white rounded-2xl border border-stone-200/80 p-4 mb-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                                 <form
                                     onSubmit={handleSearch}
-                                    className="flex-1 flex gap-2"
+                                    className="flex items-center gap-2 w-full sm:w-96"
                                 >
-                                    <input
-                                        type="text"
-                                        placeholder="Search by name, email, or phone..."
-                                        value={search}
-                                        onChange={(e) =>
-                                            setSearch(e.target.value)
-                                        }
-                                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black text-sm"
-                                    />
+                                    <div className="relative flex-1">
+                                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+                                        <input
+                                            type="text"
+                                            placeholder="Search by name, email, or phone..."
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-xs text-stone-900 transition"
+                                        />
+                                    </div>
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition"
+                                        className="px-4 py-2 bg-stone-900 text-amber-300 text-xs font-semibold uppercase tracking-wider rounded-xl hover:bg-stone-800 transition shrink-0"
                                     >
                                         Search
                                     </button>
                                 </form>
-                                <div className="flex gap-2 flex-wrap">
+
+                                <div className="flex items-center gap-2 w-full sm:w-auto">
                                     {["all", "user", "admin"].map((role) => (
                                         <button
                                             key={role}
-                                            onClick={() =>
-                                                handleRoleFilter(role)
-                                            }
-                                            className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
+                                            onClick={() => handleRoleFilter(role)}
+                                            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition ${
                                                 roleFilter === role
-                                                    ? "bg-black text-white"
-                                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                                    ? "bg-stone-900 text-amber-300 shadow-xs"
+                                                    : "bg-stone-100 text-stone-600 hover:bg-stone-200/80"
                                             }`}
                                         >
-                                            {role.charAt(0).toUpperCase() +
-                                                role.slice(1)}
+                                            {role === "all" ? "All Roles" : role}
                                         </button>
                                     ))}
                                 </div>
@@ -338,119 +374,153 @@ export default function Users({
                         </div>
 
                         {/* Users Table */}
-                        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <div className="bg-white rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
                             <div className="overflow-x-auto">
-                                <table className="w-full text-sm">
+                                <table className="w-full text-left border-collapse">
                                     <thead>
-                                        <tr className="border-b border-gray-100 bg-gray-50">
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Name
+                                        <tr className="border-b border-stone-100 bg-stone-50/75">
+                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
+                                                Client
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
                                                 Email
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
                                                 Phone
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
                                                 Role
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
+                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
                                                 Bookings
                                             </th>
-                                            <th className="text-left py-4 px-4 font-medium text-gray-500 text-[10px] uppercase tracking-wider">
-                                                Joined
+                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
+                                                Joined Date
+                                            </th>
+                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider text-right">
+                                                Actions
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody className="divide-y divide-stone-100 text-xs">
                                         {users.data.length > 0 ? (
-                                            users.data.map((user) => (
-                                                <tr
-                                                    key={user.id}
-                                                    className="border-b border-gray-50 hover:bg-gray-50 transition"
-                                                >
-                                                    <td className="py-4 px-4 font-medium text-gray-900">
-                                                        {user.first_name}{" "}
-                                                        {user.last_name}
-                                                    </td>
-                                                    <td className="py-4 px-4 text-gray-500 text-xs">
-                                                        {user.email}
-                                                    </td>
-                                                    <td className="py-4 px-4 text-gray-500 text-xs">
-                                                        {user.phone || "N/A"}
-                                                    </td>
-                                                    <td className="py-4 px-4">
-                                                        <span
-                                                            className={`px-2 py-1 rounded-full text-[10px] font-medium uppercase ${getRoleBadgeClass(user.role)}`}
-                                                        >
-                                                            {user.role}
-                                                        </span>
-                                                    </td>
+                                            users.data.map((user) => {
+                                                const initials = `${(user.first_name || "").charAt(0)}${(user.last_name || "").charAt(0)}`.toUpperCase() || "U";
+                                                return (
+                                                    <tr
+                                                        key={user.id}
+                                                        className="hover:bg-amber-50/20 transition-colors"
+                                                    >
+                                                        {/* Client Name & Avatar */}
+                                                        <td className="py-3.5 px-4">
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="h-8 w-8 rounded-full bg-stone-900 text-amber-300 font-bold flex items-center justify-center text-xs shrink-0 shadow-2xs">
+                                                                    {initials}
+                                                                </div>
+                                                                <div>
+                                                                    <div className="font-bold text-stone-900">
+                                                                        {user.first_name} {user.last_name}
+                                                                    </div>
+                                                                    <div className="text-[10px] text-stone-400">
+                                                                        ID: #{user.id}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
 
-                                                    <td className="py-4 px-4 text-gray-500 text-xs">
-                                                        {new Date(
-                                                            user.created_at,
-                                                        ).toLocaleDateString(
-                                                            "en-US",
-                                                            {
+                                                        {/* Email */}
+                                                        <td className="py-3.5 px-4 text-stone-600 font-medium">
+                                                            {user.email}
+                                                        </td>
+
+                                                        {/* Phone */}
+                                                        <td className="py-3.5 px-4 text-stone-500">
+                                                            {user.phone ? (
+                                                                <span className="font-mono">{user.phone}</span>
+                                                            ) : (
+                                                                <span className="text-stone-300 italic">None</span>
+                                                            )}
+                                                        </td>
+
+                                                        {/* Role */}
+                                                        <td className="py-3.5 px-4">
+                                                            <span
+                                                                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                                                    user.role === "admin"
+                                                                        ? "bg-purple-100 text-purple-800 border border-purple-200"
+                                                                        : "bg-stone-100 text-stone-700 border border-stone-200"
+                                                                }`}
+                                                            >
+                                                                {user.role === "admin" && (
+                                                                    <Shield className="h-3 w-3 text-purple-600" />
+                                                                )}
+                                                                {user.role}
+                                                            </span>
+                                                        </td>
+
+                                                        {/* Bookings */}
+                                                        <td className="py-3.5 px-4">
+                                                            <div className="font-bold text-stone-900">
+                                                                {user.total_bookings}{" "}
+                                                                <span className="text-[10px] font-normal text-stone-400">
+                                                                    visits
+                                                                </span>
+                                                            </div>
+                                                            {Number(user.completed_bookings) > 0 && (
+                                                                <div className="text-[10px] text-emerald-600 font-medium">
+                                                                    {user.completed_bookings} completed
+                                                                </div>
+                                                            )}
+                                                        </td>
+
+                                                        {/* Joined */}
+                                                        <td className="py-3.5 px-4 text-stone-500">
+                                                            {new Date(user.created_at).toLocaleDateString("en-US", {
                                                                 month: "short",
                                                                 day: "numeric",
                                                                 year: "numeric",
-                                                            },
-                                                        )}
-                                                    </td>
-                                                    <td className="py-4 px-4">
-                                                        <div className="flex items-center gap-2">
-                                                            <Link
-                                                                href={`/admin/users/${user.id}`}
-                                                                className="text-gray-400 hover:text-blue-600 transition"
-                                                                title="View Details"
-                                                            >
-                                                                <span className="material-symbols-outlined text-lg">
-                                                                    visibility
-                                                                </span>
-                                                            </Link>
-                                                            <button
-                                                                onClick={() =>
-                                                                    openEditModal(
-                                                                        user,
-                                                                    )
-                                                                }
-                                                                className="text-gray-400 hover:text-amber-600 transition"
-                                                                title="Edit User"
-                                                            >
-                                                                <span className="material-symbols-outlined text-lg">
-                                                                    edit
-                                                                </span>
-                                                            </button>
-                                                            {user.role !==
-                                                                "admin" && (
-                                                                <button
-                                                                    onClick={() =>
-                                                                        confirmDelete(
-                                                                            user.id,
-                                                                        )
-                                                                    }
-                                                                    className="text-gray-400 hover:text-red-600 transition"
-                                                                    title="Delete"
+                                                            })}
+                                                        </td>
+
+                                                        {/* Actions */}
+                                                        <td className="py-3.5 px-4 text-right">
+                                                            <div className="flex items-center justify-end gap-1.5">
+                                                                <Link
+                                                                    href={`/admin/users/${user.id}`}
+                                                                    className="p-1.5 rounded-lg border border-stone-200 text-stone-500 hover:text-stone-900 hover:bg-stone-50 transition"
+                                                                    title="View Details"
                                                                 >
-                                                                    <span className="material-symbols-outlined text-lg">
-                                                                        delete
-                                                                    </span>
+                                                                    <Eye className="h-3.5 w-3.5" />
+                                                                </Link>
+                                                                <button
+                                                                    onClick={() => openEditModal(user)}
+                                                                    className="p-1.5 rounded-lg border border-stone-200 text-stone-500 hover:text-amber-600 hover:bg-amber-50/50 transition"
+                                                                    title="Edit User"
+                                                                >
+                                                                    <Edit3 className="h-3.5 w-3.5" />
                                                                 </button>
-                                                            )}
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))
+                                                                {user.role !== "admin" && (
+                                                                    <button
+                                                                        onClick={() => setDeleteId(user.id)}
+                                                                        className="p-1.5 rounded-lg border border-rose-200 text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition"
+                                                                        title="Delete User"
+                                                                    >
+                                                                        <Trash2 className="h-3.5 w-3.5" />
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
                                         ) : (
                                             <tr>
                                                 <td
                                                     colSpan={7}
-                                                    className="py-8 text-center text-gray-500"
+                                                    className="py-12 text-center text-stone-400"
                                                 >
-                                                    No users found.
+                                                    <UsersIcon className="h-8 w-8 text-stone-300 mx-auto mb-2" />
+                                                    No users found matching your search.
                                                 </td>
                                             </tr>
                                         )}
@@ -460,80 +530,45 @@ export default function Users({
 
                             {/* Pagination */}
                             {users.last_page > 1 && (
-                                <div className="flex justify-between items-center px-4 py-3 border-t border-gray-100">
-                                    <div className="text-xs text-gray-500">
-                                        Showing {users.data.length} of{" "}
-                                        {users.total} users
+                                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-stone-100 bg-stone-50/40">
+                                    <div className="text-xs text-stone-500 font-medium">
+                                        Showing <span className="font-bold text-stone-800">{users.data.length}</span> of{" "}
+                                        <span className="font-bold text-stone-800">{users.total}</span> users
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-1.5">
                                         <button
-                                            onClick={() =>
-                                                handlePageChange(
-                                                    users.current_page - 1,
-                                                )
-                                            }
+                                            onClick={() => handlePageChange(users.current_page - 1)}
                                             disabled={users.current_page === 1}
-                                            className="w-8 h-8 flex items-center justify-center border border-gray-200 rounded text-xs text-gray-500 hover:border-black hover:text-black transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="h-8 w-8 flex items-center justify-center border border-stone-200 rounded-xl text-stone-600 hover:bg-white hover:border-stone-400 transition disabled:opacity-40 disabled:cursor-not-allowed"
                                         >
-                                            <span className="material-symbols-outlined text-base">
-                                                chevron_left
-                                            </span>
+                                            <ChevronLeft className="h-4 w-4" />
                                         </button>
-                                        {Array.from(
-                                            {
-                                                length: Math.min(
-                                                    5,
-                                                    users.last_page,
-                                                ),
-                                            },
-                                            (_, i) => {
-                                                let page = i + 1;
-                                                if (
-                                                    users.last_page > 5 &&
-                                                    users.current_page > 3
-                                                ) {
-                                                    page =
-                                                        users.current_page -
-                                                        2 +
-                                                        i;
-                                                    if (page > users.last_page)
-                                                        return null;
-                                                }
-                                                return (
-                                                    <button
-                                                        key={page}
-                                                        onClick={() =>
-                                                            handlePageChange(
-                                                                page,
-                                                            )
-                                                        }
-                                                        className={`w-8 h-8 flex items-center justify-center border rounded text-xs transition ${
-                                                            page ===
-                                                            users.current_page
-                                                                ? "border-black bg-black text-white"
-                                                                : "border-gray-200 text-gray-500 hover:border-black hover:text-black"
-                                                        }`}
-                                                    >
-                                                        {page}
-                                                    </button>
-                                                );
-                                            },
-                                        )}
+                                        {Array.from({ length: Math.min(5, users.last_page) }, (_, i) => {
+                                            let page = i + 1;
+                                            if (users.last_page > 5 && users.current_page > 3) {
+                                                page = users.current_page - 2 + i;
+                                                if (page > users.last_page) return null;
+                                            }
+                                            return (
+                                                <button
+                                                    key={page}
+                                                    onClick={() => handlePageChange(page)}
+                                                    className={`h-8 w-8 rounded-xl text-xs font-semibold transition ${
+                                                        page === users.current_page
+                                                            ? "bg-stone-900 text-amber-300 shadow-xs"
+                                                            : "border border-stone-200 text-stone-600 hover:bg-white hover:border-stone-400"
+                                                    }`}
+                                                >
+                                                    {page}
+                                                </button>
+                                            );
+                                        })}
                                         <button
-                                            onClick={() =>
-                                                handlePageChange(
-                                                    users.current_page + 1,
-                                                )
-                                            }
-                                            disabled={
-                                                users.current_page ===
-                                                users.last_page
-                                            }
-                                            className="w-8 h-8 flex items-center justify-center border border-gray-200 rounded text-xs text-gray-500 hover:border-black hover:text-black transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                            onClick={() => handlePageChange(users.current_page + 1)}
+                                            disabled={users.current_page === 1 || users.current_page === users.last_page}
+                                            className="h-8 w-8 flex items-center justify-center border border-stone-200 rounded-xl text-stone-600 hover:bg-white hover:border-stone-400 transition disabled:opacity-40 disabled:cursor-not-allowed"
                                         >
-                                            <span className="material-symbols-outlined text-base">
-                                                chevron_right
-                                            </span>
+                                            <ChevronRight className="h-4 w-4" />
                                         </button>
                                     </div>
                                 </div>
@@ -541,171 +576,156 @@ export default function Users({
                         </div>
                     </div>
                 </main>
-                {/* Edit User Modal */}
+
+                {/* EDIT USER MODAL */}
                 {showEditModal && editingUser && (
-                    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                        <div className="bg-white rounded-xl max-w-xl w-full p-6 max-h-[90vh] overflow-y-auto">
-                            <div className="flex justify-between items-center mb-4">
-                                <h3 className="text-lg font-bold text-gray-900">
-                                    Edit User
-                                </h3>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs">
+                        <div className="bg-white rounded-2xl border border-stone-200 shadow-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 animate-in fade-in zoom-in-95 duration-200">
+                            <div className="flex items-center justify-between pb-4 border-b border-stone-100 mb-6">
+                                <div>
+                                    <h3 className="text-xl font-bold tracking-tight text-stone-900">
+                                        Edit User Account
+                                    </h3>
+                                    <p className="text-xs text-stone-500 mt-0.5">
+                                        Update client information and role credentials.
+                                    </p>
+                                </div>
                                 <button
                                     onClick={() => setShowEditModal(false)}
-                                    className="text-gray-400 hover:text-gray-700"
+                                    className="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition"
                                 >
-                                    ✕
+                                    <X className="h-5 w-5" />
                                 </button>
                             </div>
 
-                            <form
-                                onSubmit={handleEditSubmit}
-                                className="space-y-4"
-                            >
+                            <form onSubmit={handleEditSubmit} className="space-y-4">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-xs font-medium text-gray-600 mb-1">
-                                            First Name
+                                        <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                            First Name <span className="text-rose-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             value={editForm.first_name}
                                             onChange={(e) =>
-                                                setEditForm({
-                                                    ...editForm,
-                                                    first_name: e.target.value,
-                                                })
+                                                setEditForm({ ...editForm, first_name: e.target.value })
                                             }
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                                            className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
                                             required
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-medium text-gray-600 mb-1">
-                                            Last Name
+                                        <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                            Last Name <span className="text-rose-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             value={editForm.last_name}
                                             onChange={(e) =>
-                                                setEditForm({
-                                                    ...editForm,
-                                                    last_name: e.target.value,
-                                                })
+                                                setEditForm({ ...editForm, last_name: e.target.value })
                                             }
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                                            className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
                                             required
                                         />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-600 mb-1">
-                                        Email
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                        Email Address <span className="text-rose-500">*</span>
                                     </label>
                                     <input
                                         type="email"
                                         value={editForm.email}
                                         onChange={(e) =>
-                                            setEditForm({
-                                                ...editForm,
-                                                email: e.target.value,
-                                            })
+                                            setEditForm({ ...editForm, email: e.target.value })
                                         }
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-600 mb-1">
-                                        Phone
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                        Phone Number
                                     </label>
                                     <input
                                         type="text"
                                         value={editForm.phone}
                                         onChange={(e) =>
-                                            setEditForm({
-                                                ...editForm,
-                                                phone: e.target.value,
-                                            })
+                                            setEditForm({ ...editForm, phone: e.target.value })
                                         }
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-600 mb-1">
-                                        Role
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                        Role Access
                                     </label>
                                     <select
                                         value={editForm.role}
                                         onChange={(e) =>
-                                            setEditForm({
-                                                ...editForm,
-                                                role: e.target.value,
-                                            })
+                                            setEditForm({ ...editForm, role: e.target.value })
                                         }
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
                                     >
-                                        <option value="user">User</option>
-                                        <option value="admin">Admin</option>
+                                        <option value="user">User (Customer)</option>
+                                        <option value="admin">Admin (Full Access)</option>
                                     </select>
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-600 mb-1">
-                                        New Password (optional)
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                        New Password <span className="text-stone-400 font-normal">(Leave blank to keep unchanged)</span>
                                     </label>
                                     <input
                                         type="password"
                                         value={editForm.password}
                                         onChange={(e) =>
-                                            setEditForm({
-                                                ...editForm,
-                                                password: e.target.value,
-                                            })
+                                            setEditForm({ ...editForm, password: e.target.value })
                                         }
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                                        placeholder="Leave blank to keep current password"
+                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                        placeholder="••••••••"
                                     />
                                 </div>
 
                                 {editForm.password && (
                                     <div>
-                                        <label className="block text-xs font-medium text-gray-600 mb-1">
+                                        <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
                                             Confirm New Password
                                         </label>
                                         <input
                                             type="password"
-                                            value={
-                                                editForm.password_confirmation
-                                            }
+                                            value={editForm.password_confirmation}
                                             onChange={(e) =>
                                                 setEditForm({
                                                     ...editForm,
-                                                    password_confirmation:
-                                                        e.target.value,
+                                                    password_confirmation: e.target.value,
                                                 })
                                             }
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                                            className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                            placeholder="••••••••"
                                             required={!!editForm.password}
                                         />
                                     </div>
                                 )}
 
-                                <div className="flex gap-3 pt-2">
-                                    <button
-                                        type="submit"
-                                        className="flex-1 bg-black text-white py-2.5 rounded-lg font-semibold hover:bg-gray-800 transition"
-                                    >
-                                        Save Changes
-                                    </button>
+                                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
                                     <button
                                         type="button"
                                         onClick={() => setShowEditModal(false)}
-                                        className="flex-1 bg-gray-200 text-gray-700 py-2.5 rounded-lg font-semibold hover:bg-gray-300 transition"
+                                        className="px-4 py-2.5 rounded-xl border border-stone-300 text-xs font-semibold uppercase tracking-wider text-stone-700 hover:bg-stone-50 transition"
                                     >
                                         Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={isSaving}
+                                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-stone-900 text-amber-300 text-xs font-semibold uppercase tracking-wider hover:bg-stone-800 transition shadow-sm disabled:opacity-50"
+                                    >
+                                        <Check className="h-4 w-4 text-amber-400" />
+                                        {isSaving ? "Saving Changes..." : "Save Changes"}
                                     </button>
                                 </div>
                             </form>
@@ -713,75 +733,29 @@ export default function Users({
                     </div>
                 )}
 
-                {/* Delete Confirmation Modal */}
-                {showDeleteConfirm && (
-                    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                        <div className="bg-white rounded-xl max-w-md w-full p-6">
-                            <h3 className="text-lg font-bold text-gray-900 mb-2">
-                                Confirm Delete
-                            </h3>
-                            <p className="text-gray-600 mb-6">
-                                {(() => {
-                                    const user = users.data.find(
-                                        (u) => u.id === deleteId,
-                                    );
+                {/* DELETE CONFIRMATION MODAL */}
+                <AdminConfirmModal
+                    isOpen={deleteId !== null}
+                    title="Delete User Account"
+                    message={
+                        targetDeleteUser?.total_bookings && targetDeleteUser.total_bookings > 0
+                            ? `Warning: ${targetDeleteUser.first_name} ${targetDeleteUser.last_name} has ${targetDeleteUser.total_bookings} existing booking records. Deleting this account will permanently remove their access and history.`
+                            : `Are you sure you want to delete ${targetDeleteUser?.first_name || "this user"} ${targetDeleteUser?.last_name || ""}? This action cannot be undone.`
+                    }
+                    confirmText="Delete Account"
+                    cancelText="Cancel"
+                    isDestructive={true}
+                    isLoading={isDeleting}
+                    onConfirm={handleDelete}
+                    onCancel={() => setDeleteId(null)}
+                />
 
-                                    if (user?.role === "admin") {
-                                        return "Admin accounts are protected and cannot be deleted from this page.";
-                                    }
-
-                                    return (
-                                        <>
-                                            Are you sure you want to delete this
-                                            user? This action cannot be undone.
-                                            {user &&
-                                                user.total_bookings > 0 && (
-                                                    <span className="block mt-2 text-amber-600">
-                                                        Warning: This user has{" "}
-                                                        {user.total_bookings}{" "}
-                                                        bookings.
-                                                    </span>
-                                                )}
-                                        </>
-                                    );
-                                })()}
-                            </p>
-                            <div className="flex gap-3">
-                                {(() => {
-                                    const user = users.data.find(
-                                        (u) => u.id === deleteId,
-                                    );
-                                    if (user?.role === "admin") {
-                                        return (
-                                            <button
-                                                onClick={() =>
-                                                    setShowDeleteConfirm(false)
-                                                }
-                                                className="flex-1 bg-gray-200 text-gray-700 py-2.5 rounded-lg font-semibold hover:bg-gray-300 transition"
-                                            >
-                                                Close
-                                            </button>
-                                        );
-                                    }
-
-                                    return (
-                                        <button
-                                            onClick={handleDelete}
-                                            className="flex-1 bg-red-600 text-white py-2.5 rounded-lg font-semibold hover:bg-red-700 transition"
-                                        >
-                                            Delete
-                                        </button>
-                                    );
-                                })()}
-                                <button
-                                    onClick={() => setShowDeleteConfirm(false)}
-                                    className="flex-1 bg-gray-200 text-gray-700 py-2.5 rounded-lg font-semibold hover:bg-gray-300 transition"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                {/* Toast Notification */}
+                {toast && (
+                    <AdminToast
+                        toast={toast}
+                        onClose={() => setToast(null)}
+                    />
                 )}
             </Sidebar>
         </>
