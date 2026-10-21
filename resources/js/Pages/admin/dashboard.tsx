@@ -667,18 +667,180 @@ export default function Dashboard({
                             })}
                         </div>
 
-                        {/* Charts Row */}
-                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                            {/* Revenue Trend Card */}
-                            <div className="lg:col-span-3 flex flex-col h-full">
-                                <RevenueTrendCard
-                                    data={chartMonthlyData}
-                                    growthPercentage={revenueChange}
-                                />
+                        {/* Revenue Trend Card (Full Width - Zero Dead Space) */}
+                        <div className="w-full">
+                            <RevenueTrendCard
+                                data={chartMonthlyData}
+                                growthPercentage={revenueChange}
+                            />
+                        </div>
+
+                        {/* Operational & Scheduling Row: Analytics (7 cols) + Time Slot Management (5 cols) */}
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                            {/* Left Analytics Column (7 cols) */}
+                            <div className="lg:col-span-7 flex flex-col gap-6">
+                            {/* Bookings by Day Chart */}
+                            <div className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+                                        Bookings by Day
+                                    </h3>
+                                    <span className="text-[11px] text-amber-600 font-medium">
+                                        Peak: Sat/Sun
+                                    </span>
+                                </div>
+                                <div className="h-40 flex items-end gap-2 pt-4">
+                                    {[
+                                        "Mon",
+                                        "Tue",
+                                        "Wed",
+                                        "Thu",
+                                        "Fri",
+                                        "Sat",
+                                        "Sun",
+                                    ].map((day, idx) => {
+                                        const count = bookingsByDayData[idx] || 0;
+                                        const heightPct = Math.round(
+                                            (count / maxDayBookings) * 100,
+                                        );
+
+                                        return (
+                                            <div
+                                                key={day}
+                                                className="flex-1 flex flex-col items-center gap-2 group"
+                                            >
+                                                <span className="text-[10px] font-semibold text-stone-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    {count}
+                                                </span>
+                                                <div className="w-full bg-stone-100 h-28 rounded-xl flex items-end overflow-hidden p-0.5">
+                                                    <div
+                                                        className={`w-full rounded-lg transition-all duration-500 ${
+                                                            idx >= 4
+                                                                ? "bg-gradient-to-t from-amber-600 to-amber-400 shadow-sm"
+                                                                : "bg-stone-800"
+                                                        }`}
+                                                        style={{
+                                                            height: `${Math.max(
+                                                                heightPct,
+                                                                8,
+                                                            )}%`,
+                                                        }}
+                                                    />
+                                                </div>
+                                                <span className="text-[11px] font-medium text-stone-500">
+                                                    {day}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
 
+
+                                {/* Subgrid: Top Barbers & Live Activity */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            {/* Top Barbers Ranking */}
+                            <div className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+                                        Top Barbers
+                                    </h3>
+                                    <Sparkles className="w-4 h-4 text-amber-500" />
+                                </div>
+
+                                {topBarbers.length > 0 ? (
+                                    <div className="space-y-3.5">
+                                        {topBarbers.map((barber, idx) => {
+                                            const pct = Math.round(
+                                                (barber.appointment_count /
+                                                    totalAppointments) *
+                                                    100,
+                                            );
+
+                                            return (
+                                                <div key={idx} className="space-y-1.5">
+                                                    <div className="flex justify-between text-xs">
+                                                        <span className="font-semibold text-stone-800">
+                                                            {barber.full_name}
+                                                        </span>
+                                                        <span className="text-stone-500 font-medium">
+                                                            {barber.appointment_count}{" "}
+                                                            cuts ({pct}%)
+                                                        </span>
+                                                    </div>
+                                                    <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+                                                        <div
+                                                            className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-amber-600 to-amber-400"
+                                                            style={{
+                                                                width: `${pct}%`,
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                ) : (
+                                    <div className="h-40 flex items-center justify-center text-xs text-stone-400">
+                                        No barber performance data recorded yet.
+                                    </div>
+                                )}
+                            </div>
+
+
+                            {/* Live Activity Feed */}
+                            <div className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+                                        Live Activity
+                                    </h3>
+                                    <span className="text-[11px] font-medium text-stone-400">
+                                        Recent events
+                                    </span>
+                                </div>
+
+                                <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
+                                    {limitedLiveActivity &&
+                                    limitedLiveActivity.length > 0 ? (
+                                        limitedLiveActivity.map(
+                                            (activity, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className="flex items-start gap-3 p-2 rounded-xl hover:bg-stone-50 transition"
+                                                >
+                                                    <span
+                                                        className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
+                                                        style={{
+                                                            backgroundColor:
+                                                                activity.color ||
+                                                                "#d97706",
+                                                        }}
+                                                    />
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-medium text-stone-800 leading-snug">
+                                                            {activity.message}
+                                                        </p>
+                                                        <span className="text-[10px] text-stone-400">
+                                                            {activity.timeAgo}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ),
+                                        )
+                                    ) : (
+                                        <div className="h-40 flex items-center justify-center text-xs text-stone-400">
+                                            No recent activity stream.
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                                </div>
+                            </div>
+
+                            {/* Right Scheduling Column: Time Slot Management (5 cols) */}
                             {/* Admin Time Slot Calendar */}
-                            <div className="lg:col-span-2 bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+                            <div className="lg:col-span-5 bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between">
                                 <div>
                                     <div className="flex justify-between items-center pb-3 border-b border-stone-100">
                                         <div>
@@ -948,161 +1110,7 @@ export default function Dashboard({
                                     </div>
                                 )}
                             </div>
-                        </div>
 
-                        {/* Mid Row: Bookings by Day, Top Barbers, Live Activity */}
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            {/* Bookings by Day Chart */}
-                            <div className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-                                        Bookings by Day
-                                    </h3>
-                                    <span className="text-[11px] text-amber-600 font-medium">
-                                        Peak: Sat/Sun
-                                    </span>
-                                </div>
-                                <div className="h-40 flex items-end gap-2 pt-4">
-                                    {[
-                                        "Mon",
-                                        "Tue",
-                                        "Wed",
-                                        "Thu",
-                                        "Fri",
-                                        "Sat",
-                                        "Sun",
-                                    ].map((day, idx) => {
-                                        const count = bookingsByDayData[idx] || 0;
-                                        const heightPct = Math.round(
-                                            (count / maxDayBookings) * 100,
-                                        );
-
-                                        return (
-                                            <div
-                                                key={day}
-                                                className="flex-1 flex flex-col items-center gap-2 group"
-                                            >
-                                                <span className="text-[10px] font-semibold text-stone-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    {count}
-                                                </span>
-                                                <div className="w-full bg-stone-100 h-28 rounded-xl flex items-end overflow-hidden p-0.5">
-                                                    <div
-                                                        className={`w-full rounded-lg transition-all duration-500 ${
-                                                            idx >= 4
-                                                                ? "bg-gradient-to-t from-amber-600 to-amber-400 shadow-sm"
-                                                                : "bg-stone-800"
-                                                        }`}
-                                                        style={{
-                                                            height: `${Math.max(
-                                                                heightPct,
-                                                                8,
-                                                            )}%`,
-                                                        }}
-                                                    />
-                                                </div>
-                                                <span className="text-[11px] font-medium text-stone-500">
-                                                    {day}
-                                                </span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-
-                            {/* Top Barbers Ranking */}
-                            <div className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-                                        Top Barbers
-                                    </h3>
-                                    <Sparkles className="w-4 h-4 text-amber-500" />
-                                </div>
-
-                                {topBarbers.length > 0 ? (
-                                    <div className="space-y-3.5">
-                                        {topBarbers.map((barber, idx) => {
-                                            const pct = Math.round(
-                                                (barber.appointment_count /
-                                                    totalAppointments) *
-                                                    100,
-                                            );
-
-                                            return (
-                                                <div key={idx} className="space-y-1.5">
-                                                    <div className="flex justify-between text-xs">
-                                                        <span className="font-semibold text-stone-800">
-                                                            {barber.full_name}
-                                                        </span>
-                                                        <span className="text-stone-500 font-medium">
-                                                            {barber.appointment_count}{" "}
-                                                            cuts ({pct}%)
-                                                        </span>
-                                                    </div>
-                                                    <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
-                                                        <div
-                                                            className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-amber-600 to-amber-400"
-                                                            style={{
-                                                                width: `${pct}%`,
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                ) : (
-                                    <div className="h-40 flex items-center justify-center text-xs text-stone-400">
-                                        No barber performance data recorded yet.
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Live Activity Feed */}
-                            <div className="bg-white rounded-2xl p-5 border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-                                        Live Activity
-                                    </h3>
-                                    <span className="text-[11px] font-medium text-stone-400">
-                                        Recent events
-                                    </span>
-                                </div>
-
-                                <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
-                                    {limitedLiveActivity &&
-                                    limitedLiveActivity.length > 0 ? (
-                                        limitedLiveActivity.map(
-                                            (activity, idx) => (
-                                                <div
-                                                    key={idx}
-                                                    className="flex items-start gap-3 p-2 rounded-xl hover:bg-stone-50 transition"
-                                                >
-                                                    <span
-                                                        className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
-                                                        style={{
-                                                            backgroundColor:
-                                                                activity.color ||
-                                                                "#d97706",
-                                                        }}
-                                                    />
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-xs font-medium text-stone-800 leading-snug">
-                                                            {activity.message}
-                                                        </p>
-                                                        <span className="text-[10px] text-stone-400">
-                                                            {activity.timeAgo}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            ),
-                                        )
-                                    ) : (
-                                        <div className="h-40 flex items-center justify-center text-xs text-stone-400">
-                                            No recent activity stream.
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
                         </div>
 
                         {/* Recent Appointments Table */}

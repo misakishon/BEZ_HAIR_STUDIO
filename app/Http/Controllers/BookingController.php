@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Mail\BookingConfirmation;
+use App\Services\OtpService;
 
 class BookingController extends Controller
 {
@@ -315,32 +316,13 @@ class BookingController extends Controller
                 'booking_otp_sent' => true,
             ]);
 
-            $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-            Cache::put('otp_' . $email, $otp, 300);
-
-            try {
-                // Use a dedicated Mailable with plain-text alternative and explicit from/reply-to
-                Mail::to($email)->send(new \App\Mail\OtpCode($otp));
-                Log::info('OTP sent to: ' . $email);
-            } catch (\Swift_TransportException $e) {
-                // Common SMTP transport errors surfaced by SwiftMailer
-                Log::error('OTP send transport error: ' . $e->getMessage());
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Failed to send OTP due to mail transport error. Please check mail settings.'
-                ], 500);
-            } catch (\Exception $e) {
-                Log::error('OTP send error: ' . $e->getMessage());
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Failed to send OTP. Please try again.'
-                ], 500);
-            }
+            $otpService = app(OtpService::class);
+            $otpResult = $otpService->sendOtp($email);
 
             return response()->json([
-                'success' => true,
-                'message' => 'OTP sent successfully',
-            ]);
+                'success' => $otpResult['success'],
+                'message' => $otpResult['message'],
+            ], $otpResult['status'] ?? 200);
         }
     }
 
@@ -364,17 +346,16 @@ class BookingController extends Controller
                     ], 400);
                 }
 
-                $cachedOtp = Cache::get('otp_' . $email);
-                $providedOtp = $request->input('otp');
+                $otpService = app(OtpService::class);
+                $verifyResult = $otpService->verifyOtp($email, $request->input('otp'));
 
-                if (!$cachedOtp || $cachedOtp !== $providedOtp) {
+                if (!$verifyResult['success']) {
                     return response()->json([
                         'success' => false,
-                        'message' => 'Invalid OTP. Please try again.'
-                    ], 400);
+                        'message' => $verifyResult['message'],
+                    ], $verifyResult['status'] ?? 400);
                 }
 
-                Cache::forget('otp_' . $email);
                 session(['booking_otp_verified' => true]);
 
                 return response()->json([
@@ -1013,59 +994,49 @@ class BookingController extends Controller
     }
 
     /**
-     * Standalone Send OTP
+     * Standalone Send OTP (used for Resend in frontend)
      */
-    public function sendOtp(Request $request)
+    public function sendOtp(Request $request, OtpService $otpService)
     {
         $request->validate([
             'email' => 'required|email|max:255',
         ]);
 
-        $email = $request->input('email');
-        $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        $result = $otpService->sendOtp($request->input('email'));
 
-        Cache::put('otp_' . $email, $otp, 300);
-
-        try {
-            Mail::to($email)->send(new \App\Mail\OtpCode($otp));
-            Log::info('OTP sent to: ' . $email);
-            return response()->json(['success' => true, 'message' => 'OTP sent successfully']);
-        } catch (\Swift_TransportException $e) {
-            Log::error('OTP send transport error: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Failed to send OTP due to mail transport error. Please check mail settings.'], 500);
-        } catch (\Exception $e) {
-            Log::error('OTP send error: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Failed to send OTP'], 500);
-        }
+        return response()->json([
+            'success' => $result['success'],
+            'message' => $result['message'],
+        ], $result['status'] ?? 200);
     }
 
     /**
      * Standalone Verify OTP
      */
-    public function verifyOtp(Request $request)
+    public function verifyOtp(Request $request, OtpService $otpService)
     {
         $request->validate([
             'email' => 'required|email|max:255',
             'otp' => 'required|string|size:6',
         ]);
 
-        $email = $request->input('email');
-        $otp = $request->input('otp');
-        $cachedOtp = Cache::get('otp_' . $email);
+        $result = $otpService->verifyOtp(
+            $request->input('email'),
+            $request->input('otp')
+        );
 
-        if (!$cachedOtp || $cachedOtp !== $otp) {
+        if (!$result['success']) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid OTP. Please try again.'
-            ], 400);
+                'message' => $result['message'],
+            ], $result['status'] ?? 400);
         }
 
-        Cache::forget('otp_' . $email);
         session(['booking_otp_verified' => true]);
 
         return response()->json([
             'success' => true,
-            'message' => 'OTP verified successfully',
+            'message' => $result['message'],
         ]);
     }
 }

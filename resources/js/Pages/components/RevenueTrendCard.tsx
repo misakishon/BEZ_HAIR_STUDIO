@@ -33,10 +33,6 @@ export default function RevenueTrendCard({
   const totalRevenue = data.reduce((sum, item) => sum + item.revenue, 0);
   const totalBookings = data.reduce((sum, item) => sum + item.bookings, 0);
 
-  const activeData = hoveredIndex !== null ? data[hoveredIndex] : null;
-  const displayedRevenue = activeData ? activeData.revenue : totalRevenue;
-  const displayedBookings = activeData ? activeData.bookings : totalBookings;
-
   // Dynamic Y-Axis ceiling (minimum 800 so empty/low states still look balanced)
   const maxRevenue = Math.max(...data.map((d) => d.revenue), 800);
   const yTicks = [
@@ -47,12 +43,12 @@ export default function RevenueTrendCard({
     0,
   ];
 
-  // SVG coordinate space (fixed aspect ratio prevents oval distortion)
-  const svgWidth = 880;
-  const svgHeight = 280;
-  const padX = 24;
-  const padTop = 20;
-  const padBottom = 24;
+  // SVG coordinate space (optimized panoramic aspect ratio for full width display)
+  const svgWidth = 1000;
+  const svgHeight = 230;
+  const padX = 20;
+  const padTop = 16;
+  const padBottom = 20;
   const chartW = svgWidth - padX * 2;
   const chartH = svgHeight - padTop - padBottom;
 
@@ -86,7 +82,7 @@ export default function RevenueTrendCard({
   const bookLinePath = buildSmoothPath(bookPoints);
 
   return (
-    <div className="w-full rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">
+    <div className="w-full rounded-2xl border border-stone-200/80 bg-white p-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
       {/* Top Header & Legend */}
       <div className="flex flex-wrap items-start justify-between gap-4 pb-6">
         <div>
@@ -94,16 +90,11 @@ export default function RevenueTrendCard({
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
               Revenue Trend
             </span>
-            {activeData && (
-              <span className="rounded-md bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
-                {activeData.month}
-              </span>
-            )}
           </div>
 
           <div className="mt-1.5 flex items-baseline gap-3">
             <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-              ₱{displayedRevenue.toLocaleString('en-PH', {
+              ₱{totalRevenue.toLocaleString('en-PH', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}
@@ -122,7 +113,7 @@ export default function RevenueTrendCard({
             </span>
 
             <span className="text-xs text-slate-400">
-              • {displayedBookings} {displayedBookings === 1 ? 'booking' : 'bookings'}
+              • {totalBookings} {totalBookings === 1 ? 'booking' : 'bookings'}
             </span>
           </div>
         </div>
@@ -222,26 +213,15 @@ export default function RevenueTrendCard({
               const isHovered = hoveredIndex === i;
               const hasValue = data[i].revenue > 0;
               return (
-                <g key={i}>
-                  <circle
-                    cx={pt.x}
-                    cy={pt.y}
-                    r={isHovered ? 6 : hasValue ? 4.5 : 3.5}
-                    fill={isHovered ? '#CA8A04' : '#FFFFFF'}
-                    stroke="#CA8A04"
-                    strokeWidth={isHovered ? 3 : 2}
-                    className="transition-all duration-150"
-                  />
-                  {isHovered && (
-                    <circle
-                      cx={pt.x}
-                      cy={pt.y}
-                      r={12}
-                      fill="#CA8A04"
-                      fillOpacity="0.15"
-                    />
-                  )}
-                </g>
+                <circle
+                  key={i}
+                  cx={pt.x}
+                  cy={pt.y}
+                  r={hasValue ? 4 : 3}
+                  fill={isHovered ? '#CA8A04' : '#FFFFFF'}
+                  stroke="#CA8A04"
+                  strokeWidth={isHovered ? 2.5 : 2}
+                />
               );
             })}
 
@@ -302,10 +282,10 @@ export default function RevenueTrendCard({
             {data.map((item, idx) => (
               <span
                 key={item.month}
-                className={`transition-colors ${
+                className={`transition-colors font-medium ${
                   hoveredIndex === idx
-                    ? 'font-bold text-slate-900'
-                    : 'font-medium text-slate-400'
+                    ? 'text-amber-600'
+                    : 'text-slate-400'
                 }`}
               >
                 {item.month}

@@ -1,6 +1,6 @@
-OTP Verification
+{{ !empty($isPasswordReset) ? 'Admin Password Reset' : 'OTP Verification' }}
 
-Enter this code to verify your email address for booking confirmation.
+{{ $subtitle ?? 'Enter this code to verify your email address for booking confirmation.' }}
 
 {{ $otp }}
 

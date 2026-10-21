@@ -68,6 +68,7 @@ export default function BookingStep3({
     const [phone, setPhone] = useState("");
     const [notes, setNotes] = useState("");
     const [agreed, setAgreed] = useState(false);
+    const [showPolicyModal, setShowPolicyModal] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -733,18 +734,21 @@ export default function BookingStep3({
                                         className="mt-0.5 h-4 w-4 rounded border-neutral-300 accent-amber-600 focus:ring-amber-600"
                                     />
                                     <div>
-                                        <label
-                                            htmlFor="agree"
-                                            className="cursor-pointer text-sm text-neutral-700"
-                                        >
-                                            I agree to the{" "}
-                                            <a
-                                                href="#"
-                                                className="font-medium text-neutral-950 underline underline-offset-2 hover:no-underline"
+                                        <div className="flex items-center gap-1.5 flex-wrap">
+                                            <label
+                                                htmlFor="agree"
+                                                className="cursor-pointer text-sm text-neutral-700"
+                                            >
+                                                I agree to the
+                                            </label>
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPolicyModal(true)}
+                                                className="cursor-pointer text-sm font-semibold text-neutral-950 underline underline-offset-2 hover:text-amber-600 transition-colors"
                                             >
                                                 cancellation policy
-                                            </a>
-                                        </label>
+                                            </button>
+                                        </div>
                                         {errors.agreed && (
                                             <p role="alert" className="mt-1 text-xs text-red-600">
                                                 {errors.agreed}
@@ -963,6 +967,144 @@ export default function BookingStep3({
                                     Yes, Leave
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Cancellation Policy Modal */}
+            {showPolicyModal && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                    onClick={() => setShowPolicyModal(false)}
+                >
+                    <div
+                        className="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-7 shadow-2xl relative max-h-[90vh] flex flex-col"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Header */}
+                        <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-700">
+                                    <svg
+                                        className="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-bold text-gray-900">
+                                        Cancellation & Rescheduling Policy
+                                    </h3>
+                                    <p className="text-xs text-gray-500">
+                                        BEZ Hair Studio Terms
+                                    </p>
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setShowPolicyModal(false)}
+                                className="w-8 h-8 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 flex items-center justify-center transition"
+                                aria-label="Close modal"
+                            >
+                                <svg
+                                    className="w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Content Body */}
+                        <div className="overflow-y-auto py-4 space-y-4 text-sm text-gray-600 leading-relaxed pr-1">
+                            <div className="bg-amber-50/70 rounded-xl p-3.5 border border-amber-200/60">
+                                <p className="text-xs font-medium text-amber-900 leading-relaxed">
+                                    We value your time as well as our barbers'. By booking an appointment with BEZ Hair Studio, you acknowledge and agree to our appointment policy below.
+                                </p>
+                            </div>
+
+                            <div className="space-y-3.5">
+                                <div className="rounded-xl border border-gray-100 p-3.5 bg-gray-50/50">
+                                    <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-sm">
+                                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        1. Advance Notice
+                                    </h4>
+                                    <p className="text-xs text-gray-600 mt-1 pl-4 leading-relaxed">
+                                        If you need to reschedule or cancel your appointment, please notify us at least <strong>24 hours in advance</strong> (or as early as possible for same-day bookings). This allows us to offer the slot to clients on our waiting list.
+                                    </p>
+                                </div>
+
+                                <div className="rounded-xl border border-gray-100 p-3.5 bg-gray-50/50">
+                                    <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-sm">
+                                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        2. Late Arrivals & Grace Period
+                                    </h4>
+                                    <p className="text-xs text-gray-600 mt-1 pl-4 leading-relaxed">
+                                        We provide a <strong>15-minute grace period</strong>. If you arrive more than 15 minutes past your scheduled appointment time, your service may need to be adjusted or rescheduled to avoid delaying subsequent clients.
+                                    </p>
+                                </div>
+
+                                <div className="rounded-xl border border-gray-100 p-3.5 bg-gray-50/50">
+                                    <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-sm">
+                                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        3. No-Shows
+                                    </h4>
+                                    <p className="text-xs text-gray-600 mt-1 pl-4 leading-relaxed">
+                                        Clients who miss an appointment without any prior contact will be recorded as a no-show. Repeated no-shows may be restricted to walk-in service only.
+                                    </p>
+                                </div>
+
+                                <div className="rounded-xl border border-gray-100 p-3.5 bg-gray-50/50">
+                                    <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-sm">
+                                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        4. Online Payments (GCash QR PH)
+                                    </h4>
+                                    <p className="text-xs text-gray-600 mt-1 pl-4 leading-relaxed">
+                                        Appointments cancelled with timely notice can be converted to studio credit or rescheduled to an alternate date and time.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer Buttons */}
+                        <div className="pt-4 border-t border-gray-100 flex items-center gap-3">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setAgreed(true);
+                                    setErrors((prev) => {
+                                        const newErrors = { ...prev };
+                                        delete newErrors.agreed;
+                                        return newErrors;
+                                    });
+                                    setShowPolicyModal(false);
+                                }}
+                                className="flex-1 py-3 px-4 bg-neutral-950 text-white rounded-xl text-sm font-semibold hover:bg-neutral-800 transition shadow-sm"
+                            >
+                                I Understand & Agree
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setShowPolicyModal(false)}
+                                className="py-3 px-4 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200 transition"
+                            >
+                                Close
+                            </button>
                         </div>
                     </div>
                 </div>

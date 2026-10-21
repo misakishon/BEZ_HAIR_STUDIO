@@ -39,8 +39,8 @@ Route::controller(BookingController::class)->group(function () {
     Route::get('/booking/get-slots', 'getSlots')->name('booking.get-slots');
     Route::post('/booking/payment/gcash', 'initiateQrPhPayment')->name('booking.payment.gcash');
     Route::get('/booking/payment/gcash/status', 'checkQrPhStatus');
-    Route::post('/booking/send-otp', 'sendOtp')->name('booking.send-otp');
-    Route::post('/booking/verify-otp', 'verifyOtp')->name('booking.verify-otp');
+    Route::post('/booking/send-otp', 'sendOtp')->name('booking.send-otp')->middleware('throttle:5,1');
+    Route::post('/booking/verify-otp', 'verifyOtp')->name('booking.verify-otp')->middleware('throttle:10,1');
 });
 
 // Admin entry point
@@ -56,6 +56,12 @@ Route::get('/admin', function () {
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.post');
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+Route::post('/admin/forgot-password/send-otp', [AdminLoginController::class, 'sendResetOtp'])
+    ->name('admin.forgot-password.send-otp')
+    ->middleware('throttle:3,1');
+Route::post('/admin/forgot-password/reset', [AdminLoginController::class, 'resetPasswordWithOtp'])
+    ->name('admin.forgot-password.reset')
+    ->middleware('throttle:5,1');
 
 // Protected admin pages and APIs
 Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->group(function () {
