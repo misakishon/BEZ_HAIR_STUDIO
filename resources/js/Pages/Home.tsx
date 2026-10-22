@@ -4,6 +4,7 @@ import HeroSection from "../section/HeroSection";
 import AchievementsSection from "../section/AchievementsSection";
 import PopularSection from "../section/popularSection";
 import BarbersSection from "../section/BarbersSection";
+import BookingFlowSection from "../section/BookingFlowSection";
 import ContactSection from "../section/ContactSection";
 import Footer from "../components/footer";
 import { Head } from "@inertiajs/react";
@@ -57,6 +58,10 @@ export default function Home({ popularHairstyles, barbers = [] }: HomeProps) {
                     <div id="barbers" className="scroll-mt-20">
                         {/* Pass barbers prop to BarbersSection */}
                         <BarbersSection barbers={barbers} />
+                    </div>
+
+                    <div id="how-it-works" className="scroll-mt-20">
+                        <BookingFlowSection />
                     </div>
                     <div id="why-bez" className="scroll-mt-20">
                         <WhyChooseSection />

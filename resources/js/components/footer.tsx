@@ -81,6 +81,14 @@ function Footer() {
                             </li>
                             <li>
                                 <a
+                                    href="/#how-it-works"
+                                    className="hover:text-amber-400 transition-colors"
+                                >
+                                    How it Works
+                                </a>
+                            </li>
+                            <li>
+                                <a
                                     href="/#contact"
                                     className="hover:text-amber-400 transition-colors"
                                 >
@@ -178,4 +186,3 @@ function Footer() {
 }
 
 export default Footer;
-

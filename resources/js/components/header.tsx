@@ -6,6 +6,7 @@ const sectionLinks = [
     { label: "Home", id: "home" },
     { label: "Haircuts", id: "haircut" },
     { label: "Our barbers", id: "barbers" },
+    { label: "How to book", id: "how-it-works" },
     { label: "Contact", id: "contact" },
 ];
 
