@@ -14,6 +14,9 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                morche: ['Morche', 'sans-serif'],
+                serif: ['Morche', ...defaultTheme.fontFamily.serif],
+                display: ['Morche', 'sans-serif'],
             },
         },
     },

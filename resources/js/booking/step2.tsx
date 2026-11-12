@@ -678,7 +678,7 @@ export default function BookingStep3({
 
                             {isLoading && (
                                 <div className="flex items-center justify-center rounded-2xl border border-neutral-200 bg-white py-12">
-                                    <div className="mr-3 h-6 w-6 animate-spin rounded-full border-2 border-amber-600 border-t-transparent"></div>
+                                    <div className="mr-3 h-6 w-6 animate-spin rounded-full border-2 border-black border-t-transparent"></div>
                                     <span className="text-sm text-neutral-500">
                                         Checking availability…
                                     </span>

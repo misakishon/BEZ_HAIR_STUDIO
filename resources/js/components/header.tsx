@@ -68,10 +68,10 @@ function Header() {
                         aria-label="BEZ Hair Studio home"
                         className="group flex shrink-0 flex-col leading-none"
                     >
-                        <span className="text-xl font-medium tracking-[0.22em] text-neutral-950 transition-colors group-hover:text-amber-700">
-                            BEZ<span className="text-amber-600">.</span>
+                        <span className="text-xl font-morche font-semibold tracking-[0.22em] text-black transition-opacity group-hover:opacity-80">
+                            BEZ.
                         </span>
-                        <span className="mt-1.5 text-[9px] font-medium uppercase tracking-[0.34em] text-neutral-500">
+                        <span className="mt-1.5 text-[9px] font-morche font-medium uppercase tracking-[0.34em] text-neutral-500">
                             Hair Studio
                         </span>
                     </a>
@@ -105,8 +105,8 @@ function Header() {
                             href="/booking/step-1"
                             className={`hidden items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors sm:inline-flex ${
                                 isBookingPage
-                                    ? "bg-amber-500 text-neutral-950"
-                                    : "bg-neutral-950 text-white hover:bg-neutral-800"
+                                    ? "bg-white text-black border border-black shadow-sm"
+                                    : "bg-black text-white hover:bg-neutral-800"
                             }`}
                         >
                             Book a visit
@@ -119,7 +119,7 @@ function Header() {
                             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                             aria-expanded={isMenuOpen}
                             aria-controls="mobile-navigation"
-                            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-neutral-800 transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 md:hidden"
+                            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-black transition-colors hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black md:hidden"
                         >
                             {isMenuOpen ? (
                                 <X aria-hidden="true" className="h-5 w-5" />

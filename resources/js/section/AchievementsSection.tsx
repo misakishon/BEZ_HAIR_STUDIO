@@ -28,7 +28,7 @@ const statsData: StatItemData[] = [
         sublabel: "Proven",
     },
     {
-        icon: <Star className="w-5 h-5 sm:w-6 sm:h-6 fill-amber-500 text-amber-500" />,
+        icon: <Star className="w-5 h-5 sm:w-6 sm:h-6 fill-black text-black" />,
         value: "4.9",
         label: "Customer Rating",
         sublabel: "★ Verified",
@@ -48,20 +48,20 @@ const statsData: StatItemData[] = [
 ];
 
 const StatCard: React.FC<{ item: StatItemData }> = ({ item }) => (
-    <div className="flex items-center gap-2.5 sm:gap-3 px-3.5 py-1.5 mx-2 rounded-xl bg-white border border-neutral-200/60 shadow-2xs hover:shadow-xs hover:border-amber-400/40 transition-all duration-200 group flex-shrink-0 cursor-default">
-        <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-600 transition-transform duration-200 group-hover:scale-105">
+    <div className="flex items-center gap-2.5 sm:gap-3 px-3.5 py-1.5 mx-2 rounded-xl bg-white border border-neutral-200 shadow-2xs hover:shadow-xs hover:border-black transition-all duration-200 group flex-shrink-0 cursor-default">
+        <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center text-neutral-900 transition-transform duration-200 group-hover:scale-105">
             {React.cloneElement(item.icon as React.ReactElement, {
-                className: "w-3.5 h-3.5 sm:w-4 sm:h-4",
+                className: "w-3.5 h-3.5 sm:w-4 sm:h-4 text-black",
             })}
         </div>
 
         <div className="flex flex-col whitespace-nowrap">
             <div className="flex items-baseline gap-1">
-                <span className="font-bold text-xs sm:text-sm text-neutral-900 tracking-tight leading-none">
+                <span className="font-bold text-xs sm:text-sm text-black tracking-tight leading-none">
                     {item.value}
                 </span>
                 {item.sublabel && (
-                    <span className="text-[8px] sm:text-[9px] font-semibold text-amber-600 uppercase tracking-wider">
+                    <span className="text-[8px] sm:text-[9px] font-semibold text-neutral-500 uppercase tracking-wider">
                         {item.sublabel}
                     </span>
                 )}

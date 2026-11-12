@@ -624,14 +624,14 @@ export default function BookingStep3({
                                             setFullName(e.target.value)
                                         }
                                         placeholder="Enter your full name"
-                                        className={`w-full rounded-xl border px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500/20 ${
+                                        className={`w-full rounded-xl border px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-black focus:outline-none focus:ring-1 focus:ring-black ${
                                             errors.fullName
-                                                ? "border-red-500"
+                                                ? "border-neutral-900"
                                                 : "border-neutral-300"
                                         }`}
                                     />
                                     {errors.fullName && (
-                                        <p role="alert" className="mt-1 text-xs text-red-600">
+                                        <p role="alert" className="mt-1 text-xs text-neutral-900 font-medium">
                                             {errors.fullName}
                                         </p>
                                     )}
@@ -651,21 +651,21 @@ export default function BookingStep3({
                                             }
                                             placeholder="your@email.com"
                                             disabled={otpSent}
-                                            className={`min-w-0 flex-1 rounded-xl border px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500/20 ${
+                                            className={`min-w-0 flex-1 rounded-xl border px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-black focus:outline-none focus:ring-1 focus:ring-black ${
                                                 errors.email
-                                                    ? "border-red-500"
+                                                    ? "border-neutral-900"
                                                     : "border-neutral-300"
                                             } ${otpSent ? "cursor-not-allowed bg-neutral-100 text-neutral-500" : ""}`}
                                         />
                                     </div>
                                     {otpSuccess && (
-                                        <p role="status" className="mt-1 text-xs text-emerald-700">
+                                        <p role="status" className="mt-1 text-xs text-neutral-900 font-medium">
                                             OTP sent successfully! Check your
                                             email.
                                         </p>
                                     )}
                                     {errors.email && (
-                                        <p role="alert" className="mt-1 text-xs text-red-600">
+                                        <p role="alert" className="mt-1 text-xs text-neutral-900 font-medium">
                                             {errors.email}
                                         </p>
                                     )}
@@ -689,9 +689,9 @@ export default function BookingStep3({
                                             onChange={handlePhoneChange}
                                             onFocus={handlePhoneFocus}
                                             placeholder="912 345 6789"
-                                            className={`w-full rounded-xl border py-3 pl-12 pr-4 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500/20 ${
+                                            className={`w-full rounded-xl border py-3 pl-12 pr-4 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-black focus:outline-none focus:ring-1 focus:ring-black ${
                                                 errors.phone
-                                                    ? "border-red-500"
+                                                    ? "border-neutral-900"
                                                     : "border-neutral-300"
                                             }`}
                                         />
@@ -701,7 +701,7 @@ export default function BookingStep3({
                                         345 6789)
                                     </p>
                                     {errors.phone && (
-                                        <p role="alert" className="mt-1 text-xs text-red-600">
+                                        <p role="alert" className="mt-1 text-xs text-neutral-900 font-medium">
                                             {errors.phone}
                                         </p>
                                     )}
@@ -719,7 +719,7 @@ export default function BookingStep3({
                                         }
                                         placeholder="Any preferences or notes for your barber…"
                                         rows={3}
-                                        className="w-full resize-none rounded-xl border border-neutral-300 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                                        className="w-full resize-none rounded-xl border border-neutral-300 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
                                     />
                                 </div>
 
@@ -731,7 +731,7 @@ export default function BookingStep3({
                                         onChange={(e) =>
                                             setAgreed(e.target.checked)
                                         }
-                                        className="mt-0.5 h-4 w-4 rounded border-neutral-300 accent-amber-600 focus:ring-amber-600"
+                                        className="mt-0.5 h-4 w-4 rounded border-neutral-300 accent-black focus:ring-black"
                                     />
                                     <div>
                                         <div className="flex items-center gap-1.5 flex-wrap">
@@ -744,13 +744,13 @@ export default function BookingStep3({
                                             <button
                                                 type="button"
                                                 onClick={() => setShowPolicyModal(true)}
-                                                className="cursor-pointer text-sm font-semibold text-neutral-950 underline underline-offset-2 hover:text-amber-600 transition-colors"
+                                                className="cursor-pointer text-sm font-semibold text-black underline underline-offset-2 hover:text-neutral-600 transition-colors"
                                             >
                                                 cancellation policy
                                             </button>
                                         </div>
                                         {errors.agreed && (
-                                            <p role="alert" className="mt-1 text-xs text-red-600">
+                                            <p role="alert" className="mt-1 text-xs text-neutral-900 font-medium">
                                                 {errors.agreed}
                                             </p>
                                         )}
@@ -822,9 +822,9 @@ export default function BookingStep3({
                         </button>
 
                         <div className="text-center">
-                            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center">
+                            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-neutral-100 flex items-center justify-center">
                                 <svg
-                                    className="w-10 h-10 text-amber-600"
+                                    className="w-10 h-10 text-black"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -938,8 +938,8 @@ export default function BookingStep3({
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
                     <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl">
                         <div className="text-center">
-                            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center">
-                                <span className="material-symbols-outlined text-3xl text-amber-600">
+                            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-neutral-100 flex items-center justify-center">
+                                <span className="material-symbols-outlined text-3xl text-black">
                                     warning
                                 </span>
                             </div>
@@ -962,7 +962,7 @@ export default function BookingStep3({
                                 </button>
                                 <button
                                     onClick={confirmLeave}
-                                    className="flex-1 py-2.5 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition"
+                                    className="flex-1 py-2.5 bg-black text-white rounded-lg font-medium hover:bg-neutral-800 transition"
                                 >
                                     Yes, Leave
                                 </button>
@@ -984,7 +984,7 @@ export default function BookingStep3({
                         {/* Header */}
                         <div className="flex items-center justify-between pb-4 border-b border-gray-100">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-700">
+                                <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-black">
                                     <svg
                                         className="w-5 h-5"
                                         fill="none"
@@ -1032,8 +1032,8 @@ export default function BookingStep3({
 
                         {/* Content Body */}
                         <div className="overflow-y-auto py-4 space-y-4 text-sm text-gray-600 leading-relaxed pr-1">
-                            <div className="bg-amber-50/70 rounded-xl p-3.5 border border-amber-200/60">
-                                <p className="text-xs font-medium text-amber-900 leading-relaxed">
+                            <div className="bg-neutral-100 rounded-xl p-3.5 border border-neutral-200">
+                                <p className="text-xs font-medium text-black leading-relaxed">
                                     We value your time as well as our barbers'. By booking an appointment with BEZ Hair Studio, you acknowledge and agree to our appointment policy below.
                                 </p>
                             </div>
@@ -1041,7 +1041,7 @@ export default function BookingStep3({
                             <div className="space-y-3.5">
                                 <div className="rounded-xl border border-gray-100 p-3.5 bg-gray-50/50">
                                     <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-sm">
-                                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        <span className="w-2 h-2 rounded-full bg-black"></span>
                                         1. Advance Notice
                                     </h4>
                                     <p className="text-xs text-gray-600 mt-1 pl-4 leading-relaxed">
@@ -1051,7 +1051,7 @@ export default function BookingStep3({
 
                                 <div className="rounded-xl border border-gray-100 p-3.5 bg-gray-50/50">
                                     <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-sm">
-                                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        <span className="w-2 h-2 rounded-full bg-black"></span>
                                         2. Late Arrivals & Grace Period
                                     </h4>
                                     <p className="text-xs text-gray-600 mt-1 pl-4 leading-relaxed">
@@ -1061,7 +1061,7 @@ export default function BookingStep3({
 
                                 <div className="rounded-xl border border-gray-100 p-3.5 bg-gray-50/50">
                                     <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-sm">
-                                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        <span className="w-2 h-2 rounded-full bg-black"></span>
                                         3. No-Shows
                                     </h4>
                                     <p className="text-xs text-gray-600 mt-1 pl-4 leading-relaxed">
@@ -1071,7 +1071,7 @@ export default function BookingStep3({
 
                                 <div className="rounded-xl border border-gray-100 p-3.5 bg-gray-50/50">
                                     <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-sm">
-                                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        <span className="w-2 h-2 rounded-full bg-black"></span>
                                         4. Online Payments (GCash QR PH)
                                     </h4>
                                     <p className="text-xs text-gray-600 mt-1 pl-4 leading-relaxed">

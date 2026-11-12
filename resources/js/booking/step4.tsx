@@ -368,8 +368,8 @@ export default function BookingStep4({
                                                 }}
                                                 className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all duration-200 ${
                                                     isActive
-                                                        ? "border-amber-600 bg-amber-50/50 ring-2 ring-amber-100"
-                                                        : "border-neutral-200 hover:border-neutral-400 hover:bg-neutral-50"
+                                                        ? "border-black bg-neutral-100 ring-2 ring-neutral-200"
+                                                        : "border-neutral-200 hover:border-black hover:bg-neutral-50"
                                                 }`}
                                             >
                                                 <input
@@ -383,13 +383,13 @@ export default function BookingStep4({
                                                         );
                                                         setGcashError(null);
                                                     }}
-                                                    className="h-4 w-4 flex-shrink-0 cursor-pointer accent-amber-600"
+                                                    className="h-4 w-4 flex-shrink-0 cursor-pointer accent-black"
                                                 />
                                                 <div className="flex items-center gap-4 flex-1">
                                                     <div
                                                         className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
                                                             isActive
-                                                                ? "bg-neutral-950 text-white"
+                                                                ? "bg-black text-white"
                                                                 : "bg-neutral-100 text-neutral-600"
                                                         }`}
                                                     >
@@ -401,7 +401,7 @@ export default function BookingStep4({
                                                         <p
                                                             className={`text-sm font-semibold transition-colors ${
                                                                 isActive
-                                                                    ? "text-neutral-950"
+                                                                    ? "text-black"
                                                                     : "text-neutral-700"
                                                             }`}
                                                         >
@@ -412,7 +412,7 @@ export default function BookingStep4({
                                                         </p>
                                                     </div>
                                                     {isActive && (
-                                                        <span className="material-symbols-outlined text-emerald-700 text-xl">
+                                                        <span className="material-symbols-outlined text-black text-xl">
                                                             check_circle
                                                         </span>
                                                     )}
@@ -478,7 +478,7 @@ export default function BookingStep4({
                                         </p>
 
                                         {gcashQrCode && (
-                                            <div className="mt-4 space-y-4 rounded-2xl border border-amber-200 bg-amber-50/50 p-5 sm:p-6">
+                                            <div className="mt-4 space-y-4 rounded-2xl border border-neutral-200 bg-neutral-50 p-5 sm:p-6">
                                                 <div className="text-center space-y-1">
                                                     <p className="text-base font-semibold text-neutral-950">
                                                         Scan to Pay

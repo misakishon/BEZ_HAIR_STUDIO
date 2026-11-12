@@ -114,10 +114,10 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
             {/* Header with Title & View Mode Switcher */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
                 <div>
-                    <span className="text-xs uppercase tracking-widest text-neutral-400 font-semibold">
+                    <span className="text-xs uppercase tracking-widest text-neutral-400 font-semibold font-morche">
                         Signature Cuts
                     </span>
-                    <h3 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight mt-0.5">
+                    <h3 className="text-2xl sm:text-3xl font-morche font-medium text-neutral-900 tracking-tight mt-0.5">
                         Popular Hairstyles
                     </h3>
                 </div>
@@ -199,13 +199,9 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                         </svg>
                     </div>
 
-                    {/* 3D Curved Arc Stage */}
+                    {/* HD Arc Stage: Crisp Native Vector Rendering */}
                     <div
-                        className="relative w-full h-[470px] sm:h-[510px] md:h-[540px] flex items-center justify-center overflow-hidden"
-                        style={{
-                            perspective: "1200px",
-                            perspectiveOrigin: "50% 45%",
-                        }}
+                        className="relative w-full h-[480px] sm:h-[520px] md:h-[550px] flex items-center justify-center overflow-hidden"
                         onTouchStart={handleTouchStart}
                         onTouchEnd={handleTouchEnd}
                         onMouseDown={handleTouchStart}
@@ -221,32 +217,27 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                             const absOffset = Math.abs(offset);
                             const price = getPrice(style.price);
 
-                            // Curved geometry calculations
-                            // X displacement across screen
-                            const translateX = offset * 210;
-                            // Parabolic downward curve: outer cards drop gracefully
+                            // HD Crisp calculations: Avoid 3D texture raster blur
+                            const translateX = offset * 225;
                             const translateY =
                                 absOffset === 0
                                     ? 0
                                     : absOffset === 1
-                                    ? 22
-                                    : 56;
-                            // 3D inward rotation curving towards viewer
-                            const rotateY = -offset * 16;
-                            // Depth scale
+                                    ? 18
+                                    : 46;
+                            // Native scale 1 for center to preserve 100% vector sharpness
                             const scale =
                                 absOffset === 0
-                                    ? 1.08
+                                    ? 1
                                     : absOffset === 1
                                     ? 0.92
-                                    : 0.8;
-                            // Depth opacity
+                                    : 0.84;
                             const opacity =
                                 absOffset === 0
                                     ? 1
                                     : absOffset === 1
                                     ? 0.88
-                                    : 0.65;
+                                    : 0.55;
                             const zIndex = 30 - absOffset * 10;
 
                             // Hide items outside visible arc window if more than 5
@@ -260,22 +251,29 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                                     onClick={() => setActiveIndex(idx)}
                                     className={`absolute top-1/2 left-1/2 cursor-pointer transition-all duration-500 ease-out group ${
                                         isCenter
-                                            ? "cursor-default ring-2 ring-black/15 shadow-2xl rounded-3xl"
+                                            ? "cursor-default"
                                             : "hover:opacity-100"
                                     }`}
                                     style={{
-                                        width: "215px",
-                                        transform: `translate(calc(-50% + ${translateX}px), calc(-50% + ${translateY}px)) rotateY(${rotateY}deg) scale(${scale})`,
+                                        width: "235px",
+                                        transform: `translate3d(calc(-50% + ${translateX}px), calc(-50% + ${translateY}px), 0) scale(${scale})`,
                                         zIndex,
                                         opacity,
                                         transformOrigin: "center center",
-                                        transformStyle: "preserve-3d",
+                                        backfaceVisibility: "hidden",
+                                        WebkitFontSmoothing: "antialiased",
                                     }}
                                 >
-                                    {/* Card Container with Curved Rounded Corners */}
-                                    <div className="bg-white rounded-3xl p-3 shadow-md border border-neutral-200/80 transition-shadow duration-300 group-hover:shadow-xl">
+                                    {/* Card Container: Sharp HD Borders and Clean Contrast */}
+                                    <div
+                                        className={`bg-white rounded-2xl p-3 transition-all duration-300 ${
+                                            isCenter
+                                                ? "border-2 border-black shadow-xl"
+                                                : "border border-neutral-200/90 shadow-sm group-hover:border-neutral-400 group-hover:shadow-md"
+                                        }`}
+                                    >
                                         {/* Image Box */}
-                                        <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-neutral-100">
+                                        <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-neutral-100 border border-neutral-200/60">
                                             <img
                                                 src={resolveUploadImageUrl(
                                                     style.image_path,
@@ -283,11 +281,15 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                                                     "/uploads/hairstyle",
                                                 )}
                                                 alt={style.name}
-                                                className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
+                                                className={`w-full h-full object-cover transition-transform duration-500 ${
                                                     isCenter
-                                                        ? "grayscale-0"
-                                                        : "grayscale group-hover:grayscale-0"
+                                                        ? ""
+                                                        : "opacity-90 group-hover:opacity-100"
                                                 }`}
+                                                style={{
+                                                    imageRendering:
+                                                        "-webkit-optimize-contrast",
+                                                }}
                                                 onError={(e) => {
                                                     (
                                                         e.target as HTMLImageElement
@@ -297,7 +299,7 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                                             />
 
                                             {/* Duration Pill Badge */}
-                                            <div className="absolute top-2.5 left-2.5 bg-black/60 backdrop-blur-md text-white px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider flex items-center gap-1 shadow-sm">
+                                            <div className="absolute top-2.5 left-2.5 bg-black/85 text-white px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider flex items-center gap-1 shadow-sm">
                                                 <svg
                                                     className="w-2.5 h-2.5"
                                                     viewBox="0 0 24 24"
@@ -313,19 +315,19 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
 
                                             {/* Active Highlight Ribbon */}
                                             {isCenter && (
-                                                <div className="absolute top-2.5 right-2.5 bg-amber-500 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
+                                                <div className="absolute top-2.5 right-2.5 bg-black text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm">
                                                     Popular
                                                 </div>
                                             )}
                                         </div>
 
-                                        {/* Info Section */}
+                                        {/* Info Section: Vector-Sharp HD Typography */}
                                         <div className="mt-3 px-1">
-                                            <div className="flex justify-between items-baseline">
-                                                <h4 className="font-bold text-sm text-neutral-900 truncate">
+                                            <div className="flex justify-between items-baseline gap-2">
+                                                <h4 className="font-bold text-[15px] text-neutral-950 truncate tracking-tight">
                                                     {style.name}
                                                 </h4>
-                                                <span className="font-semibold text-sm text-neutral-900 ml-2 flex-shrink-0">
+                                                <span className="font-bold text-sm text-neutral-950 flex-shrink-0">
                                                     ₱{price.toFixed(2)}
                                                 </span>
                                             </div>
@@ -334,7 +336,7 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                                             {isCenter ? (
                                                 <Link
                                                     href={`/booking/step-1?hairstyle=${style.id}`}
-                                                    className="mt-2.5 w-full flex items-center justify-center gap-1.5 bg-black text-white py-2 rounded-xl text-xs font-semibold hover:bg-neutral-800 transition-colors shadow-sm"
+                                                    className="mt-3 w-full flex items-center justify-center gap-1.5 bg-black text-white py-2.5 rounded-xl text-xs font-semibold hover:bg-neutral-800 transition-colors shadow-sm"
                                                 >
                                                     <span>Book Style</span>
                                                     <svg
@@ -352,8 +354,8 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                                                     </svg>
                                                 </Link>
                                             ) : (
-                                                <div className="mt-2 text-[11px] text-neutral-400 text-center font-medium">
-                                                    Click to view
+                                                <div className="mt-2 text-[11px] text-neutral-500 text-center font-medium">
+                                                    Click to select
                                                 </div>
                                             )}
                                         </div>
@@ -367,7 +369,7 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                     <button
                         type="button"
                         onClick={handlePrev}
-                        className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 backdrop-blur-sm border border-neutral-200 text-neutral-700 shadow-lg hover:bg-black hover:text-white hover:border-black transition-all flex items-center justify-center z-40 active:scale-95"
+                        className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 backdrop-blur-sm border border-neutral-300 text-neutral-800 shadow-md hover:bg-black hover:text-white hover:border-black transition-all flex items-center justify-center z-40 active:scale-95"
                         aria-label="Previous Hairstyle"
                     >
                         <svg
@@ -388,7 +390,7 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                     <button
                         type="button"
                         onClick={handleNext}
-                        className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 backdrop-blur-sm border border-neutral-200 text-neutral-700 shadow-lg hover:bg-black hover:text-white hover:border-black transition-all flex items-center justify-center z-40 active:scale-95"
+                        className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 backdrop-blur-sm border border-neutral-300 text-neutral-800 shadow-md hover:bg-black hover:text-white hover:border-black transition-all flex items-center justify-center z-40 active:scale-95"
                         aria-label="Next Hairstyle"
                     >
                         <svg
@@ -431,9 +433,9 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                         return (
                             <div
                                 key={style.id}
-                                className="group bg-white rounded-2xl p-3 border border-neutral-200/80 shadow-sm hover:shadow-md transition-all duration-300"
+                                className="group bg-white rounded-2xl p-3 border-2 border-neutral-200/90 shadow-sm hover:border-black hover:shadow-md transition-all duration-300"
                             >
-                                <div className="aspect-[3/4] overflow-hidden rounded-xl bg-neutral-100 relative">
+                                <div className="aspect-[3/4] overflow-hidden rounded-xl bg-neutral-100 relative border border-neutral-200/60">
                                     <img
                                         src={resolveUploadImageUrl(
                                             style.image_path,
@@ -441,7 +443,11 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                                             "/uploads/hairstyle",
                                         )}
                                         alt={style.name}
-                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 grayscale group-hover:grayscale-0"
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        style={{
+                                            imageRendering:
+                                                "-webkit-optimize-contrast",
+                                        }}
                                         onError={(e) => {
                                             (
                                                 e.target as HTMLImageElement
@@ -449,22 +455,22 @@ export default function PopularHairstyles({ hairstyles }: PopularHairstylesProps
                                                 "/uploads/hairstyle/default.jpg";
                                         }}
                                     />
-                                    <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-md text-white px-2 py-0.5 rounded-full text-[9px] font-medium uppercase tracking-wider">
+                                    <div className="absolute top-2 left-2 bg-black/85 text-white px-2.5 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-wider shadow-sm">
                                         {style.duration_minutes} MIN
                                     </div>
                                 </div>
-                                <div className="mt-2.5">
-                                    <div className="flex justify-between items-baseline">
-                                        <h4 className="font-semibold text-sm text-neutral-900 truncate">
+                                <div className="mt-3 px-0.5">
+                                    <div className="flex justify-between items-baseline gap-1">
+                                        <h4 className="font-bold text-[14px] text-neutral-950 truncate tracking-tight">
                                             {style.name}
                                         </h4>
-                                        <span className="text-sm font-semibold text-neutral-900 ml-1">
+                                        <span className="text-sm font-bold text-neutral-950 flex-shrink-0">
                                             ₱{price.toFixed(2)}
                                         </span>
                                     </div>
                                     <Link
                                         href={`/booking/step-1?hairstyle=${style.id}`}
-                                        className="mt-2 block text-center bg-neutral-100 hover:bg-black hover:text-white py-1.5 rounded-lg text-xs font-medium transition-colors"
+                                        className="mt-2.5 block text-center bg-neutral-100 hover:bg-black hover:text-white py-2 rounded-xl text-xs font-semibold text-neutral-900 transition-colors shadow-2xs"
                                     >
                                         Book Now
                                     </Link>

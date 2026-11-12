@@ -68,7 +68,7 @@ export default function BookingSuccess({ booking }: BookingSuccessProps) {
                 <div className="mx-auto max-w-3xl px-4 pb-12 pt-10 sm:px-6 sm:pt-14">
                     {/* Success Icon */}
                     <div className="mb-8 text-center">
-                        <div className="mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-amber-800">
+                        <div className="mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-black text-white">
                             <svg
                                 className="h-8 w-8"
                                 fill="none"
@@ -214,13 +214,13 @@ export default function BookingSuccess({ booking }: BookingSuccessProps) {
                     </div>
 
                     {/* What's Next Section */}
-                    <div className="mb-8 rounded-2xl border border-amber-200 bg-amber-50/70 p-5 sm:p-6">
-                        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-amber-900">
+                    <div className="mb-8 rounded-2xl border border-neutral-200 bg-neutral-100 p-5 sm:p-6">
+                        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-black">
                             What's Next?
                         </p>
                         <ul className="space-y-3 text-sm leading-6 text-neutral-700">
                             <li className="flex items-start gap-3">
-                                <span className="mt-0.5 font-semibold text-amber-800">
+                                <span className="mt-0.5 font-bold text-black">
                                     1.
                                 </span>
                                 <span>
@@ -229,7 +229,7 @@ export default function BookingSuccess({ booking }: BookingSuccessProps) {
                                 </span>
                             </li>
                             <li className="flex items-start gap-3">
-                                <span className="mt-0.5 font-semibold text-amber-800">
+                                <span className="mt-0.5 font-bold text-black">
                                     2.
                                 </span>
                                 <span>
@@ -241,7 +241,7 @@ export default function BookingSuccess({ booking }: BookingSuccessProps) {
                                 </span>
                             </li>
                             <li className="flex items-start gap-3">
-                                <span className="mt-0.5 font-semibold text-amber-800">
+                                <span className="mt-0.5 font-bold text-black">
                                     3.
                                 </span>
                                 <span>
@@ -251,7 +251,7 @@ export default function BookingSuccess({ booking }: BookingSuccessProps) {
                                 </span>
                             </li>
                             <li className="flex items-start gap-3">
-                                <span className="mt-0.5 font-semibold text-amber-800">
+                                <span className="mt-0.5 font-bold text-black">
                                     4.
                                 </span>
                                 <span>

@@ -91,18 +91,15 @@ function ContactSection() {
         "https://www.google.com/maps/dir/?api=1&destination=Bez+Cuts+and+Fades&destination_place_id=ChIJ-zeqUgAJkzkRtIEg9JQbKzk";
 
     return (
-        <section className="w-full bg-stone-50/40 py-20 md:py-28 border-b border-neutral-200/70 relative overflow-hidden">
-            {/* Ambient background decoration */}
-            <div className="absolute bottom-0 left-10 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-
+        <section className="w-full bg-neutral-50 py-20 md:py-28 border-b border-neutral-200 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
                 {/* SECTION HEADER */}
                 <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center gap-3">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold tracking-widest uppercase text-amber-900 shadow-xs">
-                        <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                    <div className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-3.5 py-1 text-xs font-semibold tracking-widest uppercase text-black shadow-xs">
+                        <Sparkles className="w-3.5 h-3.5 text-black" />
                         <span>Get In Touch</span>
                     </div>
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-neutral-900 tracking-tight leading-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-black tracking-tight leading-tight">
                         Visit the Studio or Connect
                     </h2>
                     <p className="text-sm sm:text-base text-neutral-600 font-light max-w-md mx-auto leading-relaxed">
@@ -115,17 +112,17 @@ function ContactSection() {
                     {/* LEFT SIDE: STUDIO LOCATION & QUICK CONTACT (5 Columns) */}
                     <div className="lg:col-span-5 flex flex-col gap-5 w-full">
                         {/* Main Location Card */}
-                        <div className="p-6 sm:p-7 bg-white border border-stone-200/90 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-5">
+                        <div className="p-6 sm:p-7 bg-white border border-neutral-200 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-5">
                             <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center shrink-0">
+                                <div className="w-12 h-12 rounded-2xl bg-neutral-100 border border-neutral-200 text-black flex items-center justify-center shrink-0">
                                     <MapPin className="w-6 h-6 stroke-[1.75]" />
                                 </div>
                                 <div className="flex flex-col gap-1 flex-1">
                                     <div className="flex items-center justify-between">
-                                        <h3 className="text-base font-bold text-neutral-900 tracking-tight">
+                                        <h3 className="text-base font-bold text-black tracking-tight">
                                             BEZ Cuts & Fades
                                         </h3>
-                                        <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-full">
+                                        <span className="text-[10px] font-semibold uppercase tracking-wider text-black bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full">
                                             Main Studio
                                         </span>
                                     </div>
@@ -136,16 +133,16 @@ function ContactSection() {
                                         href={directionsUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-xs font-semibold text-neutral-900 hover:text-amber-700 transition-colors inline-flex items-center gap-1.5 mt-2"
+                                        className="text-xs font-semibold text-black hover:text-neutral-600 transition-colors inline-flex items-center gap-1.5 mt-2"
                                     >
-                                        <Navigation className="w-3.5 h-3.5 text-amber-600" />
+                                        <Navigation className="w-3.5 h-3.5 text-black" />
                                         <span>Get Driving Directions →</span>
                                     </a>
                                 </div>
                             </div>
 
                             {/* Google Maps Embed */}
-                            <div className="w-full h-[220px] rounded-2xl overflow-hidden border border-stone-200/80 shadow-inner relative group/map">
+                            <div className="w-full h-[220px] rounded-2xl overflow-hidden border border-neutral-200 shadow-inner relative group/map">
                                 <iframe
                                     src={googleMapsEmbedUrl}
                                     width="100%"
@@ -160,10 +157,10 @@ function ContactSection() {
                             </div>
 
                             {/* Hours strip */}
-                            <div className="flex items-center gap-2.5 p-3 rounded-xl bg-stone-50 border border-stone-200/60 text-xs text-neutral-600">
-                                <Clock className="w-4 h-4 text-amber-600 shrink-0" />
+                            <div className="flex items-center gap-2.5 p-3 rounded-xl bg-neutral-50 border border-neutral-200 text-xs text-neutral-600">
+                                <Clock className="w-4 h-4 text-black shrink-0" />
                                 <div className="flex flex-col">
-                                    <span className="font-semibold text-neutral-900">
+                                    <span className="font-semibold text-black">
                                         Studio Hours: Mon – Sat: 9:00 AM – 8:00 PM
                                     </span>
                                     <span className="text-[11px] text-neutral-400">
@@ -178,16 +175,16 @@ function ContactSection() {
                             {/* Call Us */}
                             <a
                                 href="tel:+639123456789"
-                                className="flex items-center gap-4 p-5 bg-white border border-stone-200/90 rounded-2xl shadow-xs hover:shadow-md hover:border-amber-500/30 transition-all duration-200 group"
+                                className="flex items-center gap-4 p-5 bg-white border border-neutral-200 rounded-2xl shadow-xs hover:shadow-md hover:border-black transition-all duration-200 group"
                             >
-                                <div className="w-10 h-10 rounded-xl bg-stone-100 group-hover:bg-amber-500/10 text-neutral-700 group-hover:text-amber-600 flex items-center justify-center shrink-0 transition-colors">
+                                <div className="w-10 h-10 rounded-xl bg-neutral-100 group-hover:bg-neutral-200 text-black flex items-center justify-center shrink-0 transition-colors">
                                     <Phone className="w-5 h-5" />
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
                                         Direct Phone
                                     </span>
-                                    <span className="text-sm font-bold text-neutral-900 group-hover:text-amber-700 transition-colors">
+                                    <span className="text-sm font-bold text-black transition-colors">
                                         +63 912 345 6789
                                     </span>
                                     <span className="text-[11px] text-neutral-400">
@@ -199,16 +196,16 @@ function ContactSection() {
                             {/* Email Us */}
                             <a
                                 href="mailto:bezcutsfades@gmail.com"
-                                className="flex items-center gap-4 p-5 bg-white border border-stone-200/90 rounded-2xl shadow-xs hover:shadow-md hover:border-amber-500/30 transition-all duration-200 group"
+                                className="flex items-center gap-4 p-5 bg-white border border-neutral-200 rounded-2xl shadow-xs hover:shadow-md hover:border-black transition-all duration-200 group"
                             >
-                                <div className="w-10 h-10 rounded-xl bg-stone-100 group-hover:bg-amber-500/10 text-neutral-700 group-hover:text-amber-600 flex items-center justify-center shrink-0 transition-colors">
+                                <div className="w-10 h-10 rounded-xl bg-neutral-100 group-hover:bg-neutral-200 text-black flex items-center justify-center shrink-0 transition-colors">
                                     <Mail className="w-5 h-5" />
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
                                         Email Concierge
                                     </span>
-                                    <span className="text-sm font-bold text-neutral-900 group-hover:text-amber-700 transition-colors">
+                                    <span className="text-sm font-bold text-black transition-colors">
                                         bezcutsfades@gmail.com
                                     </span>
                                     <span className="text-[11px] text-neutral-400">
@@ -220,9 +217,9 @@ function ContactSection() {
                     </div>
 
                     {/* RIGHT SIDE: MESSAGE INTERACTIVE FORM (7 Columns) */}
-                    <div className="lg:col-span-7 w-full p-8 sm:p-10 bg-white border border-stone-200/90 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300">
+                    <div className="lg:col-span-7 w-full p-8 sm:p-10 bg-white border border-neutral-200 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300">
                         <div className="mb-8">
-                            <h3 className="text-2xl font-serif text-neutral-900 tracking-tight">
+                            <h3 className="text-2xl font-serif text-black tracking-tight">
                                 Send us a Message
                             </h3>
                             <p className="text-xs sm:text-sm text-neutral-500 mt-1 leading-relaxed">
@@ -235,13 +232,13 @@ function ContactSection() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-xs font-semibold text-neutral-700">
-                                        Full Name <span className="text-amber-600">*</span>
+                                        Full Name <span className="text-black">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         placeholder="e.g. Marcus Vance"
                                         required
-                                        className="w-full px-4 py-3 bg-stone-50/50 border border-stone-200 text-sm text-neutral-900 rounded-xl placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/5 transition-all"
+                                        className="w-full px-4 py-3 bg-white border border-neutral-300 text-sm text-black rounded-xl placeholder-neutral-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
                                         value={formData.fullName}
                                         onChange={(e) =>
                                             setFormData({
@@ -254,13 +251,13 @@ function ContactSection() {
 
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-xs font-semibold text-neutral-700">
-                                        Email Address <span className="text-amber-600">*</span>
+                                        Email Address <span className="text-black">*</span>
                                     </label>
                                     <input
                                         type="email"
                                         placeholder="name@example.com"
                                         required
-                                        className="w-full px-4 py-3 bg-stone-50/50 border border-stone-200 text-sm text-neutral-900 rounded-xl placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/5 transition-all"
+                                        className="w-full px-4 py-3 bg-white border border-neutral-300 text-sm text-black rounded-xl placeholder-neutral-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
                                         value={formData.emailAddress}
                                         onChange={(e) =>
                                             setFormData({
@@ -281,7 +278,7 @@ function ContactSection() {
                                     <input
                                         type="tel"
                                         placeholder="+63 900 000 0000"
-                                        className="w-full px-4 py-3 bg-stone-50/50 border border-stone-200 text-sm text-neutral-900 rounded-xl placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/5 transition-all"
+                                        className="w-full px-4 py-3 bg-white border border-neutral-300 text-sm text-black rounded-xl placeholder-neutral-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all"
                                         value={formData.phoneNumber}
                                         onChange={(e) =>
                                             setFormData({
@@ -298,7 +295,7 @@ function ContactSection() {
                                     </label>
                                     <div className="relative">
                                         <select
-                                            className="w-full px-4 py-3 bg-stone-50/50 border border-stone-200 text-sm text-neutral-900 rounded-xl focus:bg-white focus:outline-none focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/5 transition-all cursor-pointer appearance-none pr-10"
+                                            className="w-full px-4 py-3 bg-white border border-neutral-300 text-sm text-black rounded-xl focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all cursor-pointer appearance-none pr-10"
                                             value={formData.subject}
                                             onChange={(e) =>
                                                 setFormData({
@@ -320,13 +317,13 @@ function ContactSection() {
                             {/* Row 3: Message Body */}
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-xs font-semibold text-neutral-700">
-                                    Your Message <span className="text-amber-600">*</span>
+                                    Your Message <span className="text-black">*</span>
                                 </label>
                                 <textarea
                                     rows={4}
                                     placeholder="Tell us what you have in mind or any questions about hairstyles, timing, or group reservations..."
                                     required
-                                    className="w-full px-4 py-3 bg-stone-50/50 border border-stone-200 text-sm text-neutral-900 rounded-xl placeholder-neutral-400 focus:bg-white focus:outline-none focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/5 transition-all resize-none"
+                                    className="w-full px-4 py-3 bg-white border border-neutral-300 text-sm text-black rounded-xl placeholder-neutral-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all resize-none"
                                     value={formData.message}
                                     onChange={(e) =>
                                         setFormData({
@@ -342,14 +339,14 @@ function ContactSection() {
                                 <div
                                     className={`p-4 rounded-xl flex items-center gap-3 text-sm animate-in fade-in ${
                                         feedback.type === "success"
-                                            ? "bg-emerald-50 border border-emerald-200 text-emerald-800"
-                                            : "bg-rose-50 border border-rose-200 text-rose-800"
+                                            ? "bg-black border border-neutral-800 text-white"
+                                            : "bg-neutral-100 border border-neutral-300 text-neutral-900"
                                     }`}
                                 >
                                     {feedback.type === "success" ? (
-                                        <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                                        <CheckCircle2 className="w-5 h-5 text-white shrink-0" />
                                     ) : (
-                                        <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+                                        <AlertCircle className="w-5 h-5 text-black shrink-0" />
                                     )}
                                     <span>{feedback.message}</span>
                                 </div>
@@ -359,9 +356,9 @@ function ContactSection() {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full mt-2 py-4 bg-neutral-900 text-white text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-neutral-800 shadow-md hover:shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed group"
+                                className="w-full mt-2 py-4 bg-black text-white text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-neutral-800 shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed group"
                             >
-                                <Send className="w-4 h-4 text-amber-400 transition-transform group-hover:translate-x-1" />
+                                <Send className="w-4 h-4 text-white transition-transform group-hover:translate-x-1" />
                                 <span>{isSubmitting ? "Dispatching..." : "Send Message"}</span>
                             </button>
                         </form>

@@ -172,29 +172,19 @@ export default function BookingFlowSection() {
     return (
         <section
             id="how-it-works"
-            className="relative overflow-hidden border-t border-neutral-200/70 bg-[#faf9f6] py-20 sm:py-28"
+            className="relative overflow-hidden border-t border-neutral-200 bg-white py-20 sm:py-28"
         >
-            {/* Ambient background accents matching BEZ color palette */}
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-amber-500/5 rounded-full blur-3xl"
-            />
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute bottom-0 right-0 w-96 h-96 bg-amber-600/5 rounded-full blur-3xl"
-            />
-
             <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
                 {/* Section Header */}
                 <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-amber-900 shadow-xs mb-4">
-                        <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+                    <div className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-neutral-100 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-black shadow-xs mb-4">
+                        <Sparkles className="h-3.5 w-3.5 text-black" />
                         <span>The Booking Process</span>
                     </div>
 
                     <h2 className="font-serif text-3xl font-medium tracking-tight text-neutral-950 sm:text-4xl lg:text-5xl leading-tight">
                         How booking works in{" "}
-                        <span className="font-normal italic text-amber-800">
+                        <span className="font-normal italic text-black">
                             four simple steps
                         </span>
                         .
@@ -205,7 +195,7 @@ export default function BookingFlowSection() {
                     </p>
 
                     {/* Step progress pills for quick mobile/tablet switching */}
-                    <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white/90 p-1.5 shadow-xs backdrop-blur-sm">
+                    <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 p-1.5 shadow-xs">
                         {stepsData.map((s) => {
                             const isCurrent = s.step === activeStep;
                             return (
@@ -215,14 +205,14 @@ export default function BookingFlowSection() {
                                     onClick={() => setActiveStep(s.step)}
                                     className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 ${
                                         isCurrent
-                                            ? "bg-neutral-950 text-white shadow-xs"
-                                            : "text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100/70"
+                                            ? "bg-black text-white shadow-xs"
+                                            : "text-neutral-600 hover:text-black hover:bg-neutral-200"
                                     }`}
                                 >
                                     <span
                                         className={`flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold ${
                                             isCurrent
-                                                ? "bg-amber-500 text-neutral-950"
+                                                ? "bg-white text-black"
                                                 : "bg-neutral-200 text-neutral-700"
                                         }`}
                                     >
@@ -244,7 +234,7 @@ export default function BookingFlowSection() {
                             className="absolute left-10 right-10 top-5 h-[2px] bg-neutral-200"
                         >
                             <div
-                                className="h-full bg-gradient-to-r from-amber-600 to-amber-500 transition-all duration-500"
+                                className="h-full bg-black transition-all duration-500"
                                 style={{
                                     width: `${((activeStep - 1) / 3) * 100}%`,
                                 }}
@@ -265,10 +255,10 @@ export default function BookingFlowSection() {
                                     <div
                                         className={`flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
                                             isCurrent
-                                                ? "bg-neutral-950 text-white ring-4 ring-amber-500/20 scale-110 shadow-md"
+                                                ? "bg-black text-white ring-4 ring-neutral-200 scale-110 shadow-md"
                                                 : isPassed
-                                                  ? "bg-amber-600 text-white shadow-xs"
-                                                  : "border-2 border-neutral-300 bg-white text-neutral-600 group-hover:border-neutral-400"
+                                                  ? "bg-black text-white shadow-xs"
+                                                  : "border-2 border-neutral-300 bg-white text-neutral-600 group-hover:border-black"
                                         }`}
                                     >
                                         {isPassed ? (
@@ -280,8 +270,8 @@ export default function BookingFlowSection() {
                                     <span
                                         className={`mt-2 text-xs font-medium tracking-wide transition-colors ${
                                             isCurrent
-                                                ? "font-semibold text-neutral-950"
-                                                : "text-neutral-500 group-hover:text-neutral-800"
+                                                ? "font-semibold text-black"
+                                                : "text-neutral-500 group-hover:text-black"
                                         }`}
                                     >
                                         {s.shortTitle}
@@ -304,8 +294,8 @@ export default function BookingFlowSection() {
                                 onClick={() => setActiveStep(s.step)}
                                 className={`group relative flex flex-col justify-between rounded-2xl p-6 sm:p-7 text-left transition-all duration-300 cursor-pointer ${
                                     isSelected
-                                        ? "bg-white border-2 border-amber-600/60 shadow-lg -translate-y-1.5 ring-2 ring-amber-500/10"
-                                        : "bg-white/90 border border-neutral-200/80 shadow-xs hover:border-neutral-300 hover:shadow-md hover:-translate-y-1"
+                                        ? "bg-white border-2 border-black shadow-lg -translate-y-1.5"
+                                        : "bg-white border border-neutral-200 shadow-xs hover:border-black hover:shadow-md hover:-translate-y-1"
                                 }`}
                             >
                                 {/* Top Badge & Icon */}
@@ -314,8 +304,8 @@ export default function BookingFlowSection() {
                                         <div
                                             className={`flex h-12 w-12 items-center justify-center rounded-xl transition-colors duration-300 ${
                                                 isSelected
-                                                    ? "bg-amber-500 text-neutral-950 shadow-xs"
-                                                    : "bg-amber-50 border border-amber-200/60 text-amber-800 group-hover:bg-amber-100/70"
+                                                    ? "bg-black text-white shadow-xs"
+                                                    : "bg-neutral-100 border border-neutral-200 text-black group-hover:bg-neutral-200"
                                             }`}
                                         >
                                             <Icon className="h-5 w-5" />
@@ -325,7 +315,7 @@ export default function BookingFlowSection() {
                                             <span
                                                 className={`text-[11px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full ${
                                                     isSelected
-                                                        ? "bg-neutral-950 text-white"
+                                                        ? "bg-black text-white"
                                                         : "bg-neutral-100 text-neutral-600"
                                                 }`}
                                             >
@@ -355,8 +345,8 @@ export default function BookingFlowSection() {
                                                 aria-hidden="true"
                                                 className={`h-3.5 w-3.5 shrink-0 mt-0.5 ${
                                                     isSelected
-                                                        ? "text-amber-600"
-                                                        : "text-neutral-400 group-hover:text-amber-600"
+                                                        ? "text-black"
+                                                        : "text-neutral-400 group-hover:text-black"
                                                 }`}
                                             />
                                             <span>{perk}</span>
@@ -373,8 +363,8 @@ export default function BookingFlowSection() {
                                     <span
                                         className={`font-semibold transition-colors flex items-center gap-1 ${
                                             isSelected
-                                                ? "text-amber-700"
-                                                : "text-neutral-400 group-hover:text-neutral-700"
+                                                ? "text-black"
+                                                : "text-neutral-400 group-hover:text-black"
                                         }`}
                                     >
                                         {isSelected ? "Active View" : "Click to view"}
@@ -387,13 +377,13 @@ export default function BookingFlowSection() {
                 </div>
 
                 {/* Interactive Live Step Preview Card */}
-                <div className="rounded-3xl border border-stone-200/90 bg-white p-6 sm:p-8 lg:p-10 shadow-sm mb-16">
+                <div className="rounded-3xl border border-neutral-200 bg-white p-6 sm:p-8 lg:p-10 shadow-sm mb-16">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                         {/* Left column: Step breakdown details */}
                         <div className="lg:col-span-7 flex flex-col justify-center">
                             <div className="flex items-center gap-2 mb-3">
-                                <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-900 border border-amber-500/20">
-                                    <ActiveIcon className="w-3.5 h-3.5 text-amber-700" />
+                                <span className="inline-flex items-center gap-1.5 rounded-md bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-black border border-neutral-200">
+                                    <ActiveIcon className="w-3.5 h-3.5 text-black" />
                                     {currentStepData.badge} Live Simulator
                                 </span>
                                 <span className="text-xs text-neutral-500">
@@ -414,9 +404,9 @@ export default function BookingFlowSection() {
                                 {currentStepData.perks.map((perk, i) => (
                                     <div
                                         key={i}
-                                        className="flex items-center gap-2.5 rounded-xl bg-[#faf9f6] border border-neutral-200/70 p-3 text-xs sm:text-sm text-neutral-800"
+                                        className="flex items-center gap-2.5 rounded-xl bg-neutral-50 border border-neutral-200 p-3 text-xs sm:text-sm text-neutral-800"
                                     >
-                                        <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/15 text-amber-700">
+                                        <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-neutral-200 text-black">
                                             <Check className="h-3 w-3 stroke-[3]" />
                                         </div>
                                         <span className="font-medium">{perk}</span>
@@ -428,10 +418,10 @@ export default function BookingFlowSection() {
                             <div className="flex flex-wrap items-center gap-3">
                                 <Link
                                     href="/booking/step-1"
-                                    className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-neutral-800 hover:gap-3"
+                                    className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-black px-6 py-3 text-sm font-medium text-white transition-all hover:bg-neutral-800 hover:gap-3"
                                 >
                                     <span>Experience Booking Now</span>
-                                    <ArrowRight className="h-4 w-4 text-amber-400 transition-transform duration-200 group-hover:translate-x-1" />
+                                    <ArrowRight className="h-4 w-4 text-white transition-transform duration-200 group-hover:translate-x-1" />
                                 </Link>
 
                                 <span className="text-xs text-neutral-500 px-2">
@@ -442,7 +432,7 @@ export default function BookingFlowSection() {
 
                         {/* Right column: Realistic Studio Mockup Card */}
                         <div className="lg:col-span-5">
-                            <div className="relative mx-auto w-full max-w-md rounded-2xl border border-stone-200 bg-[#faf9f6] p-5 sm:p-6 shadow-sm">
+                            <div className="relative mx-auto w-full max-w-md rounded-2xl border border-neutral-200 bg-neutral-50 p-5 sm:p-6 shadow-sm">
                                 {/* Top bar of simulator */}
                                 <div className="flex items-center justify-between border-b border-neutral-200 pb-4 mb-4">
                                     <div>
@@ -453,16 +443,16 @@ export default function BookingFlowSection() {
                                             Bangui, Ilocos Norte
                                         </div>
                                     </div>
-                                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-700">
-                                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                    <span className="inline-flex items-center gap-1 rounded-full bg-black text-white px-2.5 py-0.5 text-[10px] font-semibold">
+                                        <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
                                         {currentStepData.preview.badgeText}
                                     </span>
                                 </div>
 
                                 {/* Mockup content */}
                                 <div className="space-y-3.5">
-                                    <div className="rounded-xl bg-white p-3.5 border border-stone-200/80 shadow-2xs">
-                                        <div className="text-[10px] font-semibold uppercase tracking-wider text-amber-700 mb-1">
+                                    <div className="rounded-xl bg-white p-3.5 border border-neutral-200 shadow-2xs">
+                                        <div className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500 mb-1">
                                             {currentStepData.preview.headline}
                                         </div>
                                         <div className="font-serif text-base font-semibold text-neutral-950">
@@ -470,7 +460,7 @@ export default function BookingFlowSection() {
                                         </div>
                                     </div>
 
-                                    <div className="rounded-xl bg-white p-4 border border-stone-200/80 shadow-2xs space-y-2.5">
+                                    <div className="rounded-xl bg-white p-4 border border-neutral-200 shadow-2xs space-y-2.5">
                                         {currentStepData.preview.details.map((item, idx) => (
                                             <div
                                                 key={idx}
@@ -488,9 +478,9 @@ export default function BookingFlowSection() {
                                 </div>
 
                                 {/* Mockup footer reassurance */}
-                                <div className="mt-4 flex items-center justify-between pt-3 border-t border-neutral-200/70 text-[11px] text-neutral-500">
+                                <div className="mt-4 flex items-center justify-between pt-3 border-t border-neutral-200 text-[11px] text-neutral-500">
                                     <span className="flex items-center gap-1">
-                                        <ShieldCheck className="h-3.5 w-3.5 text-amber-600" />
+                                        <ShieldCheck className="h-3.5 w-3.5 text-black" />
                                         Verified System
                                     </span>
                                     <span>Encrypted & Protected</span>
@@ -507,9 +497,9 @@ export default function BookingFlowSection() {
                         return (
                             <div
                                 key={idx}
-                                className="flex items-start gap-3.5 p-4 sm:p-5 rounded-2xl bg-white/70 border border-neutral-200/60 shadow-2xs hover:bg-white hover:border-amber-400/40 transition-all duration-200"
+                                className="flex items-start gap-3.5 p-4 sm:p-5 rounded-2xl bg-white border border-neutral-200 shadow-2xs hover:border-black transition-all duration-200"
                             >
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-neutral-100 border border-neutral-200 text-black">
                                     <GIcon className="h-5 w-5" />
                                 </div>
                                 <div>
@@ -526,20 +516,10 @@ export default function BookingFlowSection() {
                 </div>
 
                 {/* Bottom CTA Banner */}
-                <div className="relative overflow-hidden rounded-3xl bg-neutral-950 px-6 py-10 sm:px-12 sm:py-14 text-white shadow-xl">
-                    {/* Ambient light glow */}
-                    <div
-                        aria-hidden="true"
-                        className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-amber-500/10 blur-3xl"
-                    />
-                    <div
-                        aria-hidden="true"
-                        className="pointer-events-none absolute left-10 bottom-0 h-48 w-48 rounded-full bg-amber-600/10 blur-2xl"
-                    />
-
+                <div className="relative overflow-hidden rounded-3xl bg-black px-6 py-10 sm:px-12 sm:py-14 text-white shadow-xl">
                     <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                         <div className="max-w-xl">
-                            <span className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 px-3.5 py-1 text-xs font-semibold tracking-widest uppercase text-amber-400 mb-3">
+                            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-3.5 py-1 text-xs font-semibold tracking-widest uppercase text-white mb-3">
                                 <Sparkles className="h-3 w-3" />
                                 Instant Booking Available
                             </span>
@@ -555,12 +535,12 @@ export default function BookingFlowSection() {
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
                             <Link
                                 href="/booking/step-1"
-                                className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-amber-500 px-7 text-sm font-semibold text-neutral-950 transition-all hover:bg-amber-400 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
+                                className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-white px-7 text-sm font-semibold text-black transition-all hover:bg-neutral-200 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                             >
                                 Book Appointment
                                 <ArrowRight
                                     aria-hidden="true"
-                                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                                    className="h-4 w-4 text-black transition-transform duration-200 group-hover:translate-x-1"
                                 />
                             </Link>
 
@@ -576,7 +556,7 @@ export default function BookingFlowSection() {
                                         });
                                     }
                                 }}
-                                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-neutral-700 bg-neutral-900/60 px-6 text-sm font-medium text-neutral-200 transition-colors hover:border-neutral-500 hover:bg-neutral-800"
+                                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-neutral-700 bg-neutral-900 px-6 text-sm font-medium text-neutral-200 transition-colors hover:border-neutral-400 hover:bg-neutral-800"
                             >
                                 View Haircuts
                             </a>

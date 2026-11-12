@@ -43,7 +43,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
             aria-label={`Booking step ${currentStep} of ${steps.length}`}
             className={`mb-8 sm:mb-10 ${className}`}
         >
-            <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-amber-800">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">
                 Your appointment
             </p>
             <h1 className="font-serif text-3xl font-medium tracking-tight text-neutral-950 sm:text-4xl">
@@ -68,9 +68,9 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
                                 <span
                                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
                                         isComplete
-                                            ? "bg-neutral-950 text-white"
+                                            ? "bg-black text-white"
                                             : isCurrent
-                                              ? "bg-amber-500 text-neutral-950 ring-4 ring-amber-100"
+                                              ? "bg-black text-white ring-4 ring-neutral-200"
                                               : "bg-neutral-100 text-neutral-500"
                                     }`}
                                 >

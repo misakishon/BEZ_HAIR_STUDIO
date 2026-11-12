@@ -16,20 +16,17 @@ function Footer() {
     };
 
     return (
-        <footer className="bg-neutral-950 text-white pt-16 pb-12 border-t border-neutral-900 relative overflow-hidden">
-            {/* Subtle ambient lighting accent */}
-            <div className="absolute top-0 right-1/4 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-
+        <footer className="bg-black text-white pt-16 pb-12 border-t border-neutral-900 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
                 {/* Main 4-Column Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-16 border-b border-neutral-800/70">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-16 border-b border-neutral-800">
                     {/* Col 1: Brand Identity & Mission (4 cols) */}
                     <div className="lg:col-span-4 flex flex-col gap-4">
                         <div className="flex flex-col select-none">
-                            <div className="text-2xl sm:text-3xl font-light tracking-[0.25em] text-white leading-none uppercase">
-                                B E Z<span className="font-bold text-amber-500">.</span>
+                            <div className="text-2xl sm:text-3xl font-morche font-light tracking-[0.25em] text-white leading-none uppercase">
+                                B E Z.
                             </div>
-                            <span className="text-[10px] tracking-[0.6em] text-neutral-400 uppercase mt-2 font-medium">
+                            <span className="text-[10px] font-morche tracking-[0.6em] text-neutral-400 uppercase mt-2 font-medium">
                                 Hair Studio
                             </span>
                         </div>
@@ -41,9 +38,9 @@ function Footer() {
                         <div className="pt-2">
                             <Link
                                 href="/booking/step-1"
-                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold tracking-wider uppercase hover:bg-amber-500 hover:text-black transition-all duration-200 group"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black text-xs font-semibold tracking-wider uppercase hover:bg-neutral-200 transition-all duration-200 group"
                             >
-                                <Sparkles className="w-3.5 h-3.5 text-amber-400 group-hover:text-black" />
+                                <Sparkles className="w-3.5 h-3.5 text-black" />
                                 <span>Reserve Your Chair</span>
                             </Link>
                         </div>
@@ -58,7 +55,7 @@ function Footer() {
                             <li>
                                 <a
                                     href="/#home"
-                                    className="hover:text-amber-400 transition-colors"
+                                    className="hover:text-white transition-colors"
                                 >
                                     Studio Home
                                 </a>
@@ -66,7 +63,7 @@ function Footer() {
                             <li>
                                 <a
                                     href="/#haircut"
-                                    className="hover:text-amber-400 transition-colors"
+                                    className="hover:text-white transition-colors"
                                 >
                                     Trending Styles
                                 </a>
@@ -74,7 +71,7 @@ function Footer() {
                             <li>
                                 <a
                                     href="/#barbers"
-                                    className="hover:text-amber-400 transition-colors"
+                                    className="hover:text-white transition-colors"
                                 >
                                     Master Barbers
                                 </a>
@@ -82,7 +79,7 @@ function Footer() {
                             <li>
                                 <a
                                     href="/#how-it-works"
-                                    className="hover:text-amber-400 transition-colors"
+                                    className="hover:text-white transition-colors"
                                 >
                                     How it Works
                                 </a>
@@ -90,7 +87,7 @@ function Footer() {
                             <li>
                                 <a
                                     href="/#contact"
-                                    className="hover:text-amber-400 transition-colors"
+                                    className="hover:text-white transition-colors"
                                 >
                                     Location & Contact
                                 </a>
@@ -98,7 +95,7 @@ function Footer() {
                             <li>
                                 <Link
                                     href="/booking/step-1"
-                                    className="hover:text-amber-400 transition-colors"
+                                    className="hover:text-white transition-colors"
                                 >
                                     Online Booking
                                 </Link>
@@ -113,7 +110,7 @@ function Footer() {
                         </h4>
                         <ul className="space-y-3 text-xs text-neutral-400 mt-1">
                             <li className="flex items-start gap-3">
-                                <MapPin className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                                <MapPin className="w-4 h-4 text-white shrink-0 mt-0.5" />
                                 <span className="leading-relaxed">
                                     San Lorenzo, Bangui,
                                     <br />
@@ -121,7 +118,7 @@ function Footer() {
                                 </span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <Phone className="w-4 h-4 text-amber-500 shrink-0" />
+                                <Phone className="w-4 h-4 text-white shrink-0" />
                                 <a
                                     href="tel:+639123456789"
                                     className="hover:text-white transition-colors"
@@ -130,7 +127,7 @@ function Footer() {
                                 </a>
                             </li>
                             <li className="flex items-center gap-3">
-                                <Mail className="w-4 h-4 text-amber-500 shrink-0" />
+                                <Mail className="w-4 h-4 text-white shrink-0" />
                                 <a
                                     href="mailto:bezcutsfades@gmail.com"
                                     className="hover:text-white transition-colors"
@@ -146,17 +143,17 @@ function Footer() {
                         <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
                             Hours & Availability
                         </h4>
-                        <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 text-xs text-neutral-400 space-y-2 mt-1">
+                        <div className="p-4 rounded-2xl bg-neutral-900 border border-neutral-800 text-xs text-neutral-400 space-y-2 mt-1">
                             <div className="flex items-center justify-between">
                                 <span className="text-neutral-300 font-medium">Monday – Saturday</span>
-                                <span className="text-amber-400 font-semibold">9AM – 8PM</span>
+                                <span className="text-white font-semibold">9AM – 8PM</span>
                             </div>
                             <div className="flex items-center justify-between">
                                 <span className="text-neutral-300 font-medium">Sunday</span>
                                 <span className="text-neutral-500">By Appt.</span>
                             </div>
                             <div className="pt-2 border-t border-neutral-800 text-[11px] text-neutral-400 flex items-center gap-1.5">
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                                <span className="w-2 h-2 rounded-full bg-white shrink-0" />
                                 <span>Walk-ins & Reservations Welcome</span>
                             </div>
                         </div>
@@ -176,7 +173,7 @@ function Footer() {
                             className="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors py-1 group"
                         >
                             <span>Back to Top</span>
-                            <ArrowUp className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 text-amber-500" />
+                            <ArrowUp className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 text-white" />
                         </button>
                     </div>
                 </div>

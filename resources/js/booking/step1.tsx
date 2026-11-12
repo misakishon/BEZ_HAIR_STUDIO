@@ -69,13 +69,13 @@ export default function BookingStep1({ barbers = [] }: BookingStep1Props) {
         for (let i = 1; i <= 5; i++) {
             if (i <= fullStars) {
                 stars.push(
-                    <span key={i} className="text-yellow-500 text-xs">
+                    <span key={i} className="text-black text-xs">
                         ★
                     </span>,
                 );
             } else if (hasHalf && i === fullStars + 1) {
                 stars.push(
-                    <span key={i} className="text-yellow-500 text-xs">
+                    <span key={i} className="text-black text-xs">
                         ½
                     </span>,
                 );
@@ -136,10 +136,10 @@ export default function BookingStep1({ barbers = [] }: BookingStep1Props) {
                                         aria-pressed={
                                             selectedBarberId === barber.id
                                         }
-                                        className={`relative flex w-full items-center gap-4 rounded-2xl border bg-white p-4 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700 ${
+                                        className={`relative flex w-full items-center gap-4 rounded-2xl border bg-white p-4 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${
                                             selectedBarberId === barber.id
-                                                ? "border-amber-600 ring-2 ring-amber-100"
-                                                : "border-neutral-200 hover:border-neutral-400"
+                                                ? "border-black ring-2 ring-neutral-200"
+                                                : "border-neutral-200 hover:border-black"
                                         }`}
                                     >
                                         {/* Checkmark for selected */}
@@ -207,10 +207,10 @@ export default function BookingStep1({ barbers = [] }: BookingStep1Props) {
                                 type="button"
                                 onClick={handleSelectAnyBarber}
                                 aria-pressed={selectedBarberId === 0}
-                                className={`mb-8 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed py-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700 ${
+                                className={`mb-8 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed py-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${
                                     selectedBarberId === 0
-                                        ? "border-amber-600 bg-amber-50 text-neutral-950"
-                                        : "border-neutral-300 bg-white text-neutral-600 hover:border-neutral-500 hover:text-neutral-950"
+                                        ? "border-black bg-neutral-100 text-black"
+                                        : "border-neutral-300 bg-white text-neutral-600 hover:border-black hover:text-black"
                                 }`}
                             >
                                 <span className="text-lg leading-none">+</span>

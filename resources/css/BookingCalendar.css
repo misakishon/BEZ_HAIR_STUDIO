@@ -101,13 +101,13 @@
 }
 
 .calendar-day.selected {
-    background-color: #1a73e8;
+    background-color: #000000;
     color: white;
 }
 
 .calendar-day.today {
-    border: 1px solid #1a73e8;
-    color: #1a73e8;
+    border: 1px solid #000000;
+    color: #000000;
     font-weight: 600;
 }
 
@@ -142,8 +142,9 @@
 
 .selected-date-label {
     font-size: 14px;
-    color: #1a73e8;
-    background-color: #e8f0fe;
+    color: #000000;
+    background-color: #f4f4f5;
+    border: 1px solid #e4e4e7;
     padding: 4px 12px;
     border-radius: 20px;
 }
@@ -167,13 +168,13 @@
 }
 
 .time-slot:hover:not(:disabled) {
-    background-color: #e8f0fe;
-    border-color: #1a73e8;
+    background-color: #f4f4f5;
+    border-color: #000000;
 }
 
 .time-slot.selected-time {
-    background-color: #1a73e8;
-    border-color: #1a73e8;
+    background-color: #000000;
+    border-color: #000000;
     color: white;
 }
 
@@ -222,7 +223,7 @@
 }
 
 .legend-color.selected-legend {
-    background-color: #1a73e8;
+    background-color: #000000;
 }
 
 .legend-color.booked-legend {
@@ -268,10 +269,10 @@
 }
 
 .next-button {
-    background-color: #1a73e8;
+    background-color: #000000;
     color: white;
 }
 
 .next-button:hover {
-    background-color: #1557b0;
+    background-color: #262626;
 }

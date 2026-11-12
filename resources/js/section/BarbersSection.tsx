@@ -86,21 +86,21 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                 stars.push(
                     <Star
                         key={i}
-                        className="w-4 h-4 fill-amber-400 text-amber-400"
+                        className="w-4 h-4 fill-black text-black"
                     />,
                 );
             } else if (hasHalf && i === fullStars + 1) {
                 stars.push(
                     <Star
                         key={i}
-                        className="w-4 h-4 fill-amber-400/50 text-amber-400"
+                        className="w-4 h-4 fill-black/40 text-black"
                     />,
                 );
             } else {
                 stars.push(
                     <Star
                         key={i}
-                        className="w-4 h-4 fill-stone-100 text-stone-300"
+                        className="w-4 h-4 fill-neutral-100 text-neutral-300"
                     />,
                 );
             }
@@ -187,18 +187,15 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
     }
 
     return (
-        <section className="w-full bg-stone-50/50 py-20 md:py-28 border-b border-neutral-200/70 relative overflow-hidden">
-            {/* Ambient background decoration */}
-            <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-
+        <section className="w-full bg-neutral-50 py-20 md:py-28 border-b border-neutral-200 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
                 {/* SECTION HEADER */}
                 <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center gap-3">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold tracking-widest uppercase text-amber-900 shadow-xs">
-                        <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                    <div className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-3.5 py-1 text-xs font-semibold tracking-widest uppercase text-black shadow-xs">
+                        <Sparkles className="w-3.5 h-3.5 text-black" />
                         <span>Artisans of the Craft</span>
                     </div>
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-neutral-900 tracking-tight leading-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-black tracking-tight leading-tight">
                         Meet Our Master Barbers
                     </h2>
                     <p className="text-sm sm:text-base text-neutral-600 font-light max-w-md mx-auto leading-relaxed">
@@ -207,7 +204,7 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                 </div>
 
                 {barbers.length === 0 ? (
-                    <div className="text-center py-16 bg-white rounded-3xl border border-stone-200/80 max-w-xl mx-auto p-8 shadow-xs">
+                    <div className="text-center py-16 bg-white rounded-3xl border border-neutral-200 max-w-xl mx-auto p-8 shadow-xs">
                         <Scissors className="w-10 h-10 text-neutral-300 mx-auto mb-3" />
                         <p className="text-neutral-500 font-medium text-sm">
                             No barbers currently scheduled. Please check back shortly.
@@ -240,7 +237,7 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                             return (
                                 <div
                                     key={barber.id}
-                                    className="bg-white border border-stone-200/90 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-amber-500/30 transition-all duration-300 group"
+                                    className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-black transition-all duration-300 group"
                                 >
                                     <div className="grid md:grid-cols-12 gap-0">
                                         {/* Left - Portrait Container (5 of 12 columns) */}
@@ -265,12 +262,12 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                             {/* Status Badge */}
                                             <div className="absolute top-5 left-5">
                                                 {isAvailable ? (
-                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/90 text-white backdrop-blur-md shadow-md">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-black/90 text-white backdrop-blur-md shadow-md border border-white/20">
                                                         <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
                                                         Available for Booking
                                                     </span>
                                                 ) : (
-                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-neutral-800/80 text-neutral-300 backdrop-blur-md">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-neutral-900/90 text-neutral-400 backdrop-blur-md border border-neutral-700">
                                                         Currently Booked
                                                     </span>
                                                 )}
@@ -279,7 +276,7 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                             {/* Bottom Mobile Overlay Info */}
                                             <div className="absolute bottom-4 left-5 right-5 text-white md:hidden">
                                                 <h3 className="text-xl font-bold">{barber.full_name}</h3>
-                                                <p className="text-xs text-amber-300">{barber.specialty || "Master Barber"}</p>
+                                                <p className="text-xs text-neutral-300">{barber.specialty || "Master Barber"}</p>
                                             </div>
                                         </div>
 
@@ -289,21 +286,21 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                                 {/* Header & Rating */}
                                                 <div className="flex flex-wrap items-start justify-between gap-3">
                                                     <div>
-                                                        <h3 className="text-2xl sm:text-3xl font-serif text-neutral-900 tracking-tight">
+                                                        <h3 className="text-2xl sm:text-3xl font-serif text-black tracking-tight">
                                                             {barber.full_name}
                                                         </h3>
-                                                        <p className="text-xs font-semibold tracking-wider text-amber-700 uppercase mt-1">
+                                                        <p className="text-xs font-semibold tracking-wider text-neutral-500 uppercase mt-1">
                                                             {barber.specialty || "Master Barber"}
                                                         </p>
                                                     </div>
 
                                                     {/* Rating pill with rate button */}
                                                     <div className="flex flex-col items-end gap-1.5">
-                                                        <div className="flex items-center gap-2 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200/70">
+                                                        <div className="flex items-center gap-2 bg-neutral-100 px-3 py-1.5 rounded-full border border-neutral-200">
                                                             <div className="flex">
                                                                 {renderStars(rating)}
                                                             </div>
-                                                            <span className="text-sm font-bold text-neutral-900">
+                                                            <span className="text-sm font-bold text-black">
                                                                 {rating.toFixed(1)}
                                                             </span>
                                                         </div>
@@ -311,7 +308,7 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                                         <button
                                                             type="button"
                                                             onClick={() => openRatingModal(barber.id, rating)}
-                                                            className="text-xs text-neutral-500 hover:text-amber-700 font-medium transition-colors inline-flex items-center gap-1"
+                                                            className="text-xs text-neutral-500 hover:text-black font-medium transition-colors inline-flex items-center gap-1"
                                                         >
                                                             <MessageSquare className="w-3 h-3" />
                                                             Leave a Review
@@ -321,10 +318,10 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
 
                                                 {/* Inline Rating Modal / Form */}
                                                 {ratingModalBarberId === barber.id && (
-                                                    <div className="p-5 bg-stone-50 border border-amber-200/80 rounded-2xl shadow-xs transition-all animate-in fade-in">
+                                                    <div className="p-5 bg-neutral-50 border border-neutral-200 rounded-2xl shadow-xs transition-all animate-in fade-in">
                                                         <div className="flex items-center justify-between mb-3">
                                                             <div>
-                                                                <p className="text-sm font-bold text-neutral-900">
+                                                                <p className="text-sm font-bold text-black">
                                                                     Review {barber.full_name}
                                                                 </p>
                                                                 <p className="text-xs text-neutral-500">
@@ -333,7 +330,7 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                                             </div>
                                                             <button
                                                                 type="button"
-                                                                className="text-stone-400 hover:text-stone-700 p-1"
+                                                                className="text-neutral-400 hover:text-black p-1"
                                                                 onClick={closeRatingModal}
                                                             >
                                                                 <X className="w-4 h-4" />
@@ -348,8 +345,8 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                                                     onClick={() => setRatingModalValue(star)}
                                                                     className={`rounded-xl p-2.5 transition-all ${
                                                                         star <= ratingModalValue
-                                                                            ? "bg-amber-500 text-white shadow-xs scale-105"
-                                                                            : "bg-white text-stone-300 hover:bg-stone-100 border border-stone-200"
+                                                                            ? "bg-black text-white shadow-xs scale-105"
+                                                                            : "bg-white text-neutral-300 hover:bg-neutral-100 border border-neutral-200"
                                                                     }`}
                                                                 >
                                                                     <Star className="w-4 h-4 fill-current" />
@@ -362,11 +359,11 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                                             value={ratingComment}
                                                             onChange={(e) => setRatingComment(e.target.value)}
                                                             placeholder="Share your experience (e.g., attention to detail, fade smoothness)..."
-                                                            className="w-full rounded-xl border border-stone-200 bg-white p-3 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-neutral-900"
+                                                            className="w-full rounded-xl border border-neutral-300 bg-white p-3 text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black"
                                                         />
 
                                                         {ratingError && (
-                                                            <p className="mt-2 text-xs text-red-600 font-medium">
+                                                            <p className="mt-2 text-xs text-neutral-900 font-medium">
                                                                 {ratingError}
                                                             </p>
                                                         )}
@@ -376,7 +373,7 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                                                 type="button"
                                                                 disabled={ratingSubmitting}
                                                                 onClick={() => submitRating(barber.id)}
-                                                                className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-2 text-xs font-semibold text-white hover:bg-neutral-800 disabled:opacity-50"
+                                                                className="inline-flex items-center justify-center rounded-xl bg-black px-5 py-2 text-xs font-semibold text-white hover:bg-neutral-800 disabled:opacity-50"
                                                             >
                                                                 {ratingSubmitting ? "Submitting..." : "Post Review"}
                                                             </button>
@@ -385,7 +382,7 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                                 )}
 
                                                 {/* About quote block */}
-                                                <div className="border-l-2 border-amber-500 pl-4 py-0.5">
+                                                <div className="border-l-2 border-black pl-4 py-0.5">
                                                     <p className="text-sm text-neutral-600 leading-relaxed italic">
                                                         "{aboutText}"
                                                     </p>
@@ -393,29 +390,29 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
 
                                                 {/* Experience & Specialties Grid */}
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                                                    <div className="flex items-center gap-3 p-3 rounded-xl bg-stone-50 border border-stone-100">
-                                                        <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0 text-amber-700">
+                                                    <div className="flex items-center gap-3 p-3 rounded-xl bg-neutral-50 border border-neutral-200">
+                                                        <div className="w-9 h-9 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center flex-shrink-0 text-black">
                                                             <Award className="w-4 h-4" />
                                                         </div>
                                                         <div>
-                                                            <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+                                                            <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
                                                                 Experience
                                                             </p>
-                                                            <p className="text-sm font-bold text-neutral-900">
+                                                            <p className="text-sm font-bold text-black">
                                                                 {barber.experience_years} Years Master Craftsman
                                                             </p>
                                                         </div>
                                                     </div>
 
-                                                    <div className="flex items-center gap-3 p-3 rounded-xl bg-stone-50 border border-stone-100">
-                                                        <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0 text-amber-700">
+                                                    <div className="flex items-center gap-3 p-3 rounded-xl bg-neutral-50 border border-neutral-200">
+                                                        <div className="w-9 h-9 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center flex-shrink-0 text-black">
                                                             <Calendar className="w-4 h-4" />
                                                         </div>
                                                         <div>
-                                                            <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+                                                            <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
                                                                 Schedule
                                                             </p>
-                                                            <p className="text-sm font-bold text-neutral-900">
+                                                            <p className="text-sm font-bold text-black">
                                                                 Mon – Sat: 9AM – 8PM
                                                             </p>
                                                         </div>
@@ -424,14 +421,14 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
 
                                                 {/* Specialties Badges */}
                                                 <div>
-                                                    <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400 mb-2">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500 mb-2">
                                                         Signature Specialties
                                                     </p>
                                                     <div className="flex flex-wrap gap-1.5">
                                                         {specialties.map((spec, idx) => (
                                                             <span
                                                                 key={idx}
-                                                                className="text-xs font-medium text-neutral-700 bg-white border border-stone-200 px-3 py-1 rounded-full shadow-2xs"
+                                                                className="text-xs font-medium text-neutral-800 bg-white border border-neutral-200 px-3 py-1 rounded-full shadow-2xs"
                                                             >
                                                                 {spec}
                                                             </span>
@@ -445,9 +442,9 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                                         {certifications.map((cert, idx) => (
                                                             <span
                                                                 key={idx}
-                                                                className="inline-flex items-center gap-1.5 text-xs text-amber-900 bg-amber-50/80 border border-amber-200/60 px-3 py-1 rounded-full font-medium"
+                                                                className="inline-flex items-center gap-1.5 text-xs text-neutral-800 bg-neutral-100 border border-neutral-200 px-3 py-1 rounded-full font-medium"
                                                             >
-                                                                <CheckCircle2 className="w-3 h-3 text-amber-600" />
+                                                                <CheckCircle2 className="w-3 h-3 text-black" />
                                                                 {cert}
                                                             </span>
                                                         ))}
@@ -456,7 +453,7 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                             </div>
 
                                             {/* Action Bar Footer */}
-                                            <div className="mt-8 pt-5 border-t border-stone-100 flex flex-wrap items-center justify-between gap-4">
+                                            <div className="mt-8 pt-5 border-t border-neutral-200 flex flex-wrap items-center justify-between gap-4">
                                                 <div className="flex items-center gap-2 text-xs text-neutral-500">
                                                     <Clock className="w-3.5 h-3.5 text-neutral-400" />
                                                     <span>Standard Appointment: 45 - 60 min</span>
@@ -465,10 +462,10 @@ function BarbersSection({ barbers: initialBarbers = [] }: BarbersSectionProps) {
                                                 {isAvailable ? (
                                                     <a
                                                         href={`/booking/step-1?barber_id=${barber.id}`}
-                                                        className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-neutral-900 text-white text-xs font-semibold tracking-wider uppercase rounded-xl shadow-md hover:bg-neutral-800 hover:shadow-lg active:scale-[0.98] transition-all group/btn"
+                                                        className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-black text-white text-xs font-semibold tracking-wider uppercase rounded-xl shadow-sm hover:bg-neutral-800 hover:shadow active:scale-[0.98] transition-all group/btn"
                                                     >
                                                         <span>Book with {barber.full_name.split(" ")[0]}</span>
-                                                        <ArrowRight className="w-4 h-4 text-amber-400 transition-transform group-hover/btn:translate-x-1" />
+                                                        <ArrowRight className="w-4 h-4 text-white transition-transform group-hover/btn:translate-x-1" />
                                                     </a>
                                                 ) : (
                                                     <span className="px-6 py-3 bg-neutral-100 text-neutral-400 text-xs font-semibold tracking-wider uppercase rounded-xl cursor-not-allowed">
