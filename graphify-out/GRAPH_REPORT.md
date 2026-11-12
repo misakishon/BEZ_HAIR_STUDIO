@@ -1,25 +1,25 @@
-# Graph Report - BEZ_HAIR_STUDIO  (2026-10-17)
+# Graph Report - BEZ_HAIR_STUDIO  (2026-11-13)
 
 ## Corpus Check
-- 200 files · ~699,195 words
+- 202 files · ~69,913 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 25 file(s) not represented in the graph (top: (none) 17, .css 3, .example 1)
+- Unclassified: 27 file(s) not represented in the graph (top: (none) 17, .css 3, .example 1)
 
 ## Summary
-- 896 nodes · 1525 edges · 144 communities (39 shown, 105 thin omitted)
+- 901 nodes · 1529 edges · 142 communities (37 shown, 105 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 7 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d75045b8`
+- Built from commit: `3672fd06`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - React UI Components
-- step3.tsx
+- step2.tsx
 - Booking Logic Controller
-- Admin Appointment Management
+- dashboard.tsx
 - Home.tsx
 - Password Management Controllers
 - Admin Resource Controllers
@@ -95,9 +95,9 @@
 - Branding Logo Assets
 - Studio Photography Assets
 - Admin Dashboard View
-- step2.tsx
-- step4.tsx
-- Header
+- Hairstyles.tsx
+- Appointments.tsx
+- PasswordConfirmationTest
 - Studio Group Photo
 - PayMongo API Integration
 - Studio Interior Photo
@@ -113,19 +113,17 @@
 - Barber Shop Imagery
 - Barber Shop Imagery
 - Barber Tool Photography
-- AdminBarberQrCodeTest.php
-- step1.tsx
+- Barber Tools and Clippers on Towel
 - BEZ Hair Studio Logo with Crest
 - AchievementsSection.tsx
-- PasswordUpdateTest.php
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 47 edges
+1. `react` - 48 edges
 2. `Controller` - 38 edges
 3. `TestCase` - 32 edges
-4. `@inertiajs/react` - 30 edges
-5. `User` - 20 edges
-6. `lucide-react` - 20 edges
+4. `@inertiajs/react` - 31 edges
+5. `lucide-react` - 21 edges
+6. `User` - 20 edges
 7. `BookingController` - 18 edges
 8. `Sidebar()` - 15 edges
 9. `compilerOptions` - 14 edges
@@ -150,39 +148,39 @@
 - **Brand Identity Assets** — resources_assets_gemini_svg, resources_assets_bg, resources_assets_bg_png, resources_assets_bg1, resources_assets_bg232, resources_assets_bgphone [EXTRACTED 1.00]
 - **Marketing Hero Imagery** — resources_assets_hero_barber_arch_clean, resources_assets_hero_barber_arch_white, resources_assets_hero_barber_arch, resources_assets_hero_tools_placeholder, resources_assets_hero_tools_white [EXTRACTED 1.00]
 
-## Communities (144 total, 105 thin omitted)
+## Communities (142 total, 105 thin omitted)
 
 ### Community 0 - "React UI Components"
-Cohesion: 0.11
-Nodes (24): @inertiajs/react, react, EmailVerificationProps, Checkbox(), Dropdown(), Props, InputError(), InputLabel() (+16 more)
+Cohesion: 0.09
+Nodes (27): @inertiajs/react, react, EmailVerificationProps, Checkbox(), Dropdown(), Props, InputError(), InputLabel() (+19 more)
 
-### Community 1 - "step3.tsx"
-Cohesion: 0.22
-Nodes (10): Barber, BookingStep3(), BookingStep4Props, formatDate(), formatTime(), Hairstyle, stepCopy, StepIndicator() (+2 more)
+### Community 1 - "step2.tsx"
+Cohesion: 0.07
+Nodes (38): Barber, BookingStep1(), BookingStep1Props, ALL_TIME_SLOTS, Barber, BookingStep3(), BookingStep3Props, Hairstyle (+30 more)
 
 ### Community 2 - "Booking Logic Controller"
-Cohesion: 0.09
+Cohesion: 0.08
 Nodes (6): BookingController, ContactController, BookingConfirmation, ContactMessageMail, OtpCode, ServiceTicket
 
-### Community 3 - "Admin Appointment Management"
-Cohesion: 0.07
-Nodes (43): lucide-react, AdminConfirmModal(), AdminConfirmModalProps, AdminToast(), AdminToastProps, ToastMessage, ALL_TIME_SLOTS, Appointment (+35 more)
+### Community 3 - "dashboard.tsx"
+Cohesion: 0.12
+Nodes (20): ALL_TIME_SLOTS, Dashboard(), DashboardProps, formatPeso(), MONTH_NAMES_SHORT, MONTHS, TimeSlot, WEEKDAYS (+12 more)
 
 ### Community 4 - "Home.tsx"
-Cohesion: 0.23
-Nodes (8): Barber Tools and Clippers on Towel, Footer(), Home(), HomeProps, ContactSection(), HeroSection(), WhyChooseSection(), WhyChooseSectionProps
+Cohesion: 0.20
+Nodes (11): lucide-react, Footer(), Home(), HomeProps, Barber, BarbersSection(), BarbersSectionProps, ContactSection() (+3 more)
 
 ### Community 5 - "Password Management Controllers"
-Cohesion: 0.09
-Nodes (7): ConfirmablePasswordController, EmailVerificationNotificationController, EmailVerificationPromptController, NewPasswordController, PasswordResetLinkController, RegisteredUserController, ProfileController
+Cohesion: 0.10
+Nodes (5): ConfirmablePasswordController, EmailVerificationPromptController, NewPasswordController, PasswordResetLinkController, ProfileController
 
 ### Community 6 - "Admin Resource Controllers"
-Cohesion: 0.16
-Nodes (3): HairstyleController, VerifyEmailController, Controller
+Cohesion: 0.11
+Nodes (6): BarberController, DashboardController, HairstyleController, EmailVerificationNotificationController, VerifyEmailController, Controller
 
 ### Community 7 - "Admin Auth Middleware"
-Cohesion: 0.08
-Nodes (5): AdminLoginController, BarberController, DashboardController, EnsureUserIsAdmin, GET /test-service-ticket()
+Cohesion: 0.11
+Nodes (3): AdminLoginController, EnsureUserIsAdmin, GET /test-service-ticket()
 
 ### Community 8 - "Appointment API Routes"
 Cohesion: 0.13
@@ -193,8 +191,8 @@ Cohesion: 0.11
 Nodes (19): devDependencies, autoprefixer, axios, concurrently, @headlessui/react, @inertiajs/react, laravel-vite-plugin, postcss (+11 more)
 
 ### Community 10 - "Illuminate\Foundation\Testing\RefreshDatabase"
-Cohesion: 0.21
-Nodes (3): AdminLoginTest, PasswordConfirmationTest, BarberRatingReviewTest
+Cohesion: 0.15
+Nodes (5): AdminBarberQrCodeTest, AdminBarberUploadTest, AdminLoginTest, PasswordUpdateTest, BarberRatingReviewTest
 
 ### Community 11 - "TypeScript Configuration"
 Cohesion: 0.11
@@ -208,13 +206,13 @@ Nodes (7): {closure#1}(), {closure#2}(), {closure#3}(), {closure#1}(), {closure#
 Cohesion: 0.15
 Nodes (5): AdminRouteTest, RegistrationTest, BookingPaymentRouteTest, ExampleTest, TestCase
 
-### Community 14 - "Form Validation Requests"
-Cohesion: 0.09
-Nodes (3): LoginRequest, ProfileUpdateRequest, UserFactory
-
 ### Community 15 - "Node Package Configuration"
 Cohesion: 0.13
 Nodes (14): private, $schema, type, autoprefixer, chart.js, concurrently, @headlessui/react, postcss (+6 more)
+
+### Community 16 - "Auth Session Routes"
+Cohesion: 0.15
+Nodes (3): AuthenticatedSessionController, PasswordController, RegisteredUserController
 
 ### Community 19 - "Public Home Controller"
 Cohesion: 0.20
@@ -262,7 +260,7 @@ Nodes (3): laravel-vite-plugin, vite, @vitejs/plugin-react
 
 ### Community 59 - "popularSection.tsx"
 Cohesion: 0.25
-Nodes (8): Barber, BarbersSection(), BarbersSectionProps, DEFAULT_HAIRSTYLES, Hairstyle, PopularHairstyles(), PopularHairstylesProps, resolveUploadImageUrl()
+Nodes (8): Barber, Barbers(), BarbersProps, DEFAULT_HAIRSTYLES, Hairstyle, PopularHairstyles(), PopularHairstylesProps, resolveUploadImageUrl()
 
 ### Community 67 - "Frontend Chart Dependencies"
 Cohesion: 0.50
@@ -284,21 +282,13 @@ Nodes (3): scripts, build, dev
 Cohesion: 0.67
 Nodes (3): BEZ Hair Studio Logo, BEZ Hair Studio README, BEZ Hair Studio Appointment Booking System
 
-### Community 82 - "step2.tsx"
-Cohesion: 0.24
-Nodes (8): ALL_TIME_SLOTS, Barber, BookingStep3(), BookingStep3Props, Hairstyle, MONTHS, to12Hour(), WEEKDAYS
+### Community 82 - "Hairstyles.tsx"
+Cohesion: 0.23
+Nodes (12): AdminConfirmModal(), AdminConfirmModalProps, AdminToast(), AdminToastProps, ToastMessage, Appointments(), Hairstyle, Hairstyles() (+4 more)
 
-### Community 83 - "step4.tsx"
-Cohesion: 0.27
-Nodes (8): Barber, BookingStep4(), BookingStep4Props, formatDate(), formatTime(), GCashStatus, Hairstyle, PaymentMethod
-
-### Community 84 - "Header"
-Cohesion: 0.29
-Nodes (8): Header(), sectionLinks, Booking, BookingSuccess(), BookingSuccessProps, formatDate(), formatTime(), PAYMENT_LABELS
-
-### Community 140 - "step1.tsx"
-Cohesion: 0.43
-Nodes (4): Barber, BookingStep1(), BookingStep1Props, Booking()
+### Community 83 - "Appointments.tsx"
+Cohesion: 0.22
+Nodes (7): ALL_TIME_SLOTS, Appointment, AppointmentsProps, BarberOption, MONTHS, TimeSlotOption, WEEKDAYS
 
 ### Community 141 - "BEZ Hair Studio Logo with Crest"
 Cohesion: 0.40
@@ -310,23 +300,23 @@ Nodes (4): StatCard(), StatItemData, statsData, StatsSection()
 
 ## Knowledge Gaps
 - **41 isolated node(s):** `autoprefixer`, `chart.js`, `concurrently`, `@headlessui/react`, `postcss` (+36 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 438 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 441 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **105 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `React UI Components` to `step3.tsx`, `Admin Appointment Management`, `Home.tsx`, `step1.tsx`, `AchievementsSection.tsx`, `Node Package Configuration`, `step2.tsx`, `step4.tsx`, `Header`, `popularSection.tsx`, `App Entry Point`?**
-  _High betweenness centrality (0.039) - this node is a cross-community bridge._
+- **Why does `react` connect `React UI Components` to `step2.tsx`, `dashboard.tsx`, `Home.tsx`, `AchievementsSection.tsx`, `Node Package Configuration`, `Hairstyles.tsx`, `Appointments.tsx`, `popularSection.tsx`, `App Entry Point`?**
+  _High betweenness centrality (0.041) - this node is a cross-community bridge._
 - **What connects `autoprefixer`, `chart.js`, `concurrently` to the rest of the system?**
   _41 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `React UI Components` be split into smaller, more focused modules?**
-  _Cohesion score 0.10519480519480519 - nodes in this community are weakly interconnected._
-- **Why does `User` connect `User` to `User Profile Tests`, `Password Management Controllers`, `Authentication Tests`, `Admin Auth Middleware`, `Illuminate\Foundation\Testing\RefreshDatabase`, `AdminBarberQrCodeTest.php`, `Form Validation Requests`, `PasswordUpdateTest.php`, `Password Reset Tests`, `Database Seeders`, `Email Verification Tests`?**
-  _High betweenness centrality (0.037) - this node is a cross-community bridge._
-- **Should `Booking Logic Controller` be split into smaller, more focused modules?**
-  _Cohesion score 0.09041835357624832 - nodes in this community are weakly interconnected._
-- **Why does `TestCase` connect `Route Integration Tests` to `User Profile Tests`, `Authentication Tests`, `Illuminate\Foundation\Testing\RefreshDatabase`, `AdminBarberQrCodeTest.php`, `PasswordUpdateTest.php`, `Password Reset Tests`, `Contact Form Tests`, `Email Verification Tests`?**
+  _Cohesion score 0.0907103825136612 - nodes in this community are weakly interconnected._
+- **Why does `User` connect `User` to `User Profile Tests`, `Password Management Controllers`, `Authentication Tests`, `Admin Auth Middleware`, `Illuminate\Foundation\Testing\RefreshDatabase`, `Form Validation Requests`, `PasswordConfirmationTest`, `Password Reset Tests`, `Database Seeders`, `Email Verification Tests`?**
+  _High betweenness centrality (0.036) - this node is a cross-community bridge._
+- **Should `step2.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.06775510204081632 - nodes in this community are weakly interconnected._
+- **Why does `TestCase` connect `Route Integration Tests` to `User Profile Tests`, `Authentication Tests`, `Illuminate\Foundation\Testing\RefreshDatabase`, `PasswordConfirmationTest`, `Password Reset Tests`, `Contact Form Tests`, `Email Verification Tests`?**
   _High betweenness centrality (0.031) - this node is a cross-community bridge._
-- **Should `Admin Appointment Management` be split into smaller, more focused modules?**
-  _Cohesion score 0.0734006734006734 - nodes in this community are weakly interconnected._
+- **Should `Booking Logic Controller` be split into smaller, more focused modules?**
+  _Cohesion score 0.07716701902748414 - nodes in this community are weakly interconnected._

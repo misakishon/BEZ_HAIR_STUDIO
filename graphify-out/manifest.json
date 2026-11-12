@@ -1,9 +1,9 @@
 {
   "app/Http/Controllers/Admin/AdminLoginController.php": {
-    "mtime": 1785425858.8718143,
-    "seen": 1792042983.4758692,
-    "ast_hash": "03471c3afc2acea90bb7e5c38d564272",
-    "semantic_hash": "03471c3afc2acea90bb7e5c38d564272"
+    "mtime": 1792587885.863876,
+    "seen": 1794505148.9933858,
+    "ast_hash": "acd0bf2168539db456d6cfebf9074c7f",
+    "semantic_hash": ""
   },
   "app/Http/Controllers/Admin/AppointmentController.php": {
     "mtime": 1786007165.1177914,
@@ -78,10 +78,10 @@
     "semantic_hash": "1462f1e00bbf125e74e9f4ab59bf7a55"
   },
   "app/Http/Controllers/Auth/PasswordResetLinkController.php": {
-    "mtime": 1785424247.0169342,
-    "seen": 1792042983.4758692,
-    "ast_hash": "f26b02fc562983ab4989c2af06c3e2b8",
-    "semantic_hash": "f26b02fc562983ab4989c2af06c3e2b8"
+    "mtime": 1792587947.827145,
+    "seen": 1794505148.9933858,
+    "ast_hash": "6ede6b90e52c00e16a467c4182110d5d",
+    "semantic_hash": ""
   },
   "app/Http/Controllers/Auth/RegisteredUserController.php": {
     "mtime": 1781073992.0,
@@ -96,10 +96,10 @@
     "semantic_hash": "f7ba8245c1fa0f3e7d8591364c8f8943"
   },
   "app/Http/Controllers/BookingController.php": {
-    "mtime": 1787574887.381854,
-    "seen": 1792042983.4758692,
-    "ast_hash": "38ca5de11d23db2a1f65c29615341f30",
-    "semantic_hash": "38ca5de11d23db2a1f65c29615341f30"
+    "mtime": 1792586971.3507934,
+    "seen": 1794505148.9933858,
+    "ast_hash": "6724cfd5069c65db2dcd63c3875f8b9d",
+    "semantic_hash": ""
   },
   "app/Http/Controllers/ContactController.php": {
     "mtime": 1785419986.7504885,
@@ -174,10 +174,10 @@
     "semantic_hash": "64b3e9d356e09c5637f77d7d6d694387"
   },
   "app/Mail/OtpCode.php": {
-    "mtime": 1785580323.9133725,
-    "seen": 1792042983.4758692,
-    "ast_hash": "d1529b69e392ce7bb0c3c9e06dc833a4",
-    "semantic_hash": "d1529b69e392ce7bb0c3c9e06dc833a4"
+    "mtime": 1792587820.984842,
+    "seen": 1794505148.9933858,
+    "ast_hash": "621a0fef74e3a37491882b70db4959f5",
+    "semantic_hash": ""
   },
   "app/Mail/ServiceTicket.php": {
     "mtime": 1782969694.8239045,
@@ -516,10 +516,10 @@
     "semantic_hash": "d8eda274115af5fd2aaa8230af329ef7"
   },
   "resources/js/Layouts/AuthenticatedLayout.tsx": {
-    "mtime": 1785424026.949989,
-    "seen": 1792042983.4758692,
-    "ast_hash": "f3c5ba1415a113345079778b9de7888d",
-    "semantic_hash": "f3c5ba1415a113345079778b9de7888d"
+    "mtime": 1794495386.2821784,
+    "seen": 1794505148.9933858,
+    "ast_hash": "748d6ab4b20397d8542a2003cb45502c",
+    "semantic_hash": ""
   },
   "resources/js/Layouts/GuestLayout.tsx": {
     "mtime": 1785424026.9642603,
@@ -528,10 +528,10 @@
     "semantic_hash": "a3352848d3279b032b4169e211abd554"
   },
   "resources/js/Pages/Auth/AdminLogin.tsx": {
-    "mtime": 1785425707.8772235,
-    "seen": 1792042983.4758692,
-    "ast_hash": "42cab3c1c328a5177f583e2c61f959f9",
-    "semantic_hash": "42cab3c1c328a5177f583e2c61f959f9"
+    "mtime": 1792588064.4842348,
+    "seen": 1794505148.9933858,
+    "ast_hash": "f6769a991901e68626eb26fdaff8dad7",
+    "semantic_hash": ""
   },
   "resources/js/Pages/Auth/ConfirmPassword.tsx": {
     "mtime": 1782213088.8292646,
@@ -594,9 +594,9 @@
     "semantic_hash": "76ffd4169eaa3dae92f84faa7b0732c8"
   },
   "resources/js/Pages/BookingSuccess.tsx": {
-    "mtime": 1792248103.1696184,
-    "seen": 1792251924.1349018,
-    "ast_hash": "bfa73d438a0e5e24cdad3d25c5424c53",
+    "mtime": 1794495374.0359995,
+    "seen": 1794505148.9933858,
+    "ast_hash": "dc175c9215f0d0bfb450fd566cf59ab3",
     "semantic_hash": ""
   },
   "resources/js/Pages/Dashboard.tsx": {
@@ -606,9 +606,9 @@
     "semantic_hash": "da841d87a7a1de885b38c372417d30a7"
   },
   "resources/js/Pages/Home.tsx": {
-    "mtime": 1792247718.8999963,
-    "seen": 1792251924.1349018,
-    "ast_hash": "98d37fc0f66a5afc57e6771c77c94d93",
+    "mtime": 1794493850.6208537,
+    "seen": 1794505148.9933858,
+    "ast_hash": "6eb902f19457e3528b8479ca759a9710",
     "semantic_hash": ""
   },
   "resources/js/Pages/Welcome.tsx": {
@@ -648,9 +648,9 @@
     "semantic_hash": ""
   },
   "resources/js/Pages/admin/dashboard.tsx": {
-    "mtime": 1792249092.4963439,
-    "seen": 1792251924.1349018,
-    "ast_hash": "c2daf7065b39ef39f26fcb1c31f1da90",
+    "mtime": 1792588485.5061154,
+    "seen": 1794505148.9933858,
+    "ast_hash": "6e766eb2f5ddebe5d879d93b22e75cd5",
     "semantic_hash": ""
   },
   "resources/js/Pages/admin/index.tsx": {
@@ -702,33 +702,33 @@
     "semantic_hash": "cb3b87a1cda1431ee72d9c063585f803"
   },
   "resources/js/booking/step1.tsx": {
-    "mtime": 1792248083.1058598,
-    "seen": 1792251924.1349018,
-    "ast_hash": "2b7eed63b00b19c0d686c2b2f6bfa881",
+    "mtime": 1794495109.9668062,
+    "seen": 1794505148.9933858,
+    "ast_hash": "91f392276dac84716eb3f0939a876bb2",
     "semantic_hash": ""
   },
   "resources/js/booking/step2.tsx": {
-    "mtime": 1792248032.6731668,
-    "seen": 1792251924.1349018,
-    "ast_hash": "d864f7b70bb666c15e75125edef101b7",
+    "mtime": 1794495168.3076682,
+    "seen": 1794505148.9933858,
+    "ast_hash": "d689c654f2420c22b37b0171e4b59239",
     "semantic_hash": ""
   },
   "resources/js/booking/step3.tsx": {
-    "mtime": 1792248046.179777,
-    "seen": 1792251924.1349018,
-    "ast_hash": "7f1421ee791e4b597f44711c7670f083",
+    "mtime": 1794495256.9211593,
+    "seen": 1794505148.9933858,
+    "ast_hash": "859efa8da2614f065f3c50e2ec345517",
     "semantic_hash": ""
   },
   "resources/js/booking/step4.tsx": {
-    "mtime": 1792248087.1050396,
-    "seen": 1792251924.1349018,
-    "ast_hash": "e13a2b8a4fae5a7ee228211f1ae89c78",
+    "mtime": 1794495297.3862898,
+    "seen": 1794505148.9933858,
+    "ast_hash": "15c9439cfc45db2002cae97854a8a3de",
     "semantic_hash": ""
   },
   "resources/js/booking/stepservice.tsx": {
-    "mtime": 1792248177.18204,
-    "seen": 1792251924.1349018,
-    "ast_hash": "dda50e9994ca2bf5002babaccabc9fb0",
+    "mtime": 1794495069.8149405,
+    "seen": 1794505148.9933858,
+    "ast_hash": "e034abfc33df86d53dcef1827a2fdef7",
     "semantic_hash": ""
   },
   "resources/js/bootstrap.ts": {
@@ -804,15 +804,15 @@
     "semantic_hash": "18a1042ef32a8a9e94f5f8f4c2d63956"
   },
   "resources/js/components/footer.tsx": {
-    "mtime": 1792047357.1230035,
-    "seen": 1792246689.9218273,
-    "ast_hash": "1a6d59502578d436a0ab4408d1d4cef8",
-    "semantic_hash": "1a6d59502578d436a0ab4408d1d4cef8"
+    "mtime": 1794497809.543157,
+    "seen": 1794505148.9933858,
+    "ast_hash": "4306c82135b0b9de2aee6441b91496b6",
+    "semantic_hash": ""
   },
   "resources/js/components/header.tsx": {
-    "mtime": 1792247874.3994608,
-    "seen": 1792251924.1349018,
-    "ast_hash": "edf181b3b0f54cc91e0b5fe01ecd1e0c",
+    "mtime": 1794497647.2489343,
+    "seen": 1794505148.9933858,
+    "ast_hash": "eda232ee8914d19451160a6b366f6d75",
     "semantic_hash": ""
   },
   "resources/js/components/index.ts": {
@@ -822,40 +822,40 @@
     "semantic_hash": "9832f790acff0177b7fdcb4162896594"
   },
   "resources/js/section/AchievementsSection.tsx": {
-    "mtime": 1792051488.962053,
-    "seen": 1792246689.9224982,
-    "ast_hash": "78c45ff2d6289ee69ecde0a7dd6ff631",
-    "semantic_hash": "78c45ff2d6289ee69ecde0a7dd6ff631"
+    "mtime": 1794494640.4783816,
+    "seen": 1794505148.9933858,
+    "ast_hash": "39df350b0dc024d799a66ab067642938",
+    "semantic_hash": ""
   },
   "resources/js/section/BarbersSection.tsx": {
-    "mtime": 1792046898.898686,
-    "seen": 1792246689.9224982,
-    "ast_hash": "e696a964febe82901fc61d79ac2bdcbd",
-    "semantic_hash": "e696a964febe82901fc61d79ac2bdcbd"
+    "mtime": 1794494777.5499425,
+    "seen": 1794505148.9933858,
+    "ast_hash": "204bdf944c719333cbb5616dd80ebc7f",
+    "semantic_hash": ""
   },
   "resources/js/section/ContactSection.tsx": {
-    "mtime": 1792046899.4827101,
-    "seen": 1792246689.9224982,
-    "ast_hash": "bc889f0b03eea7a2fc25972c00852a54",
-    "semantic_hash": "bc889f0b03eea7a2fc25972c00852a54"
+    "mtime": 1794495006.6442013,
+    "seen": 1794505148.9933858,
+    "ast_hash": "d854ee9fda7aab801c1bd9db2f61cf2b",
+    "semantic_hash": ""
   },
   "resources/js/section/HeroSection.tsx": {
-    "mtime": 1792247811.9930968,
-    "seen": 1792251924.1349018,
-    "ast_hash": "edd5e41e10de7242c7c1b682c3e8c6c3",
+    "mtime": 1794502113.9900908,
+    "seen": 1794505148.9933858,
+    "ast_hash": "f592996150356a630c4c24ab1191705a",
     "semantic_hash": ""
   },
   "resources/js/section/WhyChooseSection.tsx": {
-    "mtime": 1792046302.4425163,
-    "seen": 1792246689.9224982,
-    "ast_hash": "d2c21439bc1f78e9fd01bb8d645dd5cc",
-    "semantic_hash": "d2c21439bc1f78e9fd01bb8d645dd5cc"
+    "mtime": 1794494932.4670484,
+    "seen": 1794505148.9933858,
+    "ast_hash": "a31ec2558b9e970e03ff730077706e31",
+    "semantic_hash": ""
   },
   "resources/js/section/popularSection.tsx": {
-    "mtime": 1792044457.3982666,
-    "seen": 1792246689.9224982,
-    "ast_hash": "b628685712da076090dc89bdb94d0fc6",
-    "semantic_hash": "b628685712da076090dc89bdb94d0fc6"
+    "mtime": 1794499807.0709715,
+    "seen": 1794505148.9933858,
+    "ast_hash": "663d55def8f7dfe4fbd0cbc5ffda0121",
+    "semantic_hash": ""
   },
   "resources/js/types/global.d.ts": {
     "mtime": 1781073992.0,
@@ -888,10 +888,10 @@
     "semantic_hash": "a9d6f8212d2ce8f4737479d4954ccfb6"
   },
   "resources/views/app.blade.php": {
-    "mtime": 1785842030.097329,
-    "seen": 1792042983.4758692,
-    "ast_hash": "14e4faa201d744082b3cf62c8bb9e465",
-    "semantic_hash": "14e4faa201d744082b3cf62c8bb9e465"
+    "mtime": 1794497625.937733,
+    "seen": 1794505148.9933858,
+    "ast_hash": "0817989748e7cdf8e8fcd7c8dbdfdfa2",
+    "semantic_hash": ""
   },
   "resources/views/emails/bookings/cash-receipt.blade.php": {
     "mtime": 1782386134.3499877,
@@ -912,16 +912,16 @@
     "semantic_hash": "8862b0becaad90c1e16401f9dd9098ba"
   },
   "resources/views/emails/bookings/otp.blade.php": {
-    "mtime": 1782094155.0,
-    "seen": 1792042983.4758692,
-    "ast_hash": "9cc27da68b1821c5eb60c274b24b826c",
-    "semantic_hash": "9cc27da68b1821c5eb60c274b24b826c"
+    "mtime": 1792587839.0044477,
+    "seen": 1794505148.9933858,
+    "ast_hash": "4a60dc55007c31484d4b773b2d1719ec",
+    "semantic_hash": ""
   },
   "resources/views/emails/bookings/otp_plain.blade.php": {
-    "mtime": 1785580323.919845,
-    "seen": 1792042983.4758692,
-    "ast_hash": "d9ebbb5a31f75f384c4892051838ebb2",
-    "semantic_hash": "d9ebbb5a31f75f384c4892051838ebb2"
+    "mtime": 1792587846.871777,
+    "seen": 1794505148.9933858,
+    "ast_hash": "5fa8104975fc318f6515ec1a1d3a3adb",
+    "semantic_hash": ""
   },
   "resources/views/emails/bookings/service-ticket.blade.php": {
     "mtime": 1782966823.4808426,
@@ -1032,8 +1032,8 @@
     "semantic_hash": "9bded1c8541d68de3939dbf76e45f14a"
   },
   "routes/auth.php": {
-    "mtime": 1785425300.1815972,
-    "seen": 1792042983.4758692,
+    "mtime": 1792587806.3079228,
+    "seen": 1794505148.9933858,
     "ast_hash": "2f26ce8291d7a3cab46c4a2f561dc053",
     "semantic_hash": "2f26ce8291d7a3cab46c4a2f561dc053"
   },
@@ -1044,16 +1044,16 @@
     "semantic_hash": "3c6ce2e6d16444282b24a9aa63885563"
   },
   "routes/web.php": {
-    "mtime": 1787575260.120101,
-    "seen": 1792042983.4758692,
-    "ast_hash": "c0cd010b22dda70cd328a8e14ceaab6d",
-    "semantic_hash": "c0cd010b22dda70cd328a8e14ceaab6d"
+    "mtime": 1792587901.7763643,
+    "seen": 1794505148.9933858,
+    "ast_hash": "6b5945a3ddde449a1469eab8f7ea46bb",
+    "semantic_hash": ""
   },
   "tailwind.config.js": {
-    "mtime": 1781073992.0,
-    "seen": 1792042983.4758692,
-    "ast_hash": "a145df1beeb3421b38fd18986611a207",
-    "semantic_hash": "a145df1beeb3421b38fd18986611a207"
+    "mtime": 1794497613.5773537,
+    "seen": 1794505148.9933858,
+    "ast_hash": "0f916d1ec9d1995af7256718b11664a2",
+    "semantic_hash": ""
   },
   "tests/Feature/AdminBarberQrCodeTest.php": {
     "mtime": 1782562874.6199596,
@@ -1170,8 +1170,8 @@
     "semantic_hash": "078611e5785f4fb273f0cc45bcd98b7f"
   },
   "README.md": {
-    "mtime": 1792052308.7951105,
-    "seen": 1792246689.937541,
+    "mtime": 1792587003.1821806,
+    "seen": 1794505148.9933858,
     "ast_hash": "7a51ab70e2d1918bf661cb2a4e7ce957",
     "semantic_hash": "7a51ab70e2d1918bf661cb2a4e7ce957"
   },
@@ -1260,8 +1260,8 @@
     "semantic_hash": "27593fc4fae9570710717aa0043577a1"
   },
   "resources/assets/bg.png": {
-    "mtime": 1792048314.6570408,
-    "seen": 1792246689.9413254,
+    "mtime": 1794493850.613982,
+    "seen": 1794505148.9933858,
     "ast_hash": "5b0c38f636c479ebbe8523fe2915125c",
     "semantic_hash": "5b0c38f636c479ebbe8523fe2915125c"
   },
@@ -1272,10 +1272,10 @@
     "semantic_hash": "6f47fa74e02ea4f13f1841e70f45366f"
   },
   "resources/js/Pages/components/RevenueTrendCard.tsx": {
-    "mtime": 1792043847.9366617,
-    "seen": 1792246689.914617,
-    "ast_hash": "2d9120760b6beec8951590b8066e7718",
-    "semantic_hash": "2d9120760b6beec8951590b8066e7718"
+    "mtime": 1792589298.1381245,
+    "seen": 1794505148.9933858,
+    "ast_hash": "e58f93341df26d02a63c60cec84b53b2",
+    "semantic_hash": ""
   },
   "public/uploads/paymentImage/1782566406_ChatGPT Image Jun 22, 2026, 03_57_32 PM.png": {
     "mtime": 1782566403.8658807,
@@ -1443,6 +1443,36 @@
     "mtime": 1782569696.6170864,
     "seen": 1792251924.1354198,
     "ast_hash": "8d0e4d349e830e4f137e73929cd98bd8",
+    "semantic_hash": ""
+  },
+  "app/Services/OtpService.php": {
+    "mtime": 1792587860.8531716,
+    "seen": 1794505148.9933858,
+    "ast_hash": "05387aba52180163e30de2c6a62d1ce5",
+    "semantic_hash": ""
+  },
+  "resources/js/section/BookingFlowSection.tsx": {
+    "mtime": 1794494884.03648,
+    "seen": 1794505148.9933858,
+    "ast_hash": "6026aa62beb54f569858b3f1d645e906",
+    "semantic_hash": ""
+  },
+  "resources/assets/bez-hero-bg-original.jpg": {
+    "mtime": 1794502066.83652,
+    "seen": 1794505148.9933858,
+    "ast_hash": "fb6c9d08ff710a9d10417fcdcc985e8a",
+    "semantic_hash": ""
+  },
+  "resources/assets/bez-hero-bg.jpg": {
+    "mtime": 1794502067.0915353,
+    "seen": 1794505148.9933858,
+    "ast_hash": "26feb19ff3eb624e2f311c2f067cc2eb",
+    "semantic_hash": ""
+  },
+  "package-lock.json": {
+    "mtime": 1781527964.0,
+    "seen": 1794505148.9933858,
+    "ast_hash": "2bb0e41fb5f6aad085b47e172a3bf5b1",
     "semantic_hash": ""
   }
 }
