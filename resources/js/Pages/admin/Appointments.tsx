@@ -183,15 +183,15 @@ export default function Appointments({
     const getStatusBadgeClass = (status: string) => {
         switch (status?.toLowerCase()) {
             case "confirmed":
-                return "bg-emerald-500/10 text-emerald-700 border border-emerald-500/20";
+                return "bg-[#EDF3EC] text-[#2E5A36] border border-[#D2E0D0]";
             case "pending":
-                return "bg-amber-500/10 text-amber-700 border border-amber-500/20";
+                return "bg-[#FAF3E1] text-[#875B14] border border-[#EADBB8]";
             case "completed":
-                return "bg-blue-500/10 text-blue-700 border border-blue-500/20";
+                return "bg-[#EAE7DF] text-[#252420] border border-[#D5D0C5]";
             case "cancelled":
-                return "bg-rose-500/10 text-rose-700 border border-rose-500/20";
+                return "bg-[#F9ECEC] text-[#8E3535] border border-[#E9CECE]";
             default:
-                return "bg-stone-100 text-stone-700 border border-stone-200";
+                return "bg-[#F3F1EC] text-[#5C5953] border border-[#E5E2DA]";
         }
     };
 
@@ -745,50 +745,53 @@ export default function Appointments({
             />
 
             <Sidebar>
-                <main className="min-h-screen bg-[#f8f7f4]">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+                <main className="min-h-screen bg-[#F5F4EF] text-[#1C1B18]">
+                    <div className="studio-enter max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 space-y-6">
                         {/* Page Header Card */}
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-[#E5E2DA] pb-6">
                             <div>
-                                <div className="flex items-center gap-2">
-                                    <h1 className="text-2xl font-bold tracking-tight text-stone-900">
+                                <span className="font-morche text-[11px] font-semibold uppercase tracking-[0.2em] text-[#918E85]">
+                                    Schedule & Tickets
+                                </span>
+                                <div className="flex items-center gap-3 mt-1">
+                                    <h1 className="font-morche text-2xl sm:text-3xl font-medium tracking-tight text-[#1C1B18]">
                                         Studio Appointments
                                     </h1>
-                                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/20">
+                                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-[#F3F1EC] text-[#3D3B36] border border-[#E5E2DA] tabular-nums">
                                         {appointmentList.length} total
                                     </span>
                                 </div>
-                                <p className="text-sm text-stone-500 mt-1">
+                                <p className="text-xs sm:text-sm text-[#737069] mt-1">
                                     Client schedule, service ticket dispatches & payment confirmations
                                 </p>
                             </div>
 
                             <Link
                                 href="/booking/step-1"
-                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-100 text-xs font-semibold tracking-wide transition shadow-sm"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#252420] hover:bg-[#373530] text-[#FAF9F5] text-xs font-semibold tracking-wide shadow-[0_1px_2px_rgba(28,27,24,0.12)] transition-all duration-150 active:scale-[0.98]"
                             >
-                                <Plus className="w-4 h-4 text-amber-400" />
+                                <Plus className="w-3.5 h-3.5" />
                                 New Appointment
                             </Link>
                         </div>
 
                         {/* Search & Filter Toolbar */}
-                        <div className="bg-white p-5 rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] space-y-4">
+                        <div className="bg-[#FDFCF9] p-5 rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] space-y-4">
                             {/* Search Input */}
                             <div className="relative max-w-xl">
-                                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                <Search className="w-4 h-4 text-[#918E85] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                                 <input
                                     type="text"
                                     placeholder="Search by Confirmation (BZ-XXXXXX), Service Ticket (ST-XXXXXX), Name, Email..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-10 py-2.5 text-xs bg-stone-50 border border-stone-200 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-amber-500 transition-all placeholder:text-stone-400"
+                                    className="w-full pl-10 pr-10 py-2.5 text-xs bg-[#F5F4EF] border border-[#E5E2DA] rounded-lg focus:bg-[#FDFCF9] focus:outline-none focus:border-[#252420] focus:ring-0 transition-colors placeholder:text-[#918E85]"
                                 />
                                 {searchTerm && (
                                     <button
                                         type="button"
                                         onClick={() => setSearchTerm("")}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 p-1"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#918E85] hover:text-[#1C1B18] p-1 transition-colors"
                                     >
                                         <X className="w-3.5 h-3.5" />
                                     </button>
@@ -796,7 +799,7 @@ export default function Appointments({
                             </div>
 
                             {/* Segmented Filter Pills */}
-                            <div className="flex flex-wrap gap-2 pt-1 border-t border-stone-100">
+                            <div className="flex flex-wrap gap-2 pt-3 border-t border-[#EFECE5]">
                                 {filters.map((filter) => {
                                     const active = isFilterActive(filter);
 
@@ -805,14 +808,11 @@ export default function Appointments({
                                             key={filter.key}
                                             type="button"
                                             onClick={() => handleFilterClick(filter)}
-                                            className={`
-                                                px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all duration-150 flex items-center gap-1.5
-                                                ${
-                                                    active
-                                                        ? "bg-stone-900 text-amber-300 shadow-sm font-semibold border border-stone-800"
-                                                        : "bg-stone-100/80 text-stone-600 hover:bg-stone-200/70 hover:text-stone-900 border border-transparent"
-                                                }
-                                            `}
+                                            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 active:scale-[0.97] flex items-center gap-1.5 ${
+                                                active
+                                                    ? "bg-[#252420] text-[#FAF9F5] border border-[#252420]"
+                                                    : "bg-[#F3F1EC] text-[#5C5953] hover:bg-[#EAE7DF] hover:text-[#1C1B18] border border-transparent"
+                                            }`}
                                         >
                                             <span>{filter.label}</span>
                                         </button>
@@ -822,11 +822,11 @@ export default function Appointments({
                         </div>
 
                         {/* Appointments Table Card */}
-                        <div className="bg-white rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+                        <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] overflow-hidden">
                             <div className="overflow-x-auto">
                                 <table className="min-w-[1280px] w-full text-left text-xs">
                                     <thead>
-                                        <tr className="bg-stone-50/75 border-b border-stone-100 text-stone-400 uppercase text-[10px] tracking-wider">
+                                        <tr className="bg-[#F5F4EF] border-b border-[#E5E2DA] text-[#737069] uppercase text-[10px] tracking-wider">
                                             <th className="py-3 px-4 font-semibold">
                                                 Booking Code
                                             </th>
@@ -862,7 +862,7 @@ export default function Appointments({
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-stone-100 text-stone-700">
+                                    <tbody className="divide-y divide-[#EFECE5] text-[#3D3B36]">
                                         {filteredAppointments.length > 0 ? (
                                             filteredAppointments.map((apt) => {
                                                 const confirmationNumber =
@@ -878,23 +878,23 @@ export default function Appointments({
                                                 return (
                                                     <tr
                                                         key={apt.id}
-                                                        className="hover:bg-amber-50/20 transition-colors group"
+                                                        className="hover:bg-[#F5F4EF]/80 transition-colors duration-150 group"
                                                     >
                                                         {/* Booking Confirmation Code */}
-                                                        <td className="py-3.5 px-4 font-mono font-bold text-stone-900">
-                                                            <span className="px-2 py-0.5 rounded-md bg-stone-100 text-stone-800 border border-stone-200">
+                                                        <td className="py-3.5 px-4 font-mono font-bold text-[#1C1B18]">
+                                                            <span className="px-2 py-0.5 rounded-md bg-[#F3F1EC] text-[#252420] border border-[#E5E2DA]">
                                                                 {confirmationNumber}
                                                             </span>
                                                         </td>
 
                                                         {/* Service Ticket Confirmation */}
-                                                        <td className="py-3.5 px-4 font-mono text-stone-700">
+                                                        <td className="py-3.5 px-4 font-mono text-[#252420]">
                                                             {apt.service_ticket_confirmation_number ? (
-                                                                <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-semibold border border-amber-500/20">
+                                                                <span className="px-2 py-0.5 rounded-md bg-[#252420] text-[#FAF9F5] font-semibold border border-[#33312C]">
                                                                     {apt.service_ticket_confirmation_number}
                                                                 </span>
                                                             ) : (
-                                                                <span className="text-stone-300 italic text-[11px]">
+                                                                <span className="text-[#BDB7AB] italic text-[11px]">
                                                                     Unissued
                                                                 </span>
                                                             )}
@@ -903,14 +903,14 @@ export default function Appointments({
                                                         {/* Client Info */}
                                                         <td className="py-3.5 px-4">
                                                             <div className="flex items-center gap-2.5">
-                                                                <div className="w-7 h-7 rounded-full bg-stone-100 text-stone-700 flex items-center justify-center font-bold text-[10px] border border-stone-200 flex-shrink-0">
+                                                                <div className="w-7 h-7 rounded-full bg-[#252420] text-[#FAF9F5] flex items-center justify-center font-bold text-[10px] flex-shrink-0">
                                                                     {clientInitials}
                                                                 </div>
                                                                 <div className="min-w-0">
-                                                                    <div className="font-semibold text-stone-900 truncate">
+                                                                    <div className="font-semibold text-[#1C1B18] truncate">
                                                                         {apt.client_name || "Client"}
                                                                     </div>
-                                                                    <div className="text-[11px] text-stone-400 truncate">
+                                                                    <div className="text-[11px] text-[#918E85] truncate">
                                                                         {apt.email || "No email"}
                                                                     </div>
                                                                 </div>
@@ -918,21 +918,21 @@ export default function Appointments({
                                                         </td>
 
                                                         {/* Hairstyle / Service */}
-                                                        <td className="py-3.5 px-4 font-medium text-stone-800">
+                                                        <td className="py-3.5 px-4 font-medium text-[#252420]">
                                                             {apt.hairstyle_name || "Standard Cut"}
                                                         </td>
 
                                                         {/* Barber */}
-                                                        <td className="py-3.5 px-4 text-stone-600">
+                                                        <td className="py-3.5 px-4 text-[#5C5953]">
                                                             {apt.barber_name || "Any Barber"}
                                                         </td>
 
                                                         {/* Date & Time */}
-                                                        <td className="py-3.5 px-4">
-                                                            <div className="font-medium text-stone-900">
+                                                        <td className="py-3.5 px-4 tabular-nums">
+                                                            <div className="font-medium text-[#1C1B18]">
                                                                 {formatAppointmentDate(apt.appointment_date)}
                                                             </div>
-                                                            <div className="text-[11px] text-stone-400">
+                                                            <div className="text-[11px] text-[#918E85]">
                                                                 {formatAppointmentTime(apt.appointment_time)}
                                                             </div>
                                                         </td>
@@ -950,10 +950,10 @@ export default function Appointments({
 
                                                         {/* Payment Method & Status */}
                                                         <td className="py-3.5 px-4">
-                                                            <div className="font-medium text-stone-800">
+                                                            <div className="font-medium text-[#252420]">
                                                                 {getPaymentMethodLabel(apt.payment_method)}
                                                             </div>
-                                                            <div className="text-[11px] text-stone-400 capitalize">
+                                                            <div className="text-[11px] text-[#918E85] capitalize">
                                                                 {apt.payment_status || "Unpaid"}
                                                             </div>
                                                         </td>
@@ -961,11 +961,11 @@ export default function Appointments({
                                                         {/* Payment ID */}
                                                         <td className="py-3.5 px-4">
                                                             {apt.payment_source_id ? (
-                                                                <span className="font-mono text-[11px] text-stone-600 break-all max-w-[130px] inline-block">
+                                                                <span className="font-mono text-[11px] text-[#5C5953] break-all max-w-[130px] inline-block">
                                                                     {apt.payment_source_id}
                                                                 </span>
                                                             ) : (
-                                                                <span className="text-stone-300">
+                                                                <span className="text-[#C7C3B9]">
                                                                     —
                                                                 </span>
                                                             )}
@@ -982,13 +982,13 @@ export default function Appointments({
                                                                             apt.payment_source_id,
                                                                         )
                                                                     }
-                                                                    className="inline-flex items-center gap-1 text-amber-600 hover:text-amber-700 font-semibold transition"
+                                                                    className="inline-flex items-center gap-1 text-[#252420] hover:text-[#1C1B18] font-semibold underline underline-offset-4 transition-opacity hover:opacity-75"
                                                                 >
                                                                     <Eye className="w-3.5 h-3.5" />
                                                                     View
                                                                 </button>
                                                             ) : (
-                                                                <span className="text-stone-300 text-[11px]">
+                                                                <span className="text-[#C7C3B9] text-[11px]">
                                                                     None
                                                                 </span>
                                                             )}
@@ -1004,7 +1004,7 @@ export default function Appointments({
                                                                             requestConfirmPayment(apt.id)
                                                                         }
                                                                         disabled={isUpdating}
-                                                                        className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition"
+                                                                        className="p-1.5 rounded-lg text-[#2E5A36] hover:bg-[#EDF3EC] transition-all duration-150 active:scale-95"
                                                                         title="Confirm Booking & Issue Service Ticket"
                                                                     >
                                                                         <CheckCircle2 className="w-4 h-4" />
@@ -1016,7 +1016,7 @@ export default function Appointments({
                                                                     onClick={() =>
                                                                         openChangeAppointmentModal(apt)
                                                                     }
-                                                                    className="p-1.5 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition"
+                                                                    className="p-1.5 rounded-lg text-[#737069] hover:text-[#1C1B18] hover:bg-[#EFECE5] transition-all duration-150 active:scale-95"
                                                                     title="Reschedule / Change Details"
                                                                 >
                                                                     <CalendarClock className="w-4 h-4" />
@@ -1027,7 +1027,7 @@ export default function Appointments({
                                                                     onClick={() =>
                                                                         requestCancelAppointment(apt.id)
                                                                     }
-                                                                    className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition"
+                                                                    className="p-1.5 rounded-lg text-[#918E85] hover:text-[#8E3535] hover:bg-[#F9ECEC] transition-all duration-150 active:scale-95"
                                                                     title="Cancel Appointment"
                                                                 >
                                                                     <Trash2 className="w-4 h-4" />
@@ -1041,14 +1041,14 @@ export default function Appointments({
                                             <tr>
                                                 <td
                                                     colSpan={11}
-                                                    className="py-12 text-center text-stone-400 text-xs"
+                                                    className="py-12 text-center text-[#918E85] text-xs"
                                                 >
                                                     {searchTerm ? (
                                                         <div>
-                                                            <p className="text-stone-600 font-medium">
+                                                            <p className="text-[#5C5953] font-medium">
                                                                 No matching appointments found for "{searchTerm}"
                                                             </p>
-                                                            <p className="text-stone-400 mt-1">
+                                                            <p className="text-[#918E85] mt-1">
                                                                 Try searching with a different name, email, or confirmation code.
                                                             </p>
                                                         </div>
@@ -1063,12 +1063,12 @@ export default function Appointments({
                             </div>
 
                             {/* Table Footer */}
-                            <div className="p-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-400">
+                            <div className="p-4 border-t border-[#EFECE5] flex items-center justify-between text-xs text-[#918E85]">
                                 <div>
                                     Showing {filteredAppointments.length} of{" "}
                                     {appointmentList.length} total bookings
                                 </div>
-                                <div className="text-[11px] text-stone-400 font-medium">
+                                <div className="text-[11px] text-[#918E85] font-medium">
                                     Auto-refreshed live
                                 </div>
                             </div>
@@ -1079,24 +1079,24 @@ export default function Appointments({
 
             {/* Change Appointment Modal */}
             {changeModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                <div className="studio-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1C1B18]/40 backdrop-blur-[2px]">
                     <div
-                        className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 relative"
+                        className="studio-modal-panel bg-[#FDFCF9] rounded-2xl max-w-lg w-full p-6 shadow-[0_16px_40px_rgba(28,27,24,0.16)] border border-[#E5E2DA] relative"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+                        <div className="flex items-center justify-between pb-3 border-b border-[#EFECE5]">
                             <div>
-                                <h3 className="text-base font-bold text-stone-900">
+                                <h3 className="text-base font-bold text-[#1C1B18]">
                                     Reschedule Appointment
                                 </h3>
-                                <p className="text-xs text-stone-400 mt-0.5">
+                                <p className="text-xs text-[#918E85] mt-0.5">
                                     Select new date, time, and assigned barber
                                 </p>
                             </div>
                             <button
                                 type="button"
                                 onClick={closeChangeAppointmentModal}
-                                className="text-stone-400 hover:text-stone-600 p-1 rounded-lg hover:bg-stone-100"
+                                className="text-[#807D75] hover:text-[#1C1B18] p-1 rounded-lg hover:bg-[#EFECE5] transition-colors"
                             >
                                 <X className="w-4 h-4" />
                             </button>
@@ -1105,10 +1105,10 @@ export default function Appointments({
                         <div className="space-y-4 my-4">
                             {/* Calendar Month Selector */}
                             <div>
-                                <label className="block text-xs font-semibold text-stone-700 mb-1.5">
+                                <label className="block text-xs font-semibold text-[#3D3B36] mb-1.5">
                                     Appointment Date
                                 </label>
-                                <div className="rounded-xl border border-stone-200 p-3 bg-stone-50/50">
+                                <div className="rounded-xl border border-[#E5E2DA] p-3 bg-[#F5F4EF]">
                                     <div className="flex items-center justify-between mb-2">
                                         <button
                                             type="button"
@@ -1121,11 +1121,11 @@ export default function Appointments({
                                                     ),
                                                 )
                                             }
-                                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-stone-100 text-stone-600"
+                                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-[#EAE7DF] text-[#5C5953] transition-colors"
                                         >
                                             <ChevronLeft className="w-4 h-4" />
                                         </button>
-                                        <span className="text-xs font-bold text-stone-800">
+                                        <span className="text-xs font-bold text-[#1C1B18]">
                                             {MONTHS[changeAppointmentCalendarMonth.getMonth()]}{" "}
                                             {changeAppointmentCalendarMonth.getFullYear()}
                                         </span>
@@ -1140,13 +1140,13 @@ export default function Appointments({
                                                     ),
                                                 )
                                             }
-                                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-stone-100 text-stone-600"
+                                            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-[#EAE7DF] text-[#5C5953] transition-colors"
                                         >
                                             <ChevronRight className="w-4 h-4" />
                                         </button>
                                     </div>
 
-                                    <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold text-stone-400 mb-1">
+                                    <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold text-[#918E85] mb-1">
                                         {WEEKDAYS.map((d) => (
                                             <span key={d}>{d}</span>
                                         ))}
@@ -1170,15 +1170,15 @@ export default function Appointments({
                                                             setChangeAppointmentTime("");
                                                         }}
                                                         className={`
-                                                            h-7 rounded-lg text-xs font-medium transition flex items-center justify-center
+                                                            h-7 rounded-lg text-xs font-medium transition-all duration-150 flex items-center justify-center active:scale-[0.96]
                                                             ${
                                                                 selected
-                                                                    ? "bg-amber-500 text-stone-950 font-bold shadow-sm"
+                                                                    ? "bg-[#252420] text-[#FAF9F5] font-semibold shadow-sm"
                                                                     : day.isToday
-                                                                    ? "border border-amber-500 text-amber-600 font-semibold"
+                                                                    ? "border border-[#252420] text-[#1C1B18] font-semibold"
                                                                     : day.isCurrentMonth
-                                                                    ? "text-stone-700 hover:bg-stone-100"
-                                                                    : "text-stone-300 cursor-not-allowed"
+                                                                    ? "text-[#4D4B45] hover:bg-[#EFECE5]"
+                                                                    : "text-[#D1CDC4] cursor-not-allowed"
                                                             }
                                                         `}
                                                     >
@@ -1189,9 +1189,9 @@ export default function Appointments({
                                         )}
                                     </div>
                                 </div>
-                                <div className="text-[11px] text-stone-500 mt-1.5">
+                                <div className="text-[11px] text-[#737069] mt-1.5">
                                     Selected:{" "}
-                                    <span className="font-semibold text-stone-800">
+                                    <span className="font-semibold text-[#1C1B18]">
                                         {formatDateLabel(changeAppointmentDate)}
                                     </span>
                                 </div>
@@ -1200,22 +1200,22 @@ export default function Appointments({
                             {/* Available Time Slots */}
                             <div>
                                 <div className="flex items-center justify-between mb-1.5">
-                                    <label className="block text-xs font-semibold text-stone-700">
+                                    <label className="block text-xs font-semibold text-[#4D4B45]">
                                         Time Slot
                                     </label>
                                     {isLoadingAvailability && (
-                                        <span className="text-[10px] text-amber-600 animate-pulse font-medium">
+                                        <span className="text-[10px] text-[#737069] animate-pulse font-medium">
                                             Loading slots...
                                         </span>
                                     )}
                                 </div>
 
                                 {!changeAppointmentDate || !changeAppointmentBarberId ? (
-                                    <p className="text-xs text-stone-400 italic">
+                                    <p className="text-xs text-[#918E85] italic">
                                         Select a date and barber to preview open slots.
                                     </p>
                                 ) : (
-                                    <div className="grid grid-cols-3 gap-1.5 max-h-48 overflow-y-auto pr-1">
+                                    <div className="grid grid-cols-3 gap-1.5 max-h-48 overflow-y-auto pr-1 studio-scrollbar">
                                         {ALL_TIME_SLOTS.map((slot) => {
                                             const slotData = changeAppointmentTimeSlots.find(
                                                 (item) =>
@@ -1242,13 +1242,13 @@ export default function Appointments({
                                                     onClick={() => setChangeAppointmentTime(slot)}
                                                     disabled={isBooked || isExpired || isLoadingAvailability}
                                                     className={`
-                                                        py-1.5 px-2 rounded-lg text-xs font-medium transition flex items-center justify-between
+                                                        py-1.5 px-2 rounded-lg text-xs font-medium transition-all duration-150 flex items-center justify-between active:scale-[0.97]
                                                         ${
                                                             isSelected
-                                                                ? "bg-stone-900 text-amber-400 font-bold shadow-sm"
+                                                                ? "bg-[#252420] text-[#FAF9F5] font-semibold shadow-sm"
                                                                 : isAvailable
-                                                                ? "bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
-                                                                : "bg-stone-100 text-stone-400 line-through cursor-not-allowed"
+                                                                ? "bg-[#FDFCF9] text-[#1C1B18] border border-[#E5E2DA] hover:border-[#252420] hover:bg-[#FAF9F5]"
+                                                                : "bg-[#F5F4EF] text-[#B5B1A8] line-through cursor-not-allowed"
                                                         }
                                                     `}
                                                 >
@@ -1265,13 +1265,13 @@ export default function Appointments({
 
                             {/* Barber Selector */}
                             <div>
-                                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                                <label className="block text-xs font-semibold text-[#4D4B45] mb-1">
                                     Assigned Barber
                                 </label>
                                 <select
                                     value={changeAppointmentBarberId ?? ""}
                                     onChange={(e) => setChangeAppointmentBarberId(Number(e.target.value))}
-                                    className="w-full text-xs py-2 px-3 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-amber-500 text-stone-800"
+                                    className="w-full text-xs py-2 px-3 bg-[#FDFCF9] border border-[#E5E2DA] rounded-xl focus:outline-none focus:border-[#252420] focus:ring-0 text-[#1C1B18] transition-colors duration-200"
                                 >
                                     {changeAppointmentBarbers.length > 0 ? (
                                         changeAppointmentBarbers.map((barber) => (
@@ -1287,11 +1287,11 @@ export default function Appointments({
                         </div>
 
                         {/* Modal Actions */}
-                        <div className="flex justify-end gap-3 pt-3 border-t border-stone-100">
+                        <div className="flex justify-end gap-3 pt-3 border-t border-[#E5E2DA]">
                             <button
                                 type="button"
                                 onClick={closeChangeAppointmentModal}
-                                className="px-4 py-2 rounded-xl text-xs font-semibold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition"
+                                className="px-4 py-2 rounded-xl text-xs font-semibold text-[#737069] hover:text-[#1C1B18] hover:bg-[#EFECE5] transition-all duration-150 active:scale-[0.98]"
                             >
                                 Cancel
                             </button>
@@ -1299,7 +1299,7 @@ export default function Appointments({
                                 type="button"
                                 onClick={handleChangeAppointmentSubmit}
                                 disabled={isUpdating}
-                                className="px-5 py-2 rounded-xl text-xs font-semibold bg-stone-900 text-stone-100 hover:bg-stone-800 transition disabled:opacity-50"
+                                className="px-5 py-2 rounded-xl text-xs font-semibold bg-[#252420] text-[#FAF9F5] hover:bg-[#3A3832] transition-all duration-150 active:scale-[0.98] disabled:opacity-50"
                             >
                                 {isUpdating ? "Saving Changes..." : "Save Changes"}
                             </button>
@@ -1310,18 +1310,18 @@ export default function Appointments({
 
             {/* Receipt Modal */}
             {selectedReceipt && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+                <div className="studio-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1C1B18]/45 backdrop-blur-[2px]">
                     <div
-                        className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-stone-200 relative max-h-[90vh] overflow-y-auto"
+                        className="studio-modal-panel bg-[#FDFCF9] rounded-2xl max-w-xl w-full p-6 shadow-[0_16px_40px_rgba(28,27,24,0.18)] border border-[#E5E2DA] relative max-h-[90vh] overflow-y-auto"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+                        <div className="flex items-center justify-between pb-3 border-b border-[#EFECE5]">
                             <div>
-                                <h3 className="text-base font-bold text-stone-900">
+                                <h3 className="text-base font-bold text-[#1C1B18]">
                                     Customer Payment Receipt
                                 </h3>
                                 {selectedReceipt.paymentSourceId && (
-                                    <p className="text-xs text-stone-500 font-mono mt-0.5">
+                                    <p className="text-xs text-[#737069] font-mono mt-0.5">
                                         PayMongo ID: {selectedReceipt.paymentSourceId}
                                     </p>
                                 )}
@@ -1329,7 +1329,7 @@ export default function Appointments({
                             <button
                                 type="button"
                                 onClick={closeReceiptModal}
-                                className="text-stone-400 hover:text-stone-600 p-1 rounded-lg hover:bg-stone-100"
+                                className="text-[#807D75] hover:text-[#1C1B18] p-1 rounded-lg hover:bg-[#EFECE5] transition-colors"
                             >
                                 <X className="w-4 h-4" />
                             </button>
@@ -1339,15 +1339,15 @@ export default function Appointments({
                             <img
                                 src={selectedReceipt.image}
                                 alt="Payment Receipt"
-                                className="w-full max-h-[60vh] object-contain rounded-xl border border-stone-200 shadow-sm"
+                                className="w-full max-h-[60vh] object-contain rounded-xl border border-[#E5E2DA]"
                                 onError={(e) => {
                                     const img = e.currentTarget;
                                     img.style.display = "none";
                                     const parent = img.parentElement;
                                     if (parent) {
                                         parent.innerHTML = `
-                                            <div class="p-8 text-center bg-stone-50 rounded-xl border border-dashed border-stone-200">
-                                                <p class="text-xs text-stone-500 font-medium">Receipt image file not found or inaccessible.</p>
+                                            <div class="p-8 text-center bg-[#F5F4EF] rounded-xl border border-dashed border-[#D5D0C5]">
+                                                <p class="text-xs text-[#737069] font-medium">Receipt image file not found or inaccessible.</p>
                                             </div>
                                         `;
                                     }
@@ -1355,11 +1355,11 @@ export default function Appointments({
                             />
                         </div>
 
-                        <div className="flex justify-end pt-2 border-t border-stone-100">
+                        <div className="flex justify-end pt-2 border-t border-[#EFECE5]">
                             <button
                                 type="button"
                                 onClick={closeReceiptModal}
-                                className="px-4 py-2 bg-stone-900 text-stone-100 text-xs font-semibold rounded-xl hover:bg-stone-800 transition"
+                                className="px-4 py-2 bg-[#252420] text-[#FAF9F5] text-xs font-semibold rounded-xl hover:bg-[#373530] transition-all duration-150 active:scale-[0.98]"
                             >
                                 Close
                             </button>

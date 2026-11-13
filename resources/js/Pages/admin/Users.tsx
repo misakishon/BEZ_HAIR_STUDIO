@@ -258,98 +258,97 @@ export default function Users({
         <>
             <Head title="Client Directory — BEZ Hair Studio" />
             <Sidebar>
-                <main className="min-h-screen bg-[#f8f7f4] text-stone-900">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <main className="min-h-screen bg-[#F5F4EF] text-[#1C1B18]">
+                    <div className="studio-enter max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
                         {/* Header Banner */}
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 pb-6 border-b border-[#E5E2DA]">
                             <div>
-                                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-600 mb-1">
-                                    <UsersIcon className="h-3.5 w-3.5 text-amber-500" />
+                                <div className="font-morche flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#918E85] mb-1">
                                     <span>Client & Membership Management</span>
                                 </div>
-                                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
+                                <h1 className="font-morche text-2xl sm:text-3xl font-medium tracking-tight text-[#1C1B18]">
                                     User Accounts
                                 </h1>
-                                <p className="text-sm text-stone-500 mt-1">
+                                <p className="text-xs sm:text-sm text-[#737069] mt-1">
                                     Browse registered clients, track booking histories, and manage administrator access.
                                 </p>
                             </div>
                         </div>
 
-                        {/* Top KPI Metrics Cards */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
-                            <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex items-center justify-between">
+                        {/* Top KPI Metrics Strip */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#E5E2DA] bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] mb-6 overflow-hidden">
+                            <div className="p-5 flex items-center justify-between">
                                 <div>
-                                    <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-400">
+                                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#918E85]">
                                         Total Registered Users
                                     </span>
-                                    <div className="text-2xl font-bold tracking-tight text-stone-900 mt-1">
+                                    <div className="text-2xl font-bold tracking-tight text-[#1C1B18] mt-1 tabular-nums">
                                         {totalUsers}
                                     </div>
-                                    <span className="text-[11px] text-stone-500">
+                                    <span className="text-[11px] text-[#737069]">
                                         Accounts across all roles
                                     </span>
                                 </div>
-                                <div className="h-12 w-12 rounded-2xl bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-600">
-                                    <UsersIcon className="h-6 w-6" />
+                                <div className="h-10 w-10 rounded-lg bg-[#F3F1EC] border border-[#E5E2DA] flex items-center justify-center text-[#252420]">
+                                    <UsersIcon className="h-5 w-5" />
                                 </div>
                             </div>
 
-                            <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex items-center justify-between">
+                            <div className="p-5 flex items-center justify-between">
                                 <div>
-                                    <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-400">
+                                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#918E85]">
                                         Total Client Bookings
                                     </span>
-                                    <div className="text-2xl font-bold tracking-tight text-stone-900 mt-1">
+                                    <div className="text-2xl font-bold tracking-tight text-[#1C1B18] mt-1 tabular-nums">
                                         {totalBookings}
                                     </div>
-                                    <span className="text-[11px] text-stone-500">
+                                    <span className="text-[11px] text-[#737069]">
                                         Historical studio visits
                                     </span>
                                 </div>
-                                <div className="h-12 w-12 rounded-2xl bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-700">
-                                    <CalendarCheck className="h-6 w-6" />
+                                <div className="h-10 w-10 rounded-lg bg-[#F3F1EC] border border-[#E5E2DA] flex items-center justify-center text-[#252420]">
+                                    <CalendarCheck className="h-5 w-5" />
                                 </div>
                             </div>
 
-                            <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.02)] flex items-center justify-between">
+                            <div className="p-5 flex items-center justify-between">
                                 <div>
-                                    <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-400">
+                                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#918E85]">
                                         Active (Last 30 Days)
                                     </span>
-                                    <div className="text-2xl font-bold tracking-tight text-emerald-600 mt-1">
+                                    <div className="text-2xl font-bold tracking-tight text-[#1C1B18] mt-1 tabular-nums">
                                         {activeUsers}
                                     </div>
-                                    <span className="text-[11px] text-stone-500">
+                                    <span className="text-[11px] text-[#737069]">
                                         Engaged studio clients
                                     </span>
                                 </div>
-                                <div className="h-12 w-12 rounded-2xl bg-emerald-50 border border-emerald-200/60 flex items-center justify-center text-emerald-600">
-                                    <UserCheck className="h-6 w-6" />
+                                <div className="h-10 w-10 rounded-lg bg-[#252420] text-[#FAF9F5] flex items-center justify-center">
+                                    <UserCheck className="h-5 w-5" />
                                 </div>
                             </div>
                         </div>
 
                         {/* Search & Role Filter Toolbar */}
-                        <div className="bg-white rounded-2xl border border-stone-200/80 p-4 mb-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                        <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] p-4 mb-6">
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                                 <form
                                     onSubmit={handleSearch}
                                     className="flex items-center gap-2 w-full sm:w-96"
                                 >
                                     <div className="relative flex-1">
-                                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+                                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#918E85]" />
                                         <input
                                             type="text"
                                             placeholder="Search by name, email, or phone..."
                                             value={search}
                                             onChange={(e) => setSearch(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-xs text-stone-900 transition"
+                                            className="w-full pl-10 pr-4 py-2 border border-[#E5E2DA] rounded-lg bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-xs text-[#1C1B18] transition-colors placeholder:text-[#918E85]"
                                         />
                                     </div>
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 bg-stone-900 text-amber-300 text-xs font-semibold uppercase tracking-wider rounded-xl hover:bg-stone-800 transition shrink-0"
+                                        className="px-4 py-2 bg-[#252420] text-[#FAF9F5] text-xs font-semibold rounded-lg hover:bg-[#373530] transition-all duration-150 active:scale-[0.98] shrink-0"
                                     >
                                         Search
                                     </button>
@@ -360,10 +359,10 @@ export default function Users({
                                         <button
                                             key={role}
                                             onClick={() => handleRoleFilter(role)}
-                                            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition ${
+                                            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all duration-150 active:scale-[0.97] ${
                                                 roleFilter === role
-                                                    ? "bg-stone-900 text-amber-300 shadow-xs"
-                                                    : "bg-stone-100 text-stone-600 hover:bg-stone-200/80"
+                                                    ? "bg-[#252420] text-[#FAF9F5]"
+                                                    : "bg-[#F3F1EC] text-[#5C5953] hover:bg-[#EAE7DF] hover:text-[#1C1B18]"
                                             }`}
                                         >
                                             {role === "all" ? "All Roles" : role}
@@ -374,54 +373,54 @@ export default function Users({
                         </div>
 
                         {/* Users Table */}
-                        <div className="bg-white rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+                        <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] overflow-hidden">
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse">
                                     <thead>
-                                        <tr className="border-b border-stone-100 bg-stone-50/75">
-                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
+                                        <tr className="border-b border-[#E5E2DA] bg-[#F5F4EF]">
+                                            <th className="py-3.5 px-4 font-semibold text-[#737069] text-[10px] uppercase tracking-wider">
                                                 Client
                                             </th>
-                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
+                                            <th className="py-3.5 px-4 font-semibold text-[#737069] text-[10px] uppercase tracking-wider">
                                                 Email
                                             </th>
-                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
+                                            <th className="py-3.5 px-4 font-semibold text-[#737069] text-[10px] uppercase tracking-wider">
                                                 Phone
                                             </th>
-                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
+                                            <th className="py-3.5 px-4 font-semibold text-[#737069] text-[10px] uppercase tracking-wider">
                                                 Role
                                             </th>
-                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
+                                            <th className="py-3.5 px-4 font-semibold text-[#737069] text-[10px] uppercase tracking-wider">
                                                 Bookings
                                             </th>
-                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider">
+                                            <th className="py-3.5 px-4 font-semibold text-[#737069] text-[10px] uppercase tracking-wider">
                                                 Joined Date
                                             </th>
-                                            <th className="py-3.5 px-4 font-semibold text-stone-600 text-[11px] uppercase tracking-wider text-right">
+                                            <th className="py-3.5 px-4 font-semibold text-[#737069] text-[10px] uppercase tracking-wider text-right">
                                                 Actions
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-stone-100 text-xs">
+                                    <tbody className="divide-y divide-[#EFECE5] text-xs">
                                         {users.data.length > 0 ? (
                                             users.data.map((user) => {
                                                 const initials = `${(user.first_name || "").charAt(0)}${(user.last_name || "").charAt(0)}`.toUpperCase() || "U";
                                                 return (
                                                     <tr
                                                         key={user.id}
-                                                        className="hover:bg-amber-50/20 transition-colors"
+                                                        className="hover:bg-[#F5F4EF]/80 transition-colors duration-150"
                                                     >
                                                         {/* Client Name & Avatar */}
                                                         <td className="py-3.5 px-4">
                                                             <div className="flex items-center gap-3">
-                                                                <div className="h-8 w-8 rounded-full bg-stone-900 text-amber-300 font-bold flex items-center justify-center text-xs shrink-0 shadow-2xs">
+                                                                <div className="h-8 w-8 rounded-full bg-[#252420] text-[#FAF9F5] font-bold flex items-center justify-center text-xs shrink-0">
                                                                     {initials}
                                                                 </div>
                                                                 <div>
-                                                                    <div className="font-bold text-stone-900">
+                                                                    <div className="font-bold text-[#1C1B18]">
                                                                         {user.first_name} {user.last_name}
                                                                     </div>
-                                                                    <div className="text-[10px] text-stone-400">
+                                                                    <div className="text-[10px] text-[#918E85]">
                                                                         ID: #{user.id}
                                                                     </div>
                                                                 </div>
@@ -429,30 +428,30 @@ export default function Users({
                                                         </td>
 
                                                         {/* Email */}
-                                                        <td className="py-3.5 px-4 text-stone-600 font-medium">
+                                                        <td className="py-3.5 px-4 text-[#5C5953] font-medium">
                                                             {user.email}
                                                         </td>
 
                                                         {/* Phone */}
-                                                        <td className="py-3.5 px-4 text-stone-500">
+                                                        <td className="py-3.5 px-4 text-[#737069]">
                                                             {user.phone ? (
                                                                 <span className="font-mono">{user.phone}</span>
                                                             ) : (
-                                                                <span className="text-stone-300 italic">None</span>
+                                                                <span className="text-[#C7C3B9] italic">None</span>
                                                             )}
                                                         </td>
 
                                                         {/* Role */}
                                                         <td className="py-3.5 px-4">
                                                             <span
-                                                                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                                                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${
                                                                     user.role === "admin"
-                                                                        ? "bg-purple-100 text-purple-800 border border-purple-200"
-                                                                        : "bg-stone-100 text-stone-700 border border-stone-200"
+                                                                        ? "bg-[#252420] text-[#FAF9F5] border border-[#33312C]"
+                                                                        : "bg-[#F3F1EC] text-[#5C5953] border border-[#E5E2DA]"
                                                                 }`}
                                                             >
                                                                 {user.role === "admin" && (
-                                                                    <Shield className="h-3 w-3 text-purple-600" />
+                                                                    <Shield className="h-3 w-3 text-[#FAF9F5]" />
                                                                 )}
                                                                 {user.role}
                                                             </span>
@@ -460,21 +459,21 @@ export default function Users({
 
                                                         {/* Bookings */}
                                                         <td className="py-3.5 px-4">
-                                                            <div className="font-bold text-stone-900">
+                                                            <div className="font-bold text-[#1C1B18] tabular-nums">
                                                                 {user.total_bookings}{" "}
-                                                                <span className="text-[10px] font-normal text-stone-400">
+                                                                <span className="text-[10px] font-normal text-[#918E85]">
                                                                     visits
                                                                 </span>
                                                             </div>
                                                             {Number(user.completed_bookings) > 0 && (
-                                                                <div className="text-[10px] text-emerald-600 font-medium">
+                                                                <div className="text-[10px] text-[#2E5A36] font-medium tabular-nums">
                                                                     {user.completed_bookings} completed
                                                                 </div>
                                                             )}
                                                         </td>
 
                                                         {/* Joined */}
-                                                        <td className="py-3.5 px-4 text-stone-500">
+                                                        <td className="py-3.5 px-4 text-[#737069] tabular-nums">
                                                             {new Date(user.created_at).toLocaleDateString("en-US", {
                                                                 month: "short",
                                                                 day: "numeric",
@@ -487,14 +486,14 @@ export default function Users({
                                                             <div className="flex items-center justify-end gap-1.5">
                                                                 <Link
                                                                     href={`/admin/users/${user.id}`}
-                                                                    className="p-1.5 rounded-lg border border-stone-200 text-stone-500 hover:text-stone-900 hover:bg-stone-50 transition"
+                                                                    className="p-1.5 rounded-lg border border-[#E5E2DA] text-[#5C5953] hover:text-[#1C1B18] hover:bg-[#F3F1EC] transition-all duration-150 active:scale-95"
                                                                     title="View Details"
                                                                 >
                                                                     <Eye className="h-3.5 w-3.5" />
                                                                 </Link>
                                                                 <button
                                                                     onClick={() => openEditModal(user)}
-                                                                    className="p-1.5 rounded-lg border border-stone-200 text-stone-500 hover:text-amber-600 hover:bg-amber-50/50 transition"
+                                                                    className="p-1.5 rounded-lg border border-[#E5E2DA] text-[#5C5953] hover:text-[#1C1B18] hover:bg-[#F3F1EC] transition-all duration-150 active:scale-95"
                                                                     title="Edit User"
                                                                 >
                                                                     <Edit3 className="h-3.5 w-3.5" />
@@ -502,7 +501,7 @@ export default function Users({
                                                                 {user.role !== "admin" && (
                                                                     <button
                                                                         onClick={() => setDeleteId(user.id)}
-                                                                        className="p-1.5 rounded-lg border border-rose-200 text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition"
+                                                                        className="p-1.5 rounded-lg border border-[#E9CECE] text-[#8E3535] hover:bg-[#F9ECEC] transition-all duration-150 active:scale-95"
                                                                         title="Delete User"
                                                                     >
                                                                         <Trash2 className="h-3.5 w-3.5" />
@@ -517,9 +516,9 @@ export default function Users({
                                             <tr>
                                                 <td
                                                     colSpan={7}
-                                                    className="py-12 text-center text-stone-400"
+                                                    className="py-12 text-center text-[#918E85]"
                                                 >
-                                                    <UsersIcon className="h-8 w-8 text-stone-300 mx-auto mb-2" />
+                                                    <UsersIcon className="h-8 w-8 text-[#C7C3B9] mx-auto mb-2" />
                                                     No users found matching your search.
                                                 </td>
                                             </tr>
@@ -530,16 +529,16 @@ export default function Users({
 
                             {/* Pagination */}
                             {users.last_page > 1 && (
-                                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-stone-100 bg-stone-50/40">
-                                    <div className="text-xs text-stone-500 font-medium">
-                                        Showing <span className="font-bold text-stone-800">{users.data.length}</span> of{" "}
-                                        <span className="font-bold text-stone-800">{users.total}</span> users
+                                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-[#EFECE5] bg-[#F5F4EF]/60">
+                                    <div className="text-xs text-[#737069] font-medium tabular-nums">
+                                        Showing <span className="font-bold text-[#1C1B18]">{users.data.length}</span> of{" "}
+                                        <span className="font-bold text-[#1C1B18]">{users.total}</span> users
                                     </div>
                                     <div className="flex items-center gap-1.5">
                                         <button
                                             onClick={() => handlePageChange(users.current_page - 1)}
                                             disabled={users.current_page === 1}
-                                            className="h-8 w-8 flex items-center justify-center border border-stone-200 rounded-xl text-stone-600 hover:bg-white hover:border-stone-400 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                                            className="h-8 w-8 flex items-center justify-center border border-[#E5E2DA] rounded-lg text-[#5C5953] hover:bg-[#FDFCF9] hover:border-[#252420] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                                         >
                                             <ChevronLeft className="h-4 w-4" />
                                         </button>
@@ -553,10 +552,10 @@ export default function Users({
                                                 <button
                                                     key={page}
                                                     onClick={() => handlePageChange(page)}
-                                                    className={`h-8 w-8 rounded-xl text-xs font-semibold transition ${
+                                                    className={`h-8 w-8 rounded-lg text-xs font-semibold transition-all duration-150 tabular-nums ${
                                                         page === users.current_page
-                                                            ? "bg-stone-900 text-amber-300 shadow-xs"
-                                                            : "border border-stone-200 text-stone-600 hover:bg-white hover:border-stone-400"
+                                                            ? "bg-[#252420] text-[#FAF9F5]"
+                                                            : "border border-[#E5E2DA] text-[#5C5953] hover:bg-[#FDFCF9] hover:border-[#252420]"
                                                     }`}
                                                 >
                                                     {page}
@@ -566,7 +565,7 @@ export default function Users({
                                         <button
                                             onClick={() => handlePageChange(users.current_page + 1)}
                                             disabled={users.current_page === 1 || users.current_page === users.last_page}
-                                            className="h-8 w-8 flex items-center justify-center border border-stone-200 rounded-xl text-stone-600 hover:bg-white hover:border-stone-400 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                                            className="h-8 w-8 flex items-center justify-center border border-[#E5E2DA] rounded-lg text-[#5C5953] hover:bg-[#FDFCF9] hover:border-[#252420] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                                         >
                                             <ChevronRight className="h-4 w-4" />
                                         </button>
@@ -579,20 +578,20 @@ export default function Users({
 
                 {/* EDIT USER MODAL */}
                 {showEditModal && editingUser && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs">
-                        <div className="bg-white rounded-2xl border border-stone-200 shadow-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 animate-in fade-in zoom-in-95 duration-200">
-                            <div className="flex items-center justify-between pb-4 border-b border-stone-100 mb-6">
+                    <div className="studio-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1C1B18]/40 backdrop-blur-[2px]">
+                        <div className="studio-modal-panel bg-[#FDFCF9] rounded-2xl border border-[#E5E2DA] shadow-[0_16px_40px_rgba(28,27,24,0.16)] max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8">
+                            <div className="flex items-center justify-between pb-4 border-b border-[#EFECE5] mb-6">
                                 <div>
-                                    <h3 className="text-xl font-bold tracking-tight text-stone-900">
+                                    <h3 className="text-xl font-bold tracking-tight text-[#1C1B18]">
                                         Edit User Account
                                     </h3>
-                                    <p className="text-xs text-stone-500 mt-0.5">
+                                    <p className="text-xs text-[#737069] mt-0.5">
                                         Update client information and role credentials.
                                     </p>
                                 </div>
                                 <button
                                     onClick={() => setShowEditModal(false)}
-                                    className="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition"
+                                    className="p-1.5 rounded-lg text-[#807D75] hover:text-[#1C1B18] hover:bg-[#EFECE5] transition-colors"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
@@ -601,8 +600,8 @@ export default function Users({
                             <form onSubmit={handleEditSubmit} className="space-y-4">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                            First Name <span className="text-rose-500">*</span>
+                                        <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                            First Name <span className="text-[#8E3535]">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -610,13 +609,13 @@ export default function Users({
                                             onChange={(e) =>
                                                 setEditForm({ ...editForm, first_name: e.target.value })
                                             }
-                                            className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                            className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                             required
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                            Last Name <span className="text-rose-500">*</span>
+                                        <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                            Last Name <span className="text-[#8E3535]">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -624,15 +623,15 @@ export default function Users({
                                             onChange={(e) =>
                                                 setEditForm({ ...editForm, last_name: e.target.value })
                                             }
-                                            className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                            className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                             required
                                         />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                        Email Address <span className="text-rose-500">*</span>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                        Email Address <span className="text-[#8E3535]">*</span>
                                     </label>
                                     <input
                                         type="email"
@@ -640,13 +639,13 @@ export default function Users({
                                         onChange={(e) =>
                                             setEditForm({ ...editForm, email: e.target.value })
                                         }
-                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                        className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
                                         Phone Number
                                     </label>
                                     <input
@@ -655,12 +654,12 @@ export default function Users({
                                         onChange={(e) =>
                                             setEditForm({ ...editForm, phone: e.target.value })
                                         }
-                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                        className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
                                         Role Access
                                     </label>
                                     <select
@@ -668,7 +667,7 @@ export default function Users({
                                         onChange={(e) =>
                                             setEditForm({ ...editForm, role: e.target.value })
                                         }
-                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                        className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                     >
                                         <option value="user">User (Customer)</option>
                                         <option value="admin">Admin (Full Access)</option>
@@ -676,8 +675,8 @@ export default function Users({
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                        New Password <span className="text-stone-400 font-normal">(Leave blank to keep unchanged)</span>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                        New Password <span className="text-[#918E85] font-normal">(Leave blank to keep unchanged)</span>
                                     </label>
                                     <input
                                         type="password"
@@ -685,14 +684,14 @@ export default function Users({
                                         onChange={(e) =>
                                             setEditForm({ ...editForm, password: e.target.value })
                                         }
-                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                        className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                         placeholder="••••••••"
                                     />
                                 </div>
 
                                 {editForm.password && (
                                     <div>
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                        <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
                                             Confirm New Password
                                         </label>
                                         <input
@@ -704,27 +703,27 @@ export default function Users({
                                                     password_confirmation: e.target.value,
                                                 })
                                             }
-                                            className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                            className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                             placeholder="••••••••"
                                             required={!!editForm.password}
                                         />
                                     </div>
                                 )}
 
-                                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+                                <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#EFECE5]">
                                     <button
                                         type="button"
                                         onClick={() => setShowEditModal(false)}
-                                        className="px-4 py-2.5 rounded-xl border border-stone-300 text-xs font-semibold uppercase tracking-wider text-stone-700 hover:bg-stone-50 transition"
+                                        className="px-4 py-2.5 rounded-xl border border-[#DCD8CE] text-xs font-semibold uppercase tracking-wider text-[#5C5953] hover:bg-[#F3F1EC] transition-colors"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={isSaving}
-                                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-stone-900 text-amber-300 text-xs font-semibold uppercase tracking-wider hover:bg-stone-800 transition shadow-sm disabled:opacity-50"
+                                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#252420] text-[#FAF9F5] text-xs font-semibold hover:bg-[#373530] transition-all duration-150 active:scale-[0.98] disabled:opacity-50"
                                     >
-                                        <Check className="h-4 w-4 text-amber-400" />
+                                        <Check className="h-3.5 w-3.5" />
                                         {isSaving ? "Saving Changes..." : "Save Changes"}
                                     </button>
                                 </div>

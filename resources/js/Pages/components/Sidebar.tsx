@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import {
     LayoutDashboard,
     Users,
@@ -11,6 +11,7 @@ import {
     Menu,
     X,
     ExternalLink,
+    LogOut,
     ShieldCheck,
 } from "lucide-react";
 
@@ -20,6 +21,8 @@ interface NavItem {
     icon: React.ComponentType<{ className?: string }>;
 }
 
+const SIDEBAR_STORAGE_KEY = "bez_admin_sidebar_collapsed";
+
 const navItems: NavItem[] = [
     {
         name: "Dashboard",
@@ -27,14 +30,14 @@ const navItems: NavItem[] = [
         icon: LayoutDashboard,
     },
     {
-        name: "Users",
-        href: "/admin/users",
-        icon: Users,
-    },
-    {
         name: "Appointments",
         href: "/admin/appointments",
         icon: CalendarCheck,
+    },
+    {
+        name: "Users",
+        href: "/admin/users",
+        icon: Users,
     },
     {
         name: "Barbers",
@@ -53,9 +56,39 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ children }: SidebarProps) {
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
+        if (typeof window === "undefined") return false;
+        return window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === "1";
+    });
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { url } = usePage();
+    const [isNavigating, setIsNavigating] = useState(false);
+    const page = usePage();
+    const url = page.url || "";
+    const authUser = (page.props as {
+        auth?: {
+            user?: {
+                first_name?: string;
+                last_name?: string;
+                email?: string;
+            } | null;
+        };
+    })?.auth?.user;
+
+    const adminDisplayName =
+        authUser?.first_name || authUser?.last_name
+            ? `${authUser.first_name || ""} ${authUser.last_name || ""}`.trim()
+            : "Studio Manager";
+    const adminEmail = authUser?.email || "Admin";
+
+    // Subtle Inertia navigation progress feedback
+    useEffect(() => {
+        const stopStart = router.on("start", () => setIsNavigating(true));
+        const stopFinish = router.on("finish", () => setIsNavigating(false));
+        return () => {
+            stopStart();
+            stopFinish();
+        };
+    }, []);
 
     // Close mobile menu on route change
     useEffect(() => {
@@ -75,205 +108,295 @@ export default function Sidebar({ children }: SidebarProps) {
     }, [isMobileMenuOpen]);
 
     const isActive = (href: string) => {
-        return url === href || url.startsWith(href + "/");
+        const pathname = url.split("?")[0];
+        return pathname === href || pathname.startsWith(href + "/");
     };
 
     const toggleSidebar = () => {
-        setIsCollapsed(!isCollapsed);
+        setIsCollapsed((prev) => {
+            const next = !prev;
+            if (typeof window !== "undefined") {
+                window.localStorage.setItem(
+                    SIDEBAR_STORAGE_KEY,
+                    next ? "1" : "0",
+                );
+            }
+            return next;
+        });
     };
 
     return (
-        <div className="min-h-screen bg-[#f8f7f4] text-stone-900 flex flex-col lg:flex-row antialiased">
+        <div className="min-h-screen bg-[#F5F4EF] text-[#1C1B18] antialiased">
+            {/* Whisper-thin route navigation progress bar */}
+            <div
+                aria-hidden="true"
+                className={`pointer-events-none fixed top-0 left-0 right-0 z-[70] h-[2px] origin-left bg-[#252420] transition-all duration-300 ease-out ${
+                    isNavigating
+                        ? "scale-x-100 opacity-90"
+                        : "scale-x-0 opacity-0"
+                }`}
+            />
+
             {/* Mobile Menu Backdrop */}
             <div
-                className={`
-                    fixed inset-0 bg-black/70 backdrop-blur-sm z-40 transition-opacity duration-300 lg:hidden
-                    ${
-                        isMobileMenuOpen
-                            ? "opacity-100 pointer-events-auto"
-                            : "opacity-0 pointer-events-none"
-                    }
-                `}
+                className={`fixed inset-0 z-40 bg-[#1C1B18]/30 backdrop-blur-[2px] transition-opacity duration-300 ease-out lg:hidden ${
+                    isMobileMenuOpen
+                        ? "pointer-events-auto opacity-100"
+                        : "pointer-events-none opacity-0"
+                }`}
                 onClick={() => setIsMobileMenuOpen(false)}
+                aria-hidden="true"
             />
 
             {/* Top Bar for Mobile */}
-            <header className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-[#0e0e10]/95 backdrop-blur-md border-b border-stone-800/80 px-4 h-16 flex items-center justify-between">
-                <Link href="/admin/dashboard" className="flex items-center gap-2">
-                    <span className="text-xl font-bold tracking-widest text-white">
-                        BEZ<span className="text-amber-500">.</span>
-                    </span>
-                    <span className="text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">
+            <header className="fixed top-0 left-0 right-0 z-40 flex h-[68px] items-center justify-between border-b border-[#E5E2DA] bg-[#FDFCF9]/95 px-4 backdrop-blur-md lg:hidden">
+                <Link
+                    href="/admin/dashboard"
+                    className="flex items-center gap-3 leading-none"
+                >
+                    <div className="flex flex-col leading-none">
+                        <span className="font-morche text-xl font-semibold tracking-[0.22em] text-[#1C1B18]">
+                            BEZ.
+                        </span>
+                        <span className="mt-1 font-morche text-[9px] font-medium uppercase tracking-[0.34em] text-[#737069]">
+                            Hair Studio
+                        </span>
+                    </div>
+                    <span className="rounded-md border border-[#E5E2DA] bg-[#F3F1EC] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#5C5953]">
                         Admin
                     </span>
                 </Link>
 
                 <button
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="w-10 h-10 flex items-center justify-center rounded-xl bg-stone-900 border border-stone-800 text-stone-300 hover:text-white transition-colors"
-                    aria-label="Toggle navigation menu"
+                    type="button"
+                    onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#E5E2DA] bg-[#FDFCF9] text-[#1C1B18] transition-all duration-200 hover:border-[#C9C4B8] hover:bg-[#F3F1EC] active:scale-[0.97]"
+                    aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                    aria-expanded={isMobileMenuOpen}
                 >
                     {isMobileMenuOpen ? (
-                        <X className="w-5 h-5 text-amber-400" />
+                        <X className="h-5 w-5" />
                     ) : (
-                        <Menu className="w-5 h-5" />
+                        <Menu className="h-5 w-5" />
                     )}
                 </button>
             </header>
 
-            {/* Sidebar Desktop & Mobile Drawer */}
+            {/* Sidebar Desktop Rail & Mobile Drawer */}
             <aside
-                className={`
-                    fixed top-0 bottom-0 z-50 bg-[#0e0e10] border-r border-stone-800/80
-                    flex flex-col transition-all duration-300 ease-in-out
-                    ${
-                        isCollapsed
-                            ? "lg:w-20 w-72"
-                            : "lg:w-64 w-72"
-                    }
-                    ${
-                        isMobileMenuOpen
-                            ? "translate-x-0 shadow-2xl"
-                            : "-translate-x-full lg:translate-x-0"
-                    }
-                `}
+                aria-label="Admin sidebar navigation"
+                className={`fixed top-0 bottom-0 left-0 z-50 flex flex-col border-r border-[#E5E2DA] bg-[#FDFCF9] transition-[width,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    isCollapsed ? "w-72 lg:w-20" : "w-72 lg:w-64"
+                } ${
+                    isMobileMenuOpen
+                        ? "translate-x-0"
+                        : "-translate-x-full lg:translate-x-0"
+                }`}
             >
+                {/* Edge Collapse Toggle (Desktop) */}
+                <button
+                    type="button"
+                    onClick={toggleSidebar}
+                    className="hidden lg:flex absolute -right-3 top-[22px] z-10 h-6 w-6 items-center justify-center rounded-md border border-[#E5E2DA] bg-[#FDFCF9] text-[#737069] shadow-[0_1px_2px_rgba(28,27,24,0.05)] transition-all duration-200 hover:border-[#252420] hover:text-[#1C1B18] active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#252420]"
+                    aria-label={
+                        isCollapsed ? "Expand sidebar" : "Collapse sidebar"
+                    }
+                    title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                >
+                    {isCollapsed ? (
+                        <ChevronRight className="h-3.5 w-3.5" />
+                    ) : (
+                        <ChevronLeft className="h-3.5 w-3.5" />
+                    )}
+                </button>
+
                 {/* Brand Logo & Studio Header */}
                 <div
-                    className={`h-16 px-4 flex items-center border-b border-stone-800/80 ${
-                        isCollapsed ? "justify-center" : "justify-between"
+                    className={`flex h-[68px] shrink-0 items-center border-b border-[#E5E2DA] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                        isCollapsed ? "justify-center px-3" : "justify-between px-5"
                     }`}
                 >
                     <Link
                         href="/admin/dashboard"
-                        className={`flex items-center gap-2.5 transition-opacity ${
-                            isCollapsed ? "justify-center" : ""
+                        className={`group flex items-center ${
+                            isCollapsed ? "justify-center" : "gap-3"
                         }`}
                         title="BEZ Hair Studio Admin"
                     >
-                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-950/40 font-bold text-stone-950 flex-shrink-0">
-                            B
-                        </div>
-                        {!isCollapsed && (
-                            <div className="flex flex-col">
-                                <span className="text-base font-bold tracking-wider text-white leading-tight">
-                                    BEZ<span className="text-amber-400">.</span>
+                        {isCollapsed ? (
+                            <span className="font-morche text-xl font-semibold tracking-[0.12em] text-[#1C1B18] transition-opacity duration-200 group-hover:opacity-75">
+                                B.
+                            </span>
+                        ) : (
+                            <div className="flex flex-col leading-none">
+                                <span className="font-morche text-xl font-semibold tracking-[0.22em] text-[#1C1B18] transition-opacity duration-200 group-hover:opacity-75">
+                                    BEZ.
                                 </span>
-                                <span className="text-[10px] tracking-[0.2em] uppercase text-stone-400 font-medium">
-                                    HAIR STUDIO
+                                <span className="mt-1.5 font-morche text-[9px] font-medium uppercase tracking-[0.34em] text-[#737069]">
+                                    Hair Studio
                                 </span>
                             </div>
                         )}
                     </Link>
 
-                    {/* Desktop Collapse Toggle */}
+                    {!isCollapsed && (
+                        <span className="hidden lg:inline-flex items-center rounded-md border border-[#E5E2DA] bg-[#F3F1EC] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#5C5953]">
+                            Admin
+                        </span>
+                    )}
+
+                    {/* Mobile Close Button */}
                     <button
-                        onClick={toggleSidebar}
-                        className="hidden lg:flex items-center justify-center w-7 h-7 rounded-lg bg-stone-900 border border-stone-800 text-stone-400 hover:text-amber-400 hover:border-amber-500/30 transition-all"
-                        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                        type="button"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#E5E2DA] text-[#5C5953] transition-colors hover:border-[#252420] hover:text-[#1C1B18] lg:hidden"
+                        aria-label="Close navigation menu"
                     >
-                        {isCollapsed ? (
-                            <ChevronRight className="w-4 h-4" />
-                        ) : (
-                            <ChevronLeft className="w-4 h-4" />
-                        )}
+                        <X className="h-4 w-4" />
                     </button>
                 </div>
 
                 {/* Navigation Links */}
-                <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
-                    <div className="px-3 pb-2">
-                        {!isCollapsed && (
-                            <span className="text-[10px] uppercase tracking-wider font-semibold text-stone-300">
-                                Menu
+                <nav className="studio-scrollbar flex-1 overflow-y-auto px-3 py-5">
+                    {!isCollapsed && (
+                        <div className="mb-2 px-3">
+                            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#918E85]">
+                                Navigation
                             </span>
-                        )}
+                        </div>
+                    )}
+
+                    <div className="space-y-1">
+                        {navItems.map((item) => {
+                            const active = isActive(item.href);
+                            const IconComponent = item.icon;
+
+                            return (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    title={isCollapsed ? item.name : undefined}
+                                    aria-current={active ? "page" : undefined}
+                                    className={`group flex items-center rounded-lg text-sm font-medium transition-all duration-200 ease-out active:scale-[0.98] ${
+                                        isCollapsed
+                                            ? "mx-auto h-10 w-10 justify-center p-0"
+                                            : "gap-3 px-3 py-2.5"
+                                    } ${
+                                        active
+                                            ? "bg-[#252420] text-[#FAF9F5] shadow-[0_1px_2px_rgba(28,27,24,0.08)]"
+                                            : "text-[#5C5953] hover:bg-[#EFECE5] hover:text-[#1C1B18]"
+                                    }`}
+                                >
+                                    <IconComponent
+                                        className={`h-[18px] w-[18px] shrink-0 transition-colors duration-200 ${
+                                            active
+                                                ? "text-[#FAF9F5]"
+                                                : "text-[#807D75] group-hover:text-[#1C1B18]"
+                                        }`}
+                                    />
+                                    <span
+                                        className={`truncate transition-all duration-200 ${
+                                            isCollapsed
+                                                ? "max-w-0 opacity-0 hidden"
+                                                : "max-w-[160px] opacity-100"
+                                        }`}
+                                    >
+                                        {item.name}
+                                    </span>
+                                </Link>
+                            );
+                        })}
                     </div>
 
-                    {navItems.map((item) => {
-                        const active = isActive(item.href);
-                        const IconComponent = item.icon;
-
-                        return (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className={`
-                                    group flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
-                                    ${
-                                        active
-                                            ? "bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-transparent text-amber-300 border-l-2 border-amber-500 shadow-sm font-semibold"
-                                            : "text-stone-400 hover:text-stone-100 hover:bg-stone-900/60"
-                                    }
-                                    ${isCollapsed ? "justify-center px-2" : ""}
-                                `}
-                                title={isCollapsed ? item.name : undefined}
-                            >
-                                <IconComponent
-                                    className={`w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${
-                                        active
-                                            ? "text-amber-400"
-                                            : "text-stone-400 group-hover:text-amber-400"
-                                    }`}
-                                />
-                                {!isCollapsed && (
-                                    <span className="truncate">{item.name}</span>
-                                )}
-                            </Link>
-                        );
-                    })}
-
-                    {/* Quick Link to Public Studio */}
-                    <div className="pt-4 mt-4 border-t border-stone-800/80">
+                    {/* Storefront Quick Link */}
+                    <div className="mt-6 border-t border-[#E5E2DA] pt-4">
+                        {!isCollapsed && (
+                            <div className="mb-2 px-3">
+                                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#918E85]">
+                                    Public Site
+                                </span>
+                            </div>
+                        )}
                         <a
                             href="/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`
-                                flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-stone-400 hover:text-stone-200 hover:bg-stone-900/40 transition-colors
-                                ${isCollapsed ? "justify-center px-2" : ""}
-                            `}
-                            title={isCollapsed ? "View Public Storefront" : undefined}
+                            title={
+                                isCollapsed ? "Live Storefront" : undefined
+                            }
+                            className={`group flex items-center rounded-lg text-sm font-medium text-[#5C5953] transition-all duration-200 hover:bg-[#EFECE5] hover:text-[#1C1B18] active:scale-[0.98] ${
+                                isCollapsed
+                                    ? "mx-auto h-10 w-10 justify-center p-0"
+                                    : "gap-3 px-3 py-2.5"
+                            }`}
                         >
-                            <ExternalLink className="w-4 h-4 flex-shrink-0 text-stone-400" />
-                            {!isCollapsed && <span>Live Storefront</span>}
+                            <ExternalLink className="h-[18px] w-[18px] shrink-0 text-[#807D75] transition-colors group-hover:text-[#1C1B18]" />
+                            {!isCollapsed && (
+                                <span className="truncate">Live Storefront</span>
+                            )}
                         </a>
                     </div>
                 </nav>
 
-                {/* Admin Profile Footer */}
-                <div className="p-3 border-t border-stone-800/80 bg-stone-950/60">
-                    <div
-                        className={`flex items-center gap-3 p-2 rounded-xl bg-stone-900/60 border border-stone-800/80 ${
-                            isCollapsed ? "justify-center" : ""
-                        }`}
-                    >
-                        <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0 text-amber-400">
-                            <ShieldCheck className="w-5 h-5" />
+                {/* Admin Profile & Sign Out Footer */}
+                <div className="shrink-0 border-t border-[#E5E2DA] bg-[#FDFCF9] p-3">
+                    {isCollapsed ? (
+                        <div className="flex flex-col items-center gap-2">
+                            <div
+                                className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#E5E2DA] bg-[#F3F1EC] text-[#1C1B18]"
+                                title={`${adminDisplayName} (${adminEmail})`}
+                            >
+                                <ShieldCheck className="h-4 w-4" />
+                            </div>
+                            <Link
+                                href="/admin/logout"
+                                method="post"
+                                as="button"
+                                type="button"
+                                title="Sign out"
+                                aria-label="Sign out"
+                                className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#E5E2DA] text-[#5C5953] transition-all duration-200 hover:border-[#252420] hover:bg-[#252420] hover:text-[#FAF9F5] active:scale-[0.97]"
+                            >
+                                <LogOut className="h-4 w-4" />
+                            </Link>
                         </div>
-                        {!isCollapsed && (
-                            <div className="flex-1 min-w-0">
-                                <div className="text-xs font-semibold text-stone-200 truncate">
-                                    Studio Manager
+                    ) : (
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-3 rounded-lg border border-[#E5E2DA] bg-[#F5F4EF] p-2.5">
+                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#252420] text-[#FAF9F5]">
+                                    <ShieldCheck className="h-4 w-4" />
                                 </div>
-                                <div className="flex items-center gap-1.5 text-[10px] text-amber-400/90 font-medium">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                    Super Admin
+                                <div className="min-w-0 flex-1">
+                                    <div className="truncate text-xs font-semibold text-[#1C1B18]">
+                                        {adminDisplayName}
+                                    </div>
+                                    <div className="truncate text-[11px] text-[#737069]">
+                                        {adminEmail}
+                                    </div>
                                 </div>
                             </div>
-                        )}
-                    </div>
+
+                            <Link
+                                href="/admin/logout"
+                                method="post"
+                                as="button"
+                                type="button"
+                                className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#E5E2DA] bg-[#FDFCF9] px-3 py-2 text-xs font-semibold text-[#3D3B36] transition-all duration-200 hover:border-[#252420] hover:bg-[#252420] hover:text-[#FAF9F5] active:scale-[0.98]"
+                            >
+                                <LogOut className="h-3.5 w-3.5" />
+                                <span>Sign Out</span>
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </aside>
 
-            {/* Main Content Area */}
+            {/* Main Content Shell */}
             <div
-                className={`
-                    flex-1 flex flex-col min-w-0 transition-all duration-300
-                    pt-16 lg:pt-0
-                    ${isCollapsed ? "lg:pl-20" : "lg:pl-64"}
-                `}
+                className={`min-h-screen w-full min-w-0 pt-[68px] transition-[padding] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] lg:pt-0 ${
+                    isCollapsed ? "lg:pl-20" : "lg:pl-64"
+                }`}
             >
                 {children}
             </div>

@@ -228,19 +228,18 @@ export default function Barbers({ barber }: BarbersProps) {
         <>
             <Head title={`${safeBarber.full_name} — Admin Barber`} />
             <Sidebar>
-                <main className="min-h-screen bg-[#f8f7f4] text-stone-900">
-                    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <main className="min-h-screen bg-[#F5F4EF] text-[#1C1B18]">
+                    <div className="studio-enter max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
                         {/* Header Navigation / Action */}
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 pb-6 border-b border-[#E5E2DA]">
                             <div>
-                                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-600 mb-1">
-                                    <Scissors className="h-3.5 w-3.5 text-amber-500" />
+                                <div className="font-morche flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#918E85] mb-1">
                                     <span>Staff & Artist Profile</span>
                                 </div>
-                                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
+                                <h1 className="font-morche text-2xl sm:text-3xl font-medium tracking-tight text-[#1C1B18]">
                                     {isEditing ? (safeBarber.id ? "Edit Barber Profile" : "Create Barber Profile") : safeBarber.full_name}
                                 </h1>
-                                <p className="text-sm text-stone-500 mt-1">
+                                <p className="text-xs sm:text-sm text-[#737069] mt-1">
                                     {isEditing
                                         ? "Configure your public barber profile, specialties, and booking availability."
                                         : (safeBarber.specialty || "Senior Master Barber")}
@@ -256,7 +255,7 @@ export default function Barbers({ barber }: BarbersProps) {
                                             setPreviewProfileUrl(null);
                                             setPreviewQrUrl(null);
                                         }}
-                                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-stone-300 bg-white text-xs font-semibold uppercase tracking-wider text-stone-700 hover:bg-stone-50 transition shadow-sm"
+                                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-[#DCD8CE] bg-[#FDFCF9] text-xs font-semibold text-[#3D3B36] hover:border-[#252420] hover:bg-[#F3F1EC] transition-all duration-150 active:scale-[0.98]"
                                     >
                                         <X className="h-4 w-4" />
                                         Cancel
@@ -265,9 +264,9 @@ export default function Barbers({ barber }: BarbersProps) {
                                     <button
                                         type="button"
                                         onClick={() => setIsEditing(true)}
-                                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 text-amber-300 text-xs font-semibold uppercase tracking-wider hover:bg-stone-800 transition shadow-sm hover:shadow"
+                                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#252420] text-[#FAF9F5] text-xs font-semibold hover:bg-[#373530] transition-all duration-150 active:scale-[0.98]"
                                     >
-                                        <Edit3 className="h-4 w-4 text-amber-400" />
+                                        <Edit3 className="h-3.5 w-3.5" />
                                         {safeBarber.id ? "Edit Profile" : "Create Profile"}
                                     </button>
                                 )}
@@ -277,18 +276,18 @@ export default function Barbers({ barber }: BarbersProps) {
                         {/* Content Area */}
                         {isEditing ? (
                             /* EDIT FORM */
-                            <div className="bg-white rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] p-6 sm:p-8">
+                            <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] p-6 sm:p-8">
                                 <form onSubmit={handleSubmit} className="space-y-8">
                                     {/* Section 1: Basic Information */}
                                     <div>
-                                        <h3 className="text-base font-bold text-stone-900 mb-4 pb-2 border-b border-stone-100 flex items-center gap-2">
-                                            <UserCheck className="h-4 w-4 text-amber-500" />
+                                        <h3 className="text-sm font-bold text-[#1C1B18] mb-4 pb-2 border-b border-[#EFECE5] flex items-center gap-2">
+                                            <UserCheck className="h-4 w-4 text-[#252420]" />
                                             Basic Information
                                         </h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div>
-                                                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                                    Full Name <span className="text-rose-500">*</span>
+                                                <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                                    Full Name <span className="text-[#8E3535]">*</span>
                                                 </label>
                                                 <input
                                                     type="text"
@@ -296,13 +295,13 @@ export default function Barbers({ barber }: BarbersProps) {
                                                     value={formData.full_name}
                                                     onChange={handleInputChange}
                                                     required
-                                                    className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-stone-900 text-sm transition"
+                                                    className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-[#1C1B18] text-sm transition-colors"
                                                     placeholder="e.g. Marcus Vance"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                                    Primary Specialty <span className="text-rose-500">*</span>
+                                                <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                                    Primary Specialty <span className="text-[#8E3535]">*</span>
                                                 </label>
                                                 <input
                                                     type="text"
@@ -311,11 +310,11 @@ export default function Barbers({ barber }: BarbersProps) {
                                                     onChange={handleInputChange}
                                                     required
                                                     placeholder="e.g., Senior Barber, Fade Specialist"
-                                                    className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-stone-900 text-sm transition"
+                                                    className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-[#1C1B18] text-sm transition-colors"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                                <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
                                                     Experience (Years)
                                                 </label>
                                                 <input
@@ -324,12 +323,12 @@ export default function Barbers({ barber }: BarbersProps) {
                                                     value={formData.experience_years}
                                                     onChange={handleInputChange}
                                                     min="0"
-                                                    className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-stone-900 text-sm transition"
+                                                    className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-[#1C1B18] text-sm transition-colors"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                                    Default Price (₱) <span className="text-stone-400 font-normal">(Display only)</span>
+                                                <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                                    Default Price (₱) <span className="text-[#918E85] font-normal">(Display only)</span>
                                                 </label>
                                                 <input
                                                     type="number"
@@ -339,7 +338,7 @@ export default function Barbers({ barber }: BarbersProps) {
                                                     min="0"
                                                     step="0.01"
                                                     placeholder="e.g., 350.00"
-                                                    className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-stone-900 text-sm transition"
+                                                    className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-[#1C1B18] text-sm transition-colors"
                                                 />
                                             </div>
                                         </div>
@@ -347,13 +346,13 @@ export default function Barbers({ barber }: BarbersProps) {
 
                                     {/* Section 2: Narrative & Certifications */}
                                     <div>
-                                        <h3 className="text-base font-bold text-stone-900 mb-4 pb-2 border-b border-stone-100 flex items-center gap-2">
-                                            <FileText className="h-4 w-4 text-amber-500" />
+                                        <h3 className="text-sm font-bold text-[#1C1B18] mb-4 pb-2 border-b border-[#EFECE5] flex items-center gap-2">
+                                            <FileText className="h-4 w-4 text-[#252420]" />
                                             Profile Story & Credentials
                                         </h3>
                                         <div className="space-y-5">
                                             <div>
-                                                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                                <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
                                                     Short Introduction (About Headline)
                                                 </label>
                                                 <textarea
@@ -362,12 +361,12 @@ export default function Barbers({ barber }: BarbersProps) {
                                                     onChange={handleInputChange}
                                                     rows={3}
                                                     placeholder="Enter a compelling brief introduction shown prominently on the storefront..."
-                                                    className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-stone-900 text-sm transition resize-none"
+                                                    className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-[#1C1B18] text-sm transition-colors resize-none"
                                                 />
                                             </div>
 
                                             <div>
-                                                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                                <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
                                                     Full Biography & Background
                                                 </label>
                                                 <textarea
@@ -376,12 +375,12 @@ export default function Barbers({ barber }: BarbersProps) {
                                                     onChange={handleInputChange}
                                                     rows={4}
                                                     placeholder="Describe years of barbering experience, cutting philosophy, and client care approach..."
-                                                    className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-stone-900 text-sm transition resize-none"
+                                                    className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-[#1C1B18] text-sm transition-colors resize-none"
                                                 />
                                             </div>
 
                                             <div>
-                                                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                                <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
                                                     Certifications & Honors (one per line or comma-separated)
                                                 </label>
                                                 <textarea
@@ -390,7 +389,7 @@ export default function Barbers({ barber }: BarbersProps) {
                                                     onChange={handleInputChange}
                                                     rows={3}
                                                     placeholder="Licensed Master Barber&#10;Advanced Fade Techniques Certification&#10;Precision Scissor Work Masterclass"
-                                                    className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-stone-900 text-sm transition resize-none"
+                                                    className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-[#1C1B18] text-sm transition-colors resize-none"
                                                 />
                                             </div>
                                         </div>
@@ -398,22 +397,22 @@ export default function Barbers({ barber }: BarbersProps) {
 
                                     {/* Section 3: Media & Payment */}
                                     <div>
-                                        <h3 className="text-base font-bold text-stone-900 mb-4 pb-2 border-b border-stone-100 flex items-center gap-2">
-                                            <ImageIcon className="h-4 w-4 text-amber-500" />
+                                        <h3 className="text-sm font-bold text-[#1C1B18] mb-4 pb-2 border-b border-[#EFECE5] flex items-center gap-2">
+                                            <ImageIcon className="h-4 w-4 text-[#252420]" />
                                             Media & GCash QR Code
                                         </h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             {/* Profile Photo */}
-                                            <div className="p-4 rounded-xl border border-stone-200 bg-stone-50/50">
-                                                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2 flex items-center gap-2">
-                                                    <UploadCloud className="h-4 w-4 text-amber-600" />
+                                            <div className="p-4 rounded-xl border border-[#E5E2DA] bg-[#F5F4EF]">
+                                                <label className="block text-xs font-semibold uppercase tracking-wider text-[#3D3B36] mb-2 flex items-center gap-2">
+                                                    <UploadCloud className="h-4 w-4 text-[#5C5953]" />
                                                     Barber Portrait
                                                 </label>
                                                 <div className="flex items-center gap-4">
                                                     <img
                                                         src={previewProfileUrl || imageUrl}
                                                         alt="Portrait Preview"
-                                                        className="w-16 h-16 rounded-xl object-cover border border-stone-200 shadow-sm"
+                                                        className="w-16 h-16 rounded-xl object-cover border border-[#E5E2DA]"
                                                     />
                                                     <div className="flex-1">
                                                         <input
@@ -426,11 +425,11 @@ export default function Barbers({ barber }: BarbersProps) {
                                                         />
                                                         <label
                                                             htmlFor="profile_image_input"
-                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-300 bg-white text-xs font-medium text-stone-700 hover:bg-stone-50 cursor-pointer transition shadow-xs"
+                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#DCD8CE] bg-[#FDFCF9] text-xs font-medium text-[#3D3B36] hover:bg-[#EFECE5] cursor-pointer transition-colors"
                                                         >
                                                             Select Image
                                                         </label>
-                                                        <p className="text-[11px] text-stone-400 mt-1">
+                                                        <p className="text-[11px] text-[#918E85] mt-1">
                                                             JPG or PNG. Square ratio recommended.
                                                         </p>
                                                     </div>
@@ -438,9 +437,9 @@ export default function Barbers({ barber }: BarbersProps) {
                                             </div>
 
                                             {/* GCash QR Code */}
-                                            <div className="p-4 rounded-xl border border-stone-200 bg-stone-50/50">
-                                                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-700 mb-2 flex items-center gap-2">
-                                                    <QrCode className="h-4 w-4 text-amber-600" />
+                                            <div className="p-4 rounded-xl border border-[#E5E2DA] bg-[#F5F4EF]">
+                                                <label className="block text-xs font-semibold uppercase tracking-wider text-[#3D3B36] mb-2 flex items-center gap-2">
+                                                    <QrCode className="h-4 w-4 text-[#5C5953]" />
                                                     GCash Payment QR Code
                                                 </label>
                                                 <div className="flex items-center gap-4">
@@ -448,10 +447,10 @@ export default function Barbers({ barber }: BarbersProps) {
                                                         <img
                                                             src={previewQrUrl || qrCodeUrl!}
                                                             alt="QR Preview"
-                                                            className="w-16 h-16 rounded-xl object-contain bg-white border border-stone-200 p-1 shadow-sm"
+                                                            className="w-16 h-16 rounded-xl object-contain bg-[#FDFCF9] border border-[#E5E2DA] p-1"
                                                         />
                                                     ) : (
-                                                        <div className="w-16 h-16 rounded-xl bg-stone-200 flex items-center justify-center text-stone-400">
+                                                        <div className="w-16 h-16 rounded-xl bg-[#EAE7DF] flex items-center justify-center text-[#918E85]">
                                                             <QrCode className="h-6 w-6" />
                                                         </div>
                                                     )}
@@ -466,11 +465,11 @@ export default function Barbers({ barber }: BarbersProps) {
                                                         />
                                                         <label
                                                             htmlFor="gcash_qr_input"
-                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-300 bg-white text-xs font-medium text-stone-700 hover:bg-stone-50 cursor-pointer transition shadow-xs"
+                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#DCD8CE] bg-[#FDFCF9] text-xs font-medium text-[#3D3B36] hover:bg-[#EFECE5] cursor-pointer transition-colors"
                                                         >
                                                             Upload QR
                                                         </label>
-                                                        <p className="text-[11px] text-stone-400 mt-1">
+                                                        <p className="text-[11px] text-[#918E85] mt-1">
                                                             Used by clients to scan and pay on checkout.
                                                         </p>
                                                     </div>
@@ -480,12 +479,12 @@ export default function Barbers({ barber }: BarbersProps) {
                                     </div>
 
                                     {/* Section 4: Availability */}
-                                    <div className="p-4 rounded-xl border border-stone-200/80 bg-stone-50/40 flex items-center justify-between">
+                                    <div className="p-4 rounded-xl border border-[#E5E2DA] bg-[#F5F4EF] flex items-center justify-between">
                                         <div>
-                                            <span className="block text-sm font-bold text-stone-900">
+                                            <span className="block text-sm font-bold text-[#1C1B18]">
                                                 Active Booking Status
                                             </span>
-                                            <span className="text-xs text-stone-500">
+                                            <span className="text-xs text-[#737069]">
                                                 When enabled, clients can book appointments with this barber.
                                             </span>
                                         </div>
@@ -497,12 +496,12 @@ export default function Barbers({ barber }: BarbersProps) {
                                                 onChange={handleInputChange}
                                                 className="sr-only peer"
                                             />
-                                            <div className="w-11 h-6 bg-stone-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                                            <div className="w-11 h-6 bg-[#D5D0C5] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#FDFCF9] after:border-[#C7C3B9] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#252420]"></div>
                                         </label>
                                     </div>
 
                                     {/* Submit actions */}
-                                    <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+                                    <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#EFECE5]">
                                         <button
                                             type="button"
                                             onClick={() => {
@@ -510,41 +509,41 @@ export default function Barbers({ barber }: BarbersProps) {
                                                 setPreviewProfileUrl(null);
                                                 setPreviewQrUrl(null);
                                             }}
-                                            className="px-5 py-2.5 rounded-xl border border-stone-300 text-xs font-semibold uppercase tracking-wider text-stone-700 hover:bg-stone-50 transition"
+                                            className="px-5 py-2.5 rounded-full border border-[#DCD8CE] text-xs font-semibold text-[#5C5953] hover:border-[#252420] hover:bg-[#F3F1EC] transition-all duration-150 active:scale-[0.98]"
                                         >
                                             Cancel
                                         </button>
                                         <button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-stone-900 text-amber-300 text-xs font-semibold uppercase tracking-wider hover:bg-stone-800 transition shadow-sm disabled:opacity-50"
+                                            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#252420] text-[#FAF9F5] text-xs font-semibold hover:bg-[#373530] transition-all duration-150 active:scale-[0.98] disabled:opacity-50"
                                         >
-                                            <Save className="h-4 w-4 text-amber-400" />
+                                            <Save className="h-3.5 w-3.5" />
                                             {isSubmitting ? "Saving Changes..." : "Save Profile"}
                                         </button>
                                     </div>
                                 </form>
                             </div>
                         ) : (
-                            /* READ ONLY MODERN LUXURY PROFILE */
+                            /* READ ONLY PROFILE */
                             <div className="space-y-6">
                                 {/* Profile Banner Card */}
-                                <div className="bg-white rounded-2xl border border-stone-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)] p-6 sm:p-8">
+                                <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] p-6 sm:p-8">
                                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                                         <div className="relative">
                                             <img
                                                 src={imageUrl}
                                                 alt={safeBarber.full_name}
-                                                className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover shadow-md border-2 border-stone-100"
+                                                className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl object-cover border border-[#E5E2DA]"
                                                 onError={(e) => {
                                                     (e.target as HTMLImageElement).src = defaultProfileImage;
                                                 }}
                                             />
                                             <span
-                                                className={`absolute bottom-2 right-2 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-xs ${
+                                                className={`absolute bottom-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${
                                                     Number(safeBarber.is_available) === 1
-                                                        ? "bg-emerald-500 text-white border-emerald-400"
-                                                        : "bg-rose-500 text-white border-rose-400"
+                                                        ? "bg-[#252420] text-[#FAF9F5] border-[#33312C]"
+                                                        : "bg-[#FDFCF9] text-[#5C5953] border-[#DCD8CE]"
                                                 }`}
                                             >
                                                 {Number(safeBarber.is_available) === 1 ? "Active" : "Inactive"}
@@ -554,52 +553,52 @@ export default function Barbers({ barber }: BarbersProps) {
                                         <div className="flex-1 text-center sm:text-left">
                                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                                                 <div>
-                                                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
+                                                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1C1B18]">
                                                         {safeBarber.full_name}
                                                     </h2>
-                                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 mt-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200/60">
-                                                        <Scissors className="h-3 w-3 text-amber-600" />
+                                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 mt-1.5 rounded-md text-xs font-semibold bg-[#F3F1EC] text-[#3D3B36] border border-[#E5E2DA]">
+                                                        <Scissors className="h-3 w-3 text-[#252420]" />
                                                         {safeBarber.specialty || "Master Barber"}
                                                     </div>
                                                 </div>
 
                                                 <button
                                                     onClick={handleToggleStatus}
-                                                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition border shadow-xs ${
+                                                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-150 active:scale-[0.98] border ${
                                                         Number(safeBarber.is_available) === 1
-                                                            ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
-                                                            : "bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200"
+                                                            ? "bg-[#EDF3EC] text-[#2E5A36] border-[#D2E0D0] hover:bg-[#E2ECE1]"
+                                                            : "bg-[#F3F1EC] text-[#5C5953] border-[#E5E2DA] hover:bg-[#EAE7DF]"
                                                     }`}
                                                 >
-                                                    <span className={`w-2 h-2 rounded-full ${Number(safeBarber.is_available) === 1 ? "bg-emerald-500" : "bg-stone-400"}`} />
+                                                    <span className={`w-2 h-2 rounded-full ${Number(safeBarber.is_available) === 1 ? "bg-[#2E5A36]" : "bg-[#918E85]"}`} />
                                                     {Number(safeBarber.is_available) === 1 ? "Accepting Bookings" : "Temporarily Paused"}
                                                 </button>
                                             </div>
 
                                             {/* Rating Stars */}
                                             <div className="flex items-center justify-center sm:justify-start gap-2 mt-4">
-                                                <div className="flex items-center text-amber-400">
+                                                <div className="flex items-center text-[#252420]">
                                                     {[1, 2, 3, 4, 5].map((star) => (
                                                         <Star
                                                             key={star}
                                                             className={`h-4 w-4 ${
                                                                 star <= Math.round(rating)
-                                                                    ? "fill-amber-400 text-amber-400"
-                                                                    : "text-stone-300"
+                                                                    ? "fill-[#252420] text-[#252420]"
+                                                                    : "text-[#D5D0C5]"
                                                             }`}
                                                         />
                                                     ))}
                                                 </div>
-                                                <span className="text-sm font-bold text-stone-900">
+                                                <span className="text-sm font-bold text-[#1C1B18] tabular-nums">
                                                     {rating.toFixed(1)}
                                                 </span>
-                                                <span className="text-xs text-stone-400">
+                                                <span className="text-xs text-[#918E85] tabular-nums">
                                                     ({totalReviews} reviews)
                                                 </span>
                                             </div>
 
                                             {safeBarber.introduction && (
-                                                <p className="text-sm text-stone-600 mt-4 leading-relaxed max-w-2xl">
+                                                <p className="text-sm text-[#5C5953] mt-4 leading-relaxed max-w-2xl">
                                                     "{safeBarber.introduction}"
                                                 </p>
                                             )}
@@ -609,52 +608,52 @@ export default function Barbers({ barber }: BarbersProps) {
 
                                 {/* Metrics Cards Grid */}
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                                    <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-xs">
-                                        <div className="flex items-center justify-between text-stone-400 mb-2">
-                                            <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500">
+                                    <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] p-5 shadow-[0_1px_2px_rgba(28,27,24,0.03)]">
+                                        <div className="flex items-center justify-between text-[#918E85] mb-2">
+                                            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#737069]">
                                                 Experience
                                             </span>
-                                            <Award className="h-4 w-4 text-amber-500" />
+                                            <Award className="h-4 w-4 text-[#5C5953]" />
                                         </div>
-                                        <div className="text-2xl font-bold text-stone-900">
+                                        <div className="text-2xl font-bold text-[#1C1B18] tabular-nums">
                                             {safeBarber.experience_years}{" "}
-                                            <span className="text-xs font-normal text-stone-500">Years</span>
+                                            <span className="text-xs font-normal text-[#737069]">Years</span>
                                         </div>
                                     </div>
 
-                                    <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-xs">
-                                        <div className="flex items-center justify-between text-stone-400 mb-2">
-                                            <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500">
+                                    <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] p-5 shadow-[0_1px_2px_rgba(28,27,24,0.03)]">
+                                        <div className="flex items-center justify-between text-[#918E85] mb-2">
+                                            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#737069]">
                                                 Rating Score
                                             </span>
-                                            <Star className="h-4 w-4 text-amber-500" />
+                                            <Star className="h-4 w-4 text-[#5C5953]" />
                                         </div>
-                                        <div className="text-2xl font-bold text-stone-900">
+                                        <div className="text-2xl font-bold text-[#1C1B18] tabular-nums">
                                             {rating.toFixed(1)}
-                                            <span className="text-xs font-normal text-stone-500"> / 5.0</span>
+                                            <span className="text-xs font-normal text-[#737069]"> / 5.0</span>
                                         </div>
                                     </div>
 
-                                    <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-xs">
-                                        <div className="flex items-center justify-between text-stone-400 mb-2">
-                                            <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500">
+                                    <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] p-5 shadow-[0_1px_2px_rgba(28,27,24,0.03)]">
+                                        <div className="flex items-center justify-between text-[#918E85] mb-2">
+                                            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#737069]">
                                                 Base Rate
                                             </span>
-                                            <Tag className="h-4 w-4 text-amber-500" />
+                                            <Tag className="h-4 w-4 text-[#5C5953]" />
                                         </div>
-                                        <div className="text-2xl font-bold text-stone-900">
+                                        <div className="text-2xl font-bold text-[#1C1B18] tabular-nums">
                                             {safeBarber.default_price ? `₱${Number(safeBarber.default_price).toFixed(2)}` : "Tiered"}
                                         </div>
                                     </div>
 
-                                    <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-xs">
-                                        <div className="flex items-center justify-between text-stone-400 mb-2">
-                                            <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500">
+                                    <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] p-5 shadow-[0_1px_2px_rgba(28,27,24,0.03)]">
+                                        <div className="flex items-center justify-between text-[#918E85] mb-2">
+                                            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#737069]">
                                                 Status
                                             </span>
-                                            <Clock className="h-4 w-4 text-amber-500" />
+                                            <Clock className="h-4 w-4 text-[#5C5953]" />
                                         </div>
-                                        <div className={`text-base font-bold ${safeBarber.is_available === 1 ? "text-emerald-600" : "text-stone-500"}`}>
+                                        <div className={`text-base font-bold ${safeBarber.is_available === 1 ? "text-[#2E5A36]" : "text-[#737069]"}`}>
                                             {safeBarber.is_available === 1 ? "Available" : "Unavailable"}
                                         </div>
                                     </div>
@@ -665,30 +664,30 @@ export default function Barbers({ barber }: BarbersProps) {
                                     {/* Left 2 Cols: Biography & Credentials */}
                                     <div className="md:col-span-2 space-y-6">
                                         {/* Biography */}
-                                        <div className="bg-white rounded-2xl border border-stone-200/80 shadow-xs p-6">
-                                            <h3 className="text-sm font-bold uppercase tracking-wider text-stone-800 mb-3 flex items-center gap-2">
-                                                <FileText className="h-4 w-4 text-amber-500" />
+                                        <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] p-6">
+                                            <h3 className="text-xs font-bold uppercase tracking-wider text-[#5C5953] mb-3 flex items-center gap-2">
+                                                <FileText className="h-4 w-4 text-[#252420]" />
                                                 Professional Bio
                                             </h3>
-                                            <p className="text-sm text-stone-600 leading-relaxed whitespace-pre-line">
+                                            <p className="text-sm text-[#3D3B36] leading-relaxed whitespace-pre-line">
                                                 {safeBarber.bio || "No detailed biography written yet. Click 'Edit Profile' to add background information."}
                                             </p>
                                         </div>
 
                                         {/* Specialties */}
                                         {specialties.length > 0 && (
-                                            <div className="bg-white rounded-2xl border border-stone-200/80 shadow-xs p-6">
-                                                <h3 className="text-sm font-bold uppercase tracking-wider text-stone-800 mb-3 flex items-center gap-2">
-                                                    <Sparkles className="h-4 w-4 text-amber-500" />
+                                            <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] p-6">
+                                                <h3 className="text-xs font-bold uppercase tracking-wider text-[#5C5953] mb-3 flex items-center gap-2">
+                                                    <Sparkles className="h-4 w-4 text-[#252420]" />
                                                     Signature Skills & Specialties
                                                 </h3>
                                                 <div className="flex flex-wrap gap-2">
                                                     {specialties.map((item, index) => (
                                                         <span
                                                             key={index}
-                                                            className="inline-flex items-center gap-1.5 rounded-xl bg-stone-100 text-stone-800 px-3 py-1.5 text-xs font-semibold border border-stone-200/80"
+                                                            className="inline-flex items-center gap-1.5 rounded-lg bg-[#F5F4EF] text-[#252420] px-3 py-1.5 text-xs font-semibold border border-[#E5E2DA]"
                                                         >
-                                                            <Scissors className="h-3 w-3 text-amber-600" />
+                                                            <Scissors className="h-3 w-3 text-[#5C5953]" />
                                                             {item}
                                                         </span>
                                                     ))}
@@ -698,18 +697,18 @@ export default function Barbers({ barber }: BarbersProps) {
 
                                         {/* Certifications */}
                                         {certifications.length > 0 && (
-                                            <div className="bg-white rounded-2xl border border-stone-200/80 shadow-xs p-6">
-                                                <h3 className="text-sm font-bold uppercase tracking-wider text-stone-800 mb-3 flex items-center gap-2">
-                                                    <Award className="h-4 w-4 text-amber-500" />
+                                            <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] p-6">
+                                                <h3 className="text-xs font-bold uppercase tracking-wider text-[#5C5953] mb-3 flex items-center gap-2">
+                                                    <Award className="h-4 w-4 text-[#252420]" />
                                                     Certifications & Honors
                                                 </h3>
                                                 <ul className="space-y-2.5">
                                                     {certifications.map((item, index) => (
                                                         <li
                                                             key={index}
-                                                            className="flex items-center gap-2.5 text-xs text-stone-700 font-medium"
+                                                            className="flex items-center gap-2.5 text-xs text-[#3D3B36] font-medium"
                                                         >
-                                                            <CheckCircle2 className="h-4 w-4 text-amber-500 shrink-0" />
+                                                            <CheckCircle2 className="h-4 w-4 text-[#2E5A36] shrink-0" />
                                                             <span>{item}</span>
                                                         </li>
                                                     ))}
@@ -720,35 +719,35 @@ export default function Barbers({ barber }: BarbersProps) {
 
                                     {/* Right 1 Col: GCash Payment Card */}
                                     <div className="space-y-6">
-                                        <div className="bg-white rounded-2xl border border-stone-200/80 shadow-xs p-6">
-                                            <h3 className="text-sm font-bold uppercase tracking-wider text-stone-800 mb-3 flex items-center gap-2">
-                                                <QrCode className="h-4 w-4 text-amber-500" />
+                                        <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] p-6">
+                                            <h3 className="text-xs font-bold uppercase tracking-wider text-[#5C5953] mb-3 flex items-center gap-2">
+                                                <QrCode className="h-4 w-4 text-[#252420]" />
                                                 GCash QR Code
                                             </h3>
-                                            <p className="text-xs text-stone-500 mb-4">
+                                            <p className="text-xs text-[#737069] mb-4">
                                                 Shown to customers during checkout for cashless digital payments.
                                             </p>
                                             {qrCodeUrl ? (
-                                                <div className="bg-stone-50 p-4 rounded-xl border border-stone-200 flex flex-col items-center">
+                                                <div className="bg-[#F5F4EF] p-4 rounded-xl border border-[#E5E2DA] flex flex-col items-center">
                                                     <img
                                                         src={qrCodeUrl}
                                                         alt="GCash QR Code"
-                                                        className="w-48 h-48 object-contain bg-white rounded-lg p-2 border border-stone-200 shadow-sm"
+                                                        className="w-48 h-48 object-contain bg-[#FDFCF9] rounded-lg p-2 border border-[#E5E2DA]"
                                                     />
-                                                    <span className="text-[11px] font-semibold text-stone-400 mt-2">
+                                                    <span className="text-[11px] font-semibold text-[#918E85] mt-2">
                                                         Active QR Code
                                                     </span>
                                                 </div>
                                             ) : (
-                                                <div className="bg-stone-50 rounded-xl border border-dashed border-stone-300 p-8 text-center">
-                                                    <QrCode className="h-8 w-8 text-stone-300 mx-auto mb-2" />
-                                                    <p className="text-xs text-stone-400">
+                                                <div className="bg-[#F5F4EF] rounded-xl border border-dashed border-[#D5D0C5] p-8 text-center">
+                                                    <QrCode className="h-8 w-8 text-[#C7C3B9] mx-auto mb-2" />
+                                                    <p className="text-xs text-[#918E85]">
                                                         No QR Code uploaded yet.
                                                     </p>
                                                     <button
                                                         type="button"
                                                         onClick={() => setIsEditing(true)}
-                                                        className="mt-3 text-xs font-semibold text-amber-600 hover:underline"
+                                                        className="mt-3 text-xs font-semibold text-[#1C1B18] underline underline-offset-4 hover:opacity-75"
                                                     >
                                                         Upload QR Code
                                                     </button>

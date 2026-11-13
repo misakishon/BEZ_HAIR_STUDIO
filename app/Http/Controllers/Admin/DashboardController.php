@@ -11,6 +11,25 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        $range = $request->get('range', 'all');
+        if (!in_array($range, ['7d', '30d', '90d', 'all'], true)) {
+            $range = 'all';
+        }
+
+        $rangeStartDate = match ($range) {
+            '7d' => now()->subDays(6)->toDateString(),
+            '30d' => now()->subDays(29)->toDateString(),
+            '90d' => now()->subDays(89)->toDateString(),
+            default => null,
+        };
+
+        $applyRange = function ($query, string $column = 'booking_date') use ($rangeStartDate) {
+            if ($rangeStartDate !== null) {
+                $query->whereDate($column, '>=', $rangeStartDate);
+            }
+            return $query;
+        };
+
         // Get current month and previous month for comparison
         $currentMonth = now()->month;
         $currentYear = now()->year;
@@ -18,9 +37,9 @@ class DashboardController extends Controller
         $previousYear = now()->subMonth()->year;
 
         // ========== TOTAL REVENUE (Only CONFIRMED appointments) ==========
-        $totalRevenue = DB::table('bookings')
-            ->where('status', 'confirmed')
-            ->sum('total_price');
+        $totalRevenue = $applyRange(
+            DB::table('bookings')->where('status', 'confirmed')
+        )->sum('total_price');
 
         // ========== CURRENT MONTH REVENUE (Only CONFIRMED) ==========
         $currentMonthRevenue = DB::table('bookings')
@@ -37,9 +56,9 @@ class DashboardController extends Controller
             ->sum('total_price');
 
         // ========== TOTAL BOOKINGS (Only CONFIRMED) ==========
-        $totalBookings = DB::table('bookings')
-            ->where('status', 'confirmed')
-            ->count();
+        $totalBookings = $applyRange(
+            DB::table('bookings')->where('status', 'confirmed')
+        )->count();
 
         // ========== CURRENT MONTH BOOKINGS (Only CONFIRMED) ==========
         $currentMonthBookings = DB::table('bookings')
@@ -56,10 +75,9 @@ class DashboardController extends Controller
             ->count();
 
         // ========== TOTAL CUSTOMERS (Unique customers with confirmed bookings) ==========
-        $totalCustomers = DB::table('bookings')
-            ->where('status', 'confirmed')
-            ->distinct('email')
-            ->count('email');
+        $totalCustomers = $applyRange(
+            DB::table('bookings')->where('status', 'confirmed')
+        )->distinct('email')->count('email');
 
         // ========== AVG PER VISIT (Only CONFIRMED) ==========
         $avgPerVisit = $totalBookings > 0 
@@ -67,9 +85,12 @@ class DashboardController extends Controller
             : 0;
 
         // ========== REVENUE BY CATEGORY (Only CONFIRMED) ==========
-        $revenueByCategory = DB::table('bookings')
-            ->join('hairstyles', 'bookings.hairstyle_id', '=', 'hairstyles.id')
-            ->where('bookings.status', 'confirmed')
+        $revenueByCategory = $applyRange(
+            DB::table('bookings')
+                ->join('hairstyles', 'bookings.hairstyle_id', '=', 'hairstyles.id')
+                ->where('bookings.status', 'confirmed'),
+            'bookings.booking_date'
+        )
             ->select('hairstyles.category', DB::raw('SUM(bookings.total_price) as total'))
             ->groupBy('hairstyles.category')
             ->pluck('total', 'category')
@@ -77,8 +98,9 @@ class DashboardController extends Controller
 
         // ========== BOOKINGS BY DAY OF WEEK (Only CONFIRMED) ==========
         $bookingsByDay = array_fill(0, 7, 0);
-        $confirmedBookings = DB::table('bookings')
-            ->where('status', 'confirmed')
+        $confirmedBookings = $applyRange(
+            DB::table('bookings')->where('status', 'confirmed')
+        )
             ->select('booking_date')
             ->get();
 
@@ -177,12 +199,20 @@ class DashboardController extends Controller
             })
             ->toArray();
 
-        // ========== TOTAL BARBERS ==========
+        // ========== TOTAL BARBERS & BARBER LIST ==========
         $totalBarbers = DB::table('barbers')
             ->where('is_available', 1)
             ->count();
 
+        $barbers = DB::table('barbers')
+            ->select('id', 'full_name')
+            ->orderBy('full_name')
+            ->get()
+            ->toArray();
+
         return Inertia::render('admin/dashboard', [
+            'range' => $range,
+            'barbers' => $barbers,
             'totalBookings' => $totalBookings,
             'totalRevenue' => $totalRevenue,
             'totalCustomers' => $totalCustomers,

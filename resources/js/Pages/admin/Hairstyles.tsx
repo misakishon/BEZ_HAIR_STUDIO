@@ -278,49 +278,48 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
         <>
             <Head title="Hairstyles Catalogue — BEZ Hair Studio" />
             <Sidebar>
-                <main className="min-h-screen bg-[#f8f7f4] text-stone-900">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <main className="min-h-screen bg-[#F5F4EF] text-[#1C1B18]">
+                    <div className="studio-enter max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
                         {/* Header Banner */}
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 pb-6 border-b border-[#E5E2DA]">
                             <div>
-                                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-600 mb-1">
-                                    <Scissors className="h-3.5 w-3.5 text-amber-500" />
+                                <div className="font-morche flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#918E85] mb-1">
                                     <span>Service Offerings</span>
                                 </div>
-                                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
+                                <h1 className="font-morche text-2xl sm:text-3xl font-medium tracking-tight text-[#1C1B18]">
                                     Hairstyle Catalogue
                                 </h1>
-                                <p className="text-sm text-stone-500 mt-1">
+                                <p className="text-xs sm:text-sm text-[#737069] mt-1">
                                     Manage studio cuts, service durations, and pricing shown on the booking portal.
                                 </p>
                             </div>
 
                             <button
                                 onClick={openAddModal}
-                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 text-amber-300 text-xs font-semibold uppercase tracking-wider hover:bg-stone-800 transition shadow-sm hover:shadow"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#252420] text-[#FAF9F5] text-xs font-semibold hover:bg-[#373530] transition-all duration-150 active:scale-[0.98]"
                             >
-                                <Plus className="h-4 w-4 text-amber-400" />
+                                <Plus className="h-3.5 w-3.5" />
                                 Add Hairstyle
                             </button>
                         </div>
 
                         {/* Search & Category Filter Toolbar */}
-                        <div className="bg-white rounded-2xl border border-stone-200/80 p-4 mb-8 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+                        <div className="bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] shadow-[0_1px_2px_rgba(28,27,24,0.03)] p-4 mb-6">
                             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                                 {/* Search Bar */}
                                 <div className="relative w-full md:w-80">
-                                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+                                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#918E85]" />
                                     <input
                                         type="text"
                                         placeholder="Search hairstyles..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-xs text-stone-900 transition"
+                                        className="w-full pl-10 pr-4 py-2 border border-[#E5E2DA] rounded-lg bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-xs text-[#1C1B18] transition-colors placeholder:text-[#918E85]"
                                     />
                                     {searchTerm && (
                                         <button
                                             onClick={() => setSearchTerm("")}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600"
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#918E85] hover:text-[#1C1B18]"
                                         >
                                             <X className="h-3.5 w-3.5" />
                                         </button>
@@ -331,10 +330,10 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                 <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none">
                                     <button
                                         onClick={() => setSelectedCategory("All")}
-                                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition shrink-0 ${
+                                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 active:scale-[0.97] shrink-0 ${
                                             selectedCategory === "All"
-                                                ? "bg-stone-900 text-amber-300 shadow-xs"
-                                                : "bg-stone-100 text-stone-600 hover:bg-stone-200/80"
+                                                ? "bg-[#252420] text-[#FAF9F5]"
+                                                : "bg-[#F3F1EC] text-[#5C5953] hover:bg-[#EAE7DF] hover:text-[#1C1B18]"
                                         }`}
                                     >
                                         All ({hairstyles.length})
@@ -343,10 +342,10 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                         <button
                                             key={cat}
                                             onClick={() => setSelectedCategory(cat)}
-                                            className={`px-3 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition shrink-0 ${
+                                            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 active:scale-[0.97] shrink-0 ${
                                                 selectedCategory === cat
-                                                    ? "bg-stone-900 text-amber-300 shadow-xs"
-                                                    : "bg-stone-100 text-stone-600 hover:bg-stone-200/80"
+                                                    ? "bg-[#252420] text-[#FAF9F5]"
+                                                    : "bg-[#F3F1EC] text-[#5C5953] hover:bg-[#EAE7DF] hover:text-[#1C1B18]"
                                             }`}
                                         >
                                             {cat}
@@ -359,12 +358,12 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                         {/* Hairstyles Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {filteredHairstyles.length === 0 ? (
-                                <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-stone-200/80 p-8 shadow-xs">
-                                    <Scissors className="h-10 w-10 text-stone-300 mx-auto mb-3" />
-                                    <h3 className="text-base font-bold text-stone-900">
+                                <div className="col-span-full text-center py-16 bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] p-8 shadow-[0_1px_2px_rgba(28,27,24,0.03)]">
+                                    <Scissors className="h-10 w-10 text-[#C7C3B9] mx-auto mb-3" />
+                                    <h3 className="text-base font-bold text-[#1C1B18]">
                                         No hairstyles found
                                     </h3>
-                                    <p className="text-xs text-stone-500 mt-1 max-w-sm mx-auto">
+                                    <p className="text-xs text-[#737069] mt-1 max-w-sm mx-auto">
                                         {searchTerm || selectedCategory !== "All"
                                             ? "Try adjusting your search query or category filter."
                                             : "Your catalogue is currently empty. Click '+ Add Hairstyle' to build your haircut offerings."}
@@ -375,7 +374,7 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                                 setSearchTerm("");
                                                 setSelectedCategory("All");
                                             }}
-                                            className="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 transition"
+                                            className="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-[#F3F1EC] text-[#3D3B36] hover:bg-[#EAE7DF] transition-colors"
                                         >
                                             Clear Filters
                                         </button>
@@ -385,37 +384,37 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                 filteredHairstyles.map((hairstyle) => (
                                     <div
                                         key={hairstyle.id}
-                                        className="group bg-white rounded-2xl border border-stone-200/80 overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.02)] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+                                        className="group bg-[#FDFCF9] rounded-xl border border-[#E5E2DA] overflow-hidden shadow-[0_1px_2px_rgba(28,27,24,0.03)] hover:border-[#CFCAC0] hover:shadow-[0_8px_20px_rgba(28,27,24,0.06)] hover:-translate-y-0.5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col justify-between"
                                     >
                                         <div>
                                             {/* Image container with floating badges */}
-                                            <div className="relative aspect-square overflow-hidden bg-stone-100">
+                                            <div className="relative aspect-square overflow-hidden bg-[#EFECE5]">
                                                 <img
                                                     src={getImageUrl(hairstyle.image_path)}
                                                     alt={hairstyle.name}
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                                                     onError={(e) => {
                                                         (e.target as HTMLImageElement).src =
                                                             "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80";
                                                     }}
                                                 />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-black/20" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-[#1C1B18]/45 via-transparent to-[#1C1B18]/15" />
 
                                                 {/* Top Category Badge */}
                                                 {hairstyle.category && (
-                                                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-stone-900/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-stone-200 border border-white/10">
+                                                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-[#252420]/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-[#FAF9F5] border border-white/10">
                                                         {hairstyle.category}
                                                     </span>
                                                 )}
 
                                                 {/* Top Price Badge */}
-                                                <span className="absolute top-3 right-3 px-3 py-1 rounded-xl bg-amber-500 text-stone-950 text-xs font-extrabold tracking-tight shadow-md">
+                                                <span className="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-[#252420] text-[#FAF9F5] text-xs font-bold tracking-tight tabular-nums">
                                                     ₱{Number(hairstyle.price).toFixed(2)}
                                                 </span>
 
                                                 {/* Inactive flag */}
                                                 {!hairstyle.is_active && (
-                                                    <span className="absolute bottom-3 left-3 px-2 py-0.5 rounded-md bg-stone-900/90 text-amber-300 text-[10px] font-semibold tracking-wide border border-amber-500/30">
+                                                    <span className="absolute bottom-3 left-3 px-2 py-0.5 rounded-md bg-[#FDFCF9] text-[#1C1B18] text-[10px] font-semibold tracking-wide border border-[#E5E2DA]">
                                                         Default Price Setting
                                                     </span>
                                                 )}
@@ -424,21 +423,21 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                             {/* Details */}
                                             <div className="p-4">
                                                 <div className="flex items-center justify-between gap-2">
-                                                    <h3 className="font-bold text-stone-900 text-base tracking-tight truncate">
+                                                    <h3 className="font-bold text-[#1C1B18] text-base tracking-tight truncate">
                                                         {hairstyle.name}
                                                     </h3>
-                                                    <div className="flex items-center gap-1 text-stone-500 text-xs shrink-0">
-                                                        <Clock className="h-3.5 w-3.5 text-amber-600" />
+                                                    <div className="flex items-center gap-1 text-[#737069] text-xs shrink-0 tabular-nums">
+                                                        <Clock className="h-3.5 w-3.5 text-[#5C5953]" />
                                                         <span>{hairstyle.duration_minutes}m</span>
                                                     </div>
                                                 </div>
 
                                                 {hairstyle.description ? (
-                                                    <p className="text-xs text-stone-500 mt-2 line-clamp-2 leading-relaxed">
+                                                    <p className="text-xs text-[#737069] mt-2 line-clamp-2 leading-relaxed">
                                                         {hairstyle.description}
                                                     </p>
                                                 ) : (
-                                                    <p className="text-xs text-stone-400 mt-2 italic">
+                                                    <p className="text-xs text-[#A39F96] mt-2 italic">
                                                         No description provided.
                                                     </p>
                                                 )}
@@ -446,18 +445,18 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                         </div>
 
                                         {/* Card Actions */}
-                                        <div className="px-4 pb-4 pt-2 border-t border-stone-100 flex items-center justify-end gap-2">
+                                        <div className="px-4 pb-4 pt-2 border-t border-[#EFECE5] flex items-center justify-end gap-2">
                                             <button
                                                 onClick={() => openEditModal(hairstyle)}
-                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 text-xs font-semibold text-stone-700 hover:bg-stone-50 hover:border-stone-300 transition"
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E5E2DA] bg-[#FDFCF9] text-xs font-semibold text-[#3D3B36] hover:bg-[#F3F1EC] hover:border-[#CFCAC0] transition-all duration-150 active:scale-[0.97]"
                                                 title="Edit Cut"
                                             >
-                                                <Edit3 className="h-3.5 w-3.5 text-stone-500" />
+                                                <Edit3 className="h-3.5 w-3.5 text-[#737069]" />
                                                 Edit
                                             </button>
                                             <button
                                                 onClick={() => setDeleteId(hairstyle.id)}
-                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-rose-200 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition"
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E9CECE] bg-[#FDFCF9] text-xs font-semibold text-[#8E3535] hover:bg-[#F9ECEC] transition-all duration-150 active:scale-[0.97]"
                                                 title="Delete Cut"
                                             >
                                                 <Trash2 className="h-3.5 w-3.5" />
@@ -473,15 +472,15 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
 
                 {/* ADD / EDIT MODAL */}
                 {showModal && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs">
-                        <div className="bg-white rounded-2xl border border-stone-200 shadow-2xl max-w-xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 animate-in fade-in zoom-in-95 duration-200">
+                    <div className="studio-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1C1B18]/40 backdrop-blur-[2px]">
+                        <div className="studio-modal-panel bg-[#FDFCF9] rounded-2xl border border-[#E5E2DA] shadow-[0_16px_40px_rgba(28,27,24,0.16)] max-w-xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8">
                             {/* Modal Header */}
-                            <div className="flex items-center justify-between pb-4 border-b border-stone-100 mb-6">
+                            <div className="flex items-center justify-between pb-4 border-b border-[#EFECE5] mb-6">
                                 <div>
-                                    <h2 className="text-xl font-bold tracking-tight text-stone-900">
+                                    <h2 className="text-xl font-bold tracking-tight text-[#1C1B18]">
                                         {isEditing ? "Edit Hairstyle" : "Add New Hairstyle"}
                                     </h2>
-                                    <p className="text-xs text-stone-500 mt-0.5">
+                                    <p className="text-xs text-[#737069] mt-0.5">
                                         {isEditing
                                             ? "Update styling specs, duration, and pricing."
                                             : "Introduce a new cut option to your appointment booking list."}
@@ -489,7 +488,7 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                 </div>
                                 <button
                                     onClick={closeModal}
-                                    className="p-1.5 rounded-lg text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition"
+                                    className="p-1.5 rounded-lg text-[#807D75] hover:text-[#1C1B18] hover:bg-[#EFECE5] transition-colors"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
@@ -498,29 +497,29 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                             {/* Form */}
                             <form onSubmit={handleSubmit} className="space-y-5">
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                        Hairstyle Name <span className="text-rose-500">*</span>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                        Hairstyle Name <span className="text-[#8E3535]">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         name="name"
                                         value={formData.name}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                        className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                         placeholder="e.g. Modern Textured Fade"
                                         required
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                        Category <span className="text-rose-500">*</span>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                        Category <span className="text-[#8E3535]">*</span>
                                     </label>
                                     <select
                                         name="category"
                                         value={formData.category}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                        className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                         required
                                     >
                                         <option value="">Select Category</option>
@@ -534,15 +533,15 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                            Price (₱) <span className="text-rose-500">*</span>
+                                        <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                            Price (₱) <span className="text-[#8E3535]">*</span>
                                         </label>
                                         <input
                                             type="number"
                                             name="price"
                                             value={formData.price}
                                             onChange={handleInputChange}
-                                            className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                            className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                             placeholder="350.00"
                                             step="0.01"
                                             min="0"
@@ -550,15 +549,15 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
-                                            Duration (Minutes) <span className="text-rose-500">*</span>
+                                        <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
+                                            Duration (Minutes) <span className="text-[#8E3535]">*</span>
                                         </label>
                                         <input
                                             type="number"
                                             name="duration_minutes"
                                             value={formData.duration_minutes}
                                             onChange={handleInputChange}
-                                            className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition"
+                                            className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors"
                                             placeholder="30"
                                             min="1"
                                             required
@@ -567,7 +566,7 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
                                         Description & Style Notes
                                     </label>
                                     <textarea
@@ -575,25 +574,25 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                         value={formData.description}
                                         onChange={handleInputChange}
                                         rows={3}
-                                        className="w-full px-4 py-2.5 border border-stone-300 rounded-xl bg-stone-50/50 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none text-sm text-stone-900 transition resize-none"
+                                        className="w-full px-4 py-2.5 border border-[#E5E2DA] rounded-xl bg-[#F5F4EF] focus:bg-[#FDFCF9] focus:ring-0 focus:border-[#252420] outline-none text-sm text-[#1C1B18] transition-colors resize-none"
                                         placeholder="Describe the taper, shears technique, or suitable hair textures..."
                                     />
                                 </div>
 
                                 {/* Image Upload & Preview */}
                                 <div>
-                                    <label className="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-1.5">
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#5C5953] mb-1.5">
                                         Showcase Photo
                                     </label>
-                                    <div className="p-4 rounded-xl border border-stone-200 bg-stone-50/60 flex items-center gap-4">
+                                    <div className="p-4 rounded-xl border border-[#E5E2DA] bg-[#F5F4EF] flex items-center gap-4">
                                         {imagePreview ? (
                                             <img
                                                 src={imagePreview}
                                                 alt="Preview"
-                                                className="w-16 h-16 rounded-xl object-cover border border-stone-200 shadow-xs"
+                                                className="w-16 h-16 rounded-xl object-cover border border-[#E5E2DA]"
                                             />
                                         ) : (
-                                            <div className="w-16 h-16 rounded-xl bg-stone-200 flex items-center justify-center text-stone-400">
+                                            <div className="w-16 h-16 rounded-xl bg-[#EAE7DF] flex items-center justify-center text-[#918E85]">
                                                 <Scissors className="h-6 w-6" />
                                             </div>
                                         )}
@@ -607,12 +606,12 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                             />
                                             <label
                                                 htmlFor="hairstyle_image"
-                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-300 bg-white text-xs font-medium text-stone-700 hover:bg-stone-50 cursor-pointer transition shadow-2xs"
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#DCD8CE] bg-[#FDFCF9] text-xs font-medium text-[#3D3B36] hover:bg-[#EFECE5] cursor-pointer transition-colors"
                                             >
-                                                <UploadCloud className="h-3.5 w-3.5 text-amber-600" />
+                                                <UploadCloud className="h-3.5 w-3.5 text-[#5C5953]" />
                                                 Choose Photo
                                             </label>
-                                            <p className="text-[11px] text-stone-500 mt-1 truncate">
+                                            <p className="text-[11px] text-[#737069] mt-1 truncate">
                                                 {fileName}
                                             </p>
                                         </div>
@@ -620,20 +619,20 @@ export default function Hairstyles({ hairstyles = [] }: HairstylesProps) {
                                 </div>
 
                                 {/* Modal Actions */}
-                                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+                                <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#EFECE5]">
                                     <button
                                         type="button"
                                         onClick={closeModal}
-                                        className="px-4 py-2.5 rounded-xl border border-stone-300 text-xs font-semibold uppercase tracking-wider text-stone-700 hover:bg-stone-50 transition"
+                                        className="px-4 py-2.5 rounded-xl border border-[#DCD8CE] text-xs font-semibold uppercase tracking-wider text-[#5C5953] hover:bg-[#F3F1EC] transition-colors"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-stone-900 text-amber-300 text-xs font-semibold uppercase tracking-wider hover:bg-stone-800 transition shadow-sm disabled:opacity-50"
+                                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#252420] text-[#FAF9F5] text-xs font-semibold hover:bg-[#373530] transition-all duration-150 active:scale-[0.98] disabled:opacity-50"
                                     >
-                                        <Check className="h-4 w-4 text-amber-400" />
+                                        <Check className="h-3.5 w-3.5" />
                                         {isSubmitting
                                             ? "Saving..."
                                             : isEditing

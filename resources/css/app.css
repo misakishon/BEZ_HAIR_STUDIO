@@ -63,3 +63,88 @@ html {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* Warm Editorial Admin Theme & Smooth Motion Primitives */
+:root {
+    --ease-studio: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes studioFadeUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 6px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes studioModalIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 8px, 0) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes studioBackdropIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes studioToastIn {
+    from {
+        opacity: 0;
+        transform: translate3d(12px, -4px, 0) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+.studio-enter {
+    animation: studioFadeUp 280ms var(--ease-studio) both;
+}
+
+.studio-modal-panel {
+    animation: studioModalIn 220ms var(--ease-studio) both;
+}
+
+.studio-modal-backdrop {
+    animation: studioBackdropIn 180ms ease-out both;
+}
+
+.studio-toast-enter {
+    animation: studioToastIn 240ms var(--ease-studio) both;
+}
+
+.studio-easing {
+    transition-timing-function: var(--ease-studio);
+}
+
+.studio-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.studio-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.studio-scrollbar::-webkit-scrollbar-thumb {
+    background: #d8d4cb;
+    border-radius: 9999px;
+}
+
+.studio-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #bdb7ab;
+}
